@@ -12,7 +12,6 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.ConnectionString;
 import org.bson.Document;
 
 /*
@@ -21,13 +20,23 @@ import org.bson.Document;
 public class Plugin extends JavaPlugin {
   private static final Logger LOGGER = Logger.getLogger("gr8plugin");
 
+  // Setting up mongoDB connection (basedon localhost and default port)
+  public static ConnectionString connectionString = new ConnectionString("mongodb://localhost");
+  public static MongoClient client = MongoClients.create(connectionString);
+  public static MongoDatabase database = client.getDatabase("gr8plugin");
+
+  // Defining database collections
+  public static MongoCollection<Document> Plots = database.getCollection("plots");
+  public static MongoCollection<Document> Arenas = database.getCollection("arenas");
+  public static MongoCollection<Document> Players = database.getCollection("players");
+
   public void onEnable() {
     LOGGER.info("gr8plugin enabled");
-    ConnectionString connectionString = new ConnectionString("mongodb://localhost");
-    MongoClient client = MongoClients.create();
-    MongoDatabase database;
-    MongoCollection<Document> collection;
+
+    // Plots.insertOne(new Document("name", "test"));
+
     this.getCommand("arena").setExecutor(new arena());
+    this.getCommand("plot").setExecutor(new plot());
   }
 
   public void onDisable() {

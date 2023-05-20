@@ -10,4 +10,4 @@ commands:
    plot:
       description: Create a plot
       usage: /<command> name [1 or 2]
-      permission: gr8plugin.arena
+      permission: gr8plugin.plot
