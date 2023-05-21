@@ -30,7 +30,7 @@ public class plot implements CommandExecutor {
             return false;
         }
 
-        if (args[1] == "1") {
+        if (args[1] == new String(1)) {
             player.sendMessage("this is equal to 1");
         }
 
@@ -42,7 +42,7 @@ public class plot implements CommandExecutor {
 
         Location loc = player.getLocation();
 
-        Plots.updateOne(eq("name", args[0]), Updates.set(args[1], loc));
+        Plots.updateOne(eq("name", args[0]), Updates.set(args[1], "test"));
 
         return true;
     }
