@@ -31,12 +31,10 @@ public class Plugin extends JavaPlugin {
   public static MongoCollection<Document> Players = database.getCollection("players");
 
   public void onEnable() {
-    LOGGER.info("gr8plugin enabled");
-
-    // Plots.insertOne(new Document("name", "test"));
 
     this.getCommand("arena").setExecutor(new arena());
-    this.getCommand("plot").setExecutor(new plot());
+    this.getCommand("plot").setExecutor(new plotcmd());
+
   }
 
   public void onDisable() {
