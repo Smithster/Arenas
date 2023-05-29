@@ -1,6 +1,7 @@
 package com.smithster.gr8plugin;
 
 import com.smithster.gr8plugin.commands.*;
+import com.smithster.gr8plugin.handlers.plotBreakProtection;
 
 import java.util.logging.Logger;
 
@@ -34,7 +35,7 @@ public class Plugin extends JavaPlugin {
 
     this.getCommand("arena").setExecutor(new arena());
     this.getCommand("plot").setExecutor(new plotcmd());
-
+    this.getServer().getPluginManager().registerEvents(new plotBreakProtection(this), this);
   }
 
   public void onDisable() {

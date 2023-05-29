@@ -58,14 +58,16 @@ public class plotcmd implements CommandExecutor {
                 return true;
             }
 
-            if (field.equals("pos") && args.length == 4) {
-                Double[] xyz = { player.getLocation().getX(), player.getLocation().getY(),
-                        player.getLocation().getZ() };
-                setPos(name, args[3], xyz);
-                return true;
+            if (field.equals("pos")) {
+
+                if (args[3].equals("pos1") || args[3].equals("pos2")) {
+                    Integer[] xyz = { player.getLocation().getBlockX(), player.getLocation().getBlockY(),
+                            player.getLocation().getBlockZ() };
+                    setPos(name, args[3], xyz);
+                    return true;
+                }
             }
 
-            return false;
         }
 
         if (func.equals("remove")) {
@@ -87,7 +89,7 @@ public class plotcmd implements CommandExecutor {
         Plots.updateOne(eq("name", name), Updates.set("world", value));
     }
 
-    private static void setPos(String name, String pos, Double[] values) {
+    private static void setPos(String name, String pos, Integer[] values) {
         Plots.updateOne(eq("name", name), Updates.set(pos, Arrays.asList(values)));
     }
 
