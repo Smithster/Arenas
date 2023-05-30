@@ -10,11 +10,10 @@ import static com.smithster.gr8plugin.Plugin.Plots;
 
 public class arena implements CommandExecutor {
 
-    MongoDatabase database = Plugin.database;
-
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
         return true;
+
     }
 
 }

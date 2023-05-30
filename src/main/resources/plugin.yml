@@ -11,3 +11,7 @@ commands:
       description: Create a plot, or edit an existing plots values
       usage: /<command> (create [name]) OR ([name] [function] [value])
       permission: gr8plugin.plot
+   createSpawn:
+      description: Create a new radial spawn point
+      usage: /<command> [name] [team]
+      permission: gr8plugin.createSpawn

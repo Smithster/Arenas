@@ -28,6 +28,7 @@ public class Plugin extends JavaPlugin {
 
   // Defining database collections
   public static MongoCollection<Document> Plots = database.getCollection("plots");
+  public static MongoCollection<Document> Spawns = database.getCollection("spawns");
   public static MongoCollection<Document> Arenas = database.getCollection("arenas");
   public static MongoCollection<Document> Players = database.getCollection("players");
 
@@ -35,6 +36,7 @@ public class Plugin extends JavaPlugin {
 
     this.getCommand("arena").setExecutor(new arena());
     this.getCommand("plot").setExecutor(new plotcmd());
+    this.getCommand("createSpawn").setExecutor(new createSpawn());
     this.getServer().getPluginManager().registerEvents(new plotBreakProtection(this), this);
   }
 
