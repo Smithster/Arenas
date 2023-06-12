@@ -36,7 +36,6 @@ public class plotBreakProtection implements Listener {
             }
 
             event.setCancelled(true);
-
         }
 
     }

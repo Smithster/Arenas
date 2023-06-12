@@ -83,4 +83,16 @@ public class Plot {
         }
         return true;
     }
+
+    public ArrayList<Integer> getCenter() {
+        ArrayList<Integer> max = this.getMaxCorner();
+        ArrayList<Integer> min = this.getMinCorner();
+
+        Integer midX = (max.get(0) + min.get(0)) / 2;
+        Integer midY = (max.get(1) + min.get(1)) / 2;
+        Integer midZ = (max.get(2) + min.get(2)) / 2;
+
+        ArrayList<Integer> midList = new ArrayList<>(Arrays.asList(midX, midY, midZ));
+        return midList;
+    }
 }

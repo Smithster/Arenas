@@ -1,8 +1,8 @@
 package com.smithster.gr8plugin;
 
-import com.smithster.gr8plugin.classes.Plot;
+import com.smithster.gr8plugin.classes.*;
 import com.smithster.gr8plugin.commands.*;
-import com.smithster.gr8plugin.handlers.plotBreakProtection;
+import com.smithster.gr8plugin.handlers.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
