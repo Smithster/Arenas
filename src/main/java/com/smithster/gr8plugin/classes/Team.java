@@ -32,12 +32,12 @@ public class Team {
         return this.players.contains(id);
     }
 
-    public void gainPoint() {
-        this.score++;
+    public void gainPoint(Integer points) {
+        this.score = +points;
     }
 
-    public void removePoint() {
-        this.score--;
+    public void removePoint(Integer points) {
+        this.score = -points;
     }
 
     public Integer getScore() {

@@ -34,10 +34,13 @@ public class Plugin extends JavaPlugin {
   public static MongoCollection<Document> plotsCollection = database.getCollection("plots");
   public static MongoCollection<Document> spawnsCollection = database.getCollection("spawns");
   public static MongoCollection<Document> arenasCollection = database.getCollection("arenas");
-  public static MongoCollection<Document> playersCollection = database.getCollection("players");
+  // public static MongoCollection<Document> playersCollection =
+  // database.getCollection("playerStates");
 
   public static HashMap<String, Plot> plots;
-  // public static HashMap<String, Arena> arenas;
+  public static HashMap<String, Arena> arenas;
+  public static HashMap<String, Trigger> triggers;
+  public static HashMap<String, playerState> states;
   // public static HashMap<String, Player> players;
   // public static HashMap<String, Spawn> spawns;
 
