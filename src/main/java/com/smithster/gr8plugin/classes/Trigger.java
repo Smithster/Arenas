@@ -15,9 +15,9 @@ public class Trigger {
         return this.active;
     }
 
-    public boolean isTriggered(Location loc) {
+    public boolean isLocated(Location loc) {
 
-        if (this.isActive() && loc.getBlockX() == this.blockX && loc.getBlockY() == this.blockY
+        if (loc.getBlockX() == this.blockX && loc.getBlockY() == this.blockY
                 && loc.getBlockZ() == this.blockZ && loc.getWorld().getName() == this.world) {
             return true;
         }
