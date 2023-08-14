@@ -1,6 +1,7 @@
 package com.smithster.gr8plugin.classes;
 
 import java.util.ArrayList;
+import static com.smithster.gr8plugin.Plugin.triggers;
 
 import org.bukkit.Location;
 
@@ -32,4 +33,7 @@ public class Trigger {
         this.world = world;
     }
 
+    public void save(String name) {
+        triggers.put(name, this);
+    }
 }
