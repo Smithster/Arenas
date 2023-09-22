@@ -3,9 +3,11 @@ package com.smithster.gr8plugin;
 import com.smithster.gr8plugin.classes.*;
 import com.smithster.gr8plugin.commands.*;
 import com.smithster.gr8plugin.handlers.*;
+import com.smithster.gr8plugin.utils.Profile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
@@ -40,7 +42,7 @@ public class Plugin extends JavaPlugin {
   public static HashMap<String, Plot> plots;
   public static HashMap<String, Arena> arenas;
   public static HashMap<String, Trigger> triggers;
-  public static HashMap<String, playerState> states;
+  public static HashMap<UUID, Profile> profiles;
   // public static HashMap<String, Player> players;
   // public static HashMap<String, Spawn> spawns;
 

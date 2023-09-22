@@ -6,20 +6,22 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-import static com.smithster.gr8plugin.Plugin.Arenas;
+import com.smithster.gr8plugin.classes.Arena;
+
+import static com.smithster.gr8plugin.Plugin.arenas;
 
 public class leaveArena implements Listener {
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
 
-        for (Arena arena : Arenas) {
+        // for (Arena arena : arenas.values()) {
 
-        }
+        // }
 
-        if (event.getPlayer()) {
+        // if (event.getPlayer()) {
 
-        }
+        // }
 
     }
 

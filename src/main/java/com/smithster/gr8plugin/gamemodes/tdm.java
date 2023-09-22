@@ -5,13 +5,18 @@ import com.smithster.gr8plugin.classes.*;
 
 public class tdm implements gamemode {
 
+    private String type = "TDM";
     private ArrayList<Team> teams;
     private Integer maxScore = 50;
 
     public void gainPoint(Team team) {
         if (this.teams.contains(team)) {
             team.gainPoint(10);
+            if (this.hasWon(team)) {
+                finish();
+            }
         }
+
     }
 
     public void finish() {
@@ -25,4 +30,7 @@ public class tdm implements gamemode {
         return false;
     }
 
+    public String getType() {
+        return this.type;
+    }
 }

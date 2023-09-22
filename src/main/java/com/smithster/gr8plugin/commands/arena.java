@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 
 import com.mongodb.client.MongoDatabase;
 import com.smithster.gr8plugin.Plugin;
-import static com.smithster.gr8plugin.Plugin.Plots;
+import static com.smithster.gr8plugin.Plugin.plots;
 
 public class arena implements CommandExecutor {
 

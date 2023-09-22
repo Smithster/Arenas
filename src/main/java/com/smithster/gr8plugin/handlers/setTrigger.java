@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 
 import com.smithster.gr8plugin.classes.Trigger;
 
-import static com.smithster.gr8plugin.Plugin.states;
+import static com.smithster.gr8plugin.Plugin.profiles;
 
 public class setTrigger implements Listener {
 
@@ -34,7 +34,7 @@ public class setTrigger implements Listener {
             return;
         }
 
-        if (!states.get(player.getName()).isSettingTrigger) {
+        if (!profiles.get(player.getUniqueId()).isSettingTrigger) {
             return;
         }
 
@@ -46,7 +46,7 @@ public class setTrigger implements Listener {
         pos.add(loc.getBlockZ());
         trigger.setLocation(pos, loc.getWorld().getName());
 
-        trigger.save(states.get(player.getName()).getTriggerName());
+        trigger.save(profiles.get(player.getUniqueId()).getTriggerName());
     }
 
 }

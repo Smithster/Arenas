@@ -10,7 +10,7 @@ import com.mongodb.client.model.Updates;
 import static com.mongodb.client.model.Filters.eq;
 import org.bson.Document;
 
-import static com.smithster.gr8plugin.Plugin.Plots;
+import static com.smithster.gr8plugin.Plugin.plotsCollection;
 import java.util.Arrays;
 
 public class plotcmd implements CommandExecutor {
@@ -27,7 +27,7 @@ public class plotcmd implements CommandExecutor {
             String world = player.getLocation().getWorld().getName();
             String name = args[1];
 
-            if (Plots.find(eq("name", name)).first() == null) {
+            if (plotsCollection.find(eq("name", name)).first() == null) {
                 generatePlot(name);
                 setWorld(name, world);
                 return true;
@@ -82,18 +82,18 @@ public class plotcmd implements CommandExecutor {
         Document document = new Document();
         document.put("name", name);
 
-        Plots.insertOne(document);
+        plotsCollection.insertOne(document);
     }
 
     private static void setWorld(String name, String value) {
-        Plots.updateOne(eq("name", name), Updates.set("world", value));
+        plotsCollection.updateOne(eq("name", name), Updates.set("world", value));
     }
 
     private static void setPos(String name, String pos, Integer[] values) {
-        Plots.updateOne(eq("name", name), Updates.set(pos, Arrays.asList(values)));
+        plotsCollection.updateOne(eq("name", name), Updates.set(pos, Arrays.asList(values)));
     }
 
     private static void deletePlot(String name) {
-        Plots.findOneAndDelete(eq("name", name));
+        plotsCollection.findOneAndDelete(eq("name", name));
     }
 }

@@ -6,17 +6,17 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.smithster.gr8plugin.classes.Trigger;
-import com.smithster.gr8plugin.classes.playerState;
+import com.smithster.gr8plugin.utils.Profile;
 
-import static com.smithster.gr8plugin.Plugin.states;
+import static com.smithster.gr8plugin.Plugin.profiles;
 import static com.smithster.gr8plugin.Plugin.triggers;
 
 public class createTrigger implements CommandExecutor {
 
-    public boolean onCommand(CommandSender player, Command command, String label, String[] args) {
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        if (!(player instanceof Player)) {
-            player.sendMessage("You must be a player to use this command");
+        if (!(sender instanceof Player)) {
+            sender.sendMessage("You must be a player to use this command");
             return false;
         }
 
@@ -25,13 +25,13 @@ public class createTrigger implements CommandExecutor {
         }
 
         if (triggers.containsKey(args[0])) {
-            player.sendMessage("A trigger already exists with this name");
+            sender.sendMessage("A trigger already exists with this name");
             return true;
         }
 
-        player = (Player) player;
+        Player player = (Player) sender;
 
-        playerState state = states.get(player.getName());
+        Profile state = profiles.get(player.getUniqueId());
 
         state.isSettingTrigger = true;
 
@@ -39,7 +39,7 @@ public class createTrigger implements CommandExecutor {
 
         triggers.put(args[0], new Trigger());
 
-        states.put(player.getName(), state);
+        profiles.put(player.getUniqueId(), state);
 
         String message = "The next redstone object you punch will now become a trigger with the name %s";
 
