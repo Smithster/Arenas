@@ -13,8 +13,6 @@ import com.smithster.gr8plugin.classes.Plot;
 
 import static com.smithster.gr8plugin.Plugin.plots;
 
-import java.util.ArrayList;
-
 public class plotBreakProtection implements Listener {
     public plotBreakProtection(Plugin plugin) {
         Bukkit.getPluginManager().registerEvents(this, plugin);

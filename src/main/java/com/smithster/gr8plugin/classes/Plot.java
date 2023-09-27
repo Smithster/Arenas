@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.bukkit.Location;
+import static com.smithster.gr8plugin.Plugin.server;
 
 public class Plot {
 
@@ -11,6 +12,7 @@ public class Plot {
     private String world;
     private ArrayList<Integer> pos1;
     private ArrayList<Integer> pos2;
+    private Location entryLoc;
 
     public void setName(String name) {
         this.name = name;
@@ -92,7 +94,24 @@ public class Plot {
         Integer midY = (max.get(1) + min.get(1)) / 2;
         Integer midZ = (max.get(2) + min.get(2)) / 2;
 
-        ArrayList<Integer> midList = new ArrayList<>(Arrays.asList(midX, midY, midZ));
-        return midList;
+        ArrayList<Integer> midPoint = new ArrayList<>(Arrays.asList(midX, midY, midZ));
+        return midPoint;
+    }
+
+    public Location getEntryLoc() {
+        return this.entryLoc;
+    }
+
+    public void setEntryLoc(Location loc) {
+        this.entryLoc = loc;
+    }
+
+    public void setEntryLoc(ArrayList<Integer> pos, String world) {
+        this.entryLoc = new Location(server.getWorld(world), (double) pos.get(0), (double) pos.get(1),
+                (double) pos.get(2));
+    }
+
+    public void action() {
+        return;
     }
 }

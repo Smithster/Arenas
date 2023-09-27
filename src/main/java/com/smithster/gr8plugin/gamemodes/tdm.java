@@ -16,7 +16,6 @@ public class tdm implements gamemode {
                 finish();
             }
         }
-
     }
 
     public void finish() {

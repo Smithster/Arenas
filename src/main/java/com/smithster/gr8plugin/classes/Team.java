@@ -8,7 +8,7 @@ import static com.smithster.gr8plugin.Plugin.profiles;
 public class Team {
 
     private ArrayList<Player> players;
-
+    private Spawn spawn;
     private Integer score;
 
     public ArrayList<Player> getPlayers() {
@@ -46,6 +46,20 @@ public class Team {
 
     public Integer getScore() {
         return this.score;
+    }
+
+    public void setSpawn(Spawn spawn) {
+        this.spawn = spawn;
+    }
+
+    public Spawn getSpawn() {
+        return this.spawn;
+    }
+
+    public void spawn() {
+        for (Player player : players) {
+            this.spawn.spawn(player);
+        }
     }
 
 }

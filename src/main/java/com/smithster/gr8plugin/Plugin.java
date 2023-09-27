@@ -11,6 +11,8 @@ import java.util.UUID;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Server;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -41,14 +43,16 @@ public class Plugin extends JavaPlugin {
 
   public static HashMap<String, Plot> plots;
   public static HashMap<String, Arena> arenas;
-  public static HashMap<String, Trigger> triggers;
+  // public static HashMap<String, LobbyJoin> lobbyJoins;
   public static HashMap<UUID, Profile> profiles;
   // public static HashMap<String, Player> players;
   // public static HashMap<String, Spawn> spawns;
 
+  public static Server server;
+
   public void onEnable() {
     initPlots();
-
+    server = getServer();
     this.getCommand("arena").setExecutor(new arena());
     this.getCommand("plot").setExecutor(new plotcmd());
     this.getCommand("createSpawn").setExecutor(new createSpawn());

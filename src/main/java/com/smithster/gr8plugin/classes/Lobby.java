@@ -1,10 +1,13 @@
 package com.smithster.gr8plugin.classes;
 
 import java.util.ArrayList;
+import java.util.UUID;
+
+import org.bukkit.entity.Player;
 
 public class Lobby extends Plot {
 
-    private ArrayList<String> players;
+    private ArrayList<UUID> players;
     private Integer limit;
 
     public Integer getLimit() {
@@ -15,7 +18,7 @@ public class Lobby extends Plot {
         this.limit = limit;
     }
 
-    public void playerJoin(String playerUUID) {
+    public void playerJoin(UUID playerUUID) {
         this.players.add(playerUUID);
     }
 
@@ -27,4 +30,8 @@ public class Lobby extends Plot {
         return false;
     }
 
+    public void enter(Player player) {
+        this.playerJoin(player.getUniqueId());
+        player.teleport(this.getEntryLoc());
+    }
 }

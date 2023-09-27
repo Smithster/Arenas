@@ -5,11 +5,11 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.smithster.gr8plugin.classes.Trigger;
+import com.smithster.gr8plugin.classes.LobbyJoin;
 import com.smithster.gr8plugin.utils.Profile;
 
 import static com.smithster.gr8plugin.Plugin.profiles;
-import static com.smithster.gr8plugin.Plugin.triggers;
+import static com.smithster.gr8plugin.classes.LobbyJoin.lobbyJoins;
 
 public class createTrigger implements CommandExecutor {
 
@@ -24,7 +24,7 @@ public class createTrigger implements CommandExecutor {
             return false;
         }
 
-        if (triggers.containsKey(args[0])) {
+        if (lobbyJoins.containsKey(args[0])) {
             sender.sendMessage("A trigger already exists with this name");
             return true;
         }
@@ -37,7 +37,7 @@ public class createTrigger implements CommandExecutor {
 
         state.setTriggerName(args[0]);
 
-        triggers.put(args[0], new Trigger());
+        lobbyJoins.put(args[0], new LobbyJoin());
 
         profiles.put(player.getUniqueId(), state);
 
