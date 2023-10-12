@@ -2,7 +2,9 @@ package com.smithster.gr8plugin.classes;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
+import org.bson.Document;
 import org.bukkit.Location;
 import static com.smithster.gr8plugin.Plugin.server;
 
@@ -13,6 +15,8 @@ public class Plot {
     private ArrayList<Integer> pos1;
     private ArrayList<Integer> pos2;
     private Location entryLoc;
+
+    public static HashMap<String, Plot> plots;
 
     public void setName(String name) {
         this.name = name;
@@ -112,6 +116,28 @@ public class Plot {
     }
 
     public void action() {
+        return;
+    }
+
+    public void save() {
+        Document plot = new Document();
+
+        plot.put("name", this.name);
+        plot.put("world", this.world);
+        plot.put("pos1", this.pos1);
+        plot.put("pos2", this.pos2);
+
+    }
+
+    public static void load(Document document) {
+        Plot plot = new Plot();
+        String name = (String) document.get("name");
+        plot.setName(name);
+        plot.setWorld((String) document.get("world"));
+        plot.setPos1((ArrayList<Integer>) document.get("pos1"));
+        plot.setPos2((ArrayList<Integer>) document.get("pos2"));
+
+        plots.put(name, plot);
         return;
     }
 }

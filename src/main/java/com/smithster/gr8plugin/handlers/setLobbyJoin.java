@@ -43,5 +43,4 @@ public class setLobbyJoin implements Listener {
         player.sendMessage(String.format("You have created a new trigger called: %s", lobbyJoinName));
         event.setCancelled(true);
     }
-
 }

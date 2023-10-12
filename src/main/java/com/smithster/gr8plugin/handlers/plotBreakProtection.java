@@ -11,7 +11,7 @@ import org.bukkit.Location;
 import com.smithster.gr8plugin.Plugin;
 import com.smithster.gr8plugin.classes.Plot;
 
-import static com.smithster.gr8plugin.Plugin.plots;
+import static com.smithster.gr8plugin.classes.Plot.plots;
 
 public class plotBreakProtection implements Listener {
     public plotBreakProtection(Plugin plugin) {
