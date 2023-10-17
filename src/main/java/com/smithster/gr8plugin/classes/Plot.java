@@ -18,8 +18,12 @@ public class Plot {
 
     public static HashMap<String, Plot> plots;
 
-    public void setName(String name) {
+    public Plot(String name) {
         this.name = name;
+        plots.put(name, this);
+    }
+
+    public Plot() {
     }
 
     public void setWorld(String world) {
@@ -130,14 +134,12 @@ public class Plot {
     }
 
     public static void load(Document document) {
-        Plot plot = new Plot();
         String name = (String) document.get("name");
-        plot.setName(name);
+        Plot plot = new Plot(name);
         plot.setWorld((String) document.get("world"));
         plot.setPos1((ArrayList<Integer>) document.get("pos1"));
         plot.setPos2((ArrayList<Integer>) document.get("pos2"));
 
-        plots.put(name, plot);
         return;
     }
 }

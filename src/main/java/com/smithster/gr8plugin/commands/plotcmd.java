@@ -1,104 +1,103 @@
-// package com.smithster.gr8plugin.commands;
+package com.smithster.gr8plugin.commands;
 
-// import org.bukkit.command.Command;
-// import org.bukkit.command.CommandExecutor;
-// import org.bukkit.command.CommandSender;
-// import org.bukkit.entity.Player;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
-// import com.mongodb.client.model.Updates;
+import com.mongodb.client.model.Updates;
+import com.smithster.gr8plugin.classes.Plot;
 
-// import static com.mongodb.client.model.Filters.eq;
-// import org.bson.Document;
+import static com.mongodb.client.model.Filters.eq;
+import org.bson.Document;
 
-// import static com.smithster.gr8plugin.Plugin.plotsCollection;
-// import java.util.Arrays;
+import static com.smithster.gr8plugin.classes.Plot.plots;
+import java.util.Arrays;
 
-// public class plotcmd implements CommandExecutor {
+public class plotcmd implements CommandExecutor {
 
-// public boolean onCommand(CommandSender sender, Command command, String label,
-// String[] args) {
-// TODO THIS REQUIRES A REWRITE NOW WE'RE ONLY HANDLING DB ON LOAD
-// if (!(sender instanceof Player) || args.length <= 1) {
-// return false;
-// }
+    public boolean onCommand(CommandSender sender, Command command, String label,
+            String[] args) {
+        // TODO THIS REQUIRES A REWRITE NOW WE'RE ONLY HANDLING DB ON LOAD
+        if (!(sender instanceof Player) || args.length <= 1) {
+            return false;
+        }
 
-// Player player = (Player) sender;
+        Player player = (Player) sender;
 
-// if (args[0].equals("create") && args.length == 2) {
-// String world = player.getLocation().getWorld().getName();
-// String name = args[1];
+        if (args[0].equals("create") && args.length == 2) {
+            String world = player.getLocation().getWorld().getName();
+            String name = args[1];
 
-// if (plotsCollection.find(eq("name", name)).first() == null) {
-// generatePlot(name);
-// setWorld(name, world);
-// return true;
-// }
+            if (!plots.containsKey(name)) {
+                Plot plot = new Plot();
 
-// player.sendMessage("A plot already exists with this name");
-// return false;
+                return true;
+            }
 
-// } else if (args[0].equals("create")) {
-// player.sendMessage("Incorrect arguments. To create a plot just use /plot
-// create [name]");
-// return false;
-// }
+            player.sendMessage("A plot already exists with this name");
+            return false;
 
-// String name = args[0];
-// String func = args[1];
+        } else if (args[0].equals("create")) {
+            player.sendMessage("Incorrect arguments. To create a plot just use /plot create [name]");
+            return false;
+        }
 
-// if (func.equals("set")) {
+        String name = args[0];
+        String func = args[1];
 
-// if (args.length <= 2) {
-// player.sendMessage("set requires a field to set: /plot [name] set [field]");
-// return false;
-// }
+        if (func.equals("set")) {
 
-// String field = args[2];
+            if (args.length <= 2) {
+                player.sendMessage("set requires a field to set: /plot [name] set [field]");
+                return false;
+            }
 
-// if (field.equals("world") && args.length == 4) {
-// setWorld(name, args[3]);
-// return true;
-// }
+            String field = args[2];
 
-// if (field.equals("pos")) {
+            if (field.equals("world") && args.length == 4) {
+                setWorld(name, args[3]);
+                return true;
+            }
 
-// if (args[3].equals("pos1") || args[3].equals("pos2")) {
-// Integer[] xyz = { player.getLocation().getBlockX(),
-// player.getLocation().getBlockY(),
-// player.getLocation().getBlockZ() };
-// setPos(name, args[3], xyz);
-// return true;
-// }
-// }
+            if (field.equals("pos")) {
 
-// }
+                if (args[3].equals("pos1") || args[3].equals("pos2")) {
+                    Integer[] xyz = { player.getLocation().getBlockX(),
+                            player.getLocation().getBlockY(),
+                            player.getLocation().getBlockZ() };
+                    setPos(name, args[3], xyz);
+                    return true;
+                }
+            }
 
-// if (func.equals("remove")) {
-// deletePlot(name);
-// return true;
-// }
+        }
 
-// return false;
-// }
+        if (func.equals("remove")) {
+            deletePlot(name);
+            return true;
+        }
 
-// private static void generatePlot(String name) {
-// Document document = new Document();
-// document.put("name", name);
+        return false;
+    }
 
-// plotsCollection.insertOne(document);
-// }
+    private static void generatePlot(String name) {
+        Document document = new Document();
+        document.put("name", name);
 
-// private static void setWorld(String name, String value) {
-// plotsCollection.updateOne(eq("name", name), Updates.set("world", value));
-// }
+        plotsCollection.insertOne(document);
+    }
 
-// private static void setPos(String name, String pos, Integer[] values) {
-// plotsCollection.updateOne(eq("name", name), Updates.set(pos,
-// Arrays.asList(values)));
-// }
+    private static void setWorld(String name, String value) {
+        plotsCollection.updateOne(eq("name", name), Updates.set("world", value));
+    }
 
-// private static void deletePlot(String name) {
-// plotsCollection.findOneAndDelete(eq("name", name));
-// }
-// }
-// }
+    private static void setPos(String name, String pos, Integer[] values) {
+        plotsCollection.updateOne(eq("name", name), Updates.set(pos,
+                Arrays.asList(values)));
+    }
+
+    private static void deletePlot(String name) {
+        plotsCollection.findOneAndDelete(eq("name", name));
+    }
+}

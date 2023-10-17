@@ -23,7 +23,6 @@ public class Data {
   public static MongoCollection<Document> lobbies = database.getCollection("lobbies");
 
   // Collection loading
-
   public void init() {
 
     for (Document document : plots.find()) {
