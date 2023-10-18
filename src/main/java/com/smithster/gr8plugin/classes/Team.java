@@ -3,7 +3,7 @@ package com.smithster.gr8plugin.classes;
 import java.util.ArrayList;
 
 import org.bukkit.entity.Player;
-import static com.smithster.gr8plugin.Plugin.profiles;
+import static com.smithster.gr8plugin.utils.Profile.profiles;
 
 public class Team {
 

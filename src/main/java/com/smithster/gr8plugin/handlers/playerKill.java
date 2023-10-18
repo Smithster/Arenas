@@ -7,7 +7,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 
 import com.smithster.gr8plugin.utils.Profile;
 
-import static com.smithster.gr8plugin.Plugin.profiles;
+import static com.smithster.gr8plugin.utils.Profile.profiles;
 
 public class playerKill implements Listener {
 

@@ -1,12 +1,17 @@
 package com.smithster.gr8plugin.utils;
 
 import org.bson.Document;
+import org.bson.conversions.Bson;
+
+import static com.mongodb.client.model.Filters.eq;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.UpdateOptions;
+import com.mongodb.client.model.Updates;
 import com.smithster.gr8plugin.classes.Plot;
 
 public class Data {
@@ -23,7 +28,7 @@ public class Data {
   public static MongoCollection<Document> lobbies = database.getCollection("lobbies");
 
   // Collection loading
-  public void init() {
+  public static void init() {
 
     for (Document document : plots.find()) {
       Plot.load(document);
@@ -32,5 +37,12 @@ public class Data {
     // for (Document document : spawns.find()) {
     // Spawns
     // }
+  }
+
+  public static void save(String collection, Document document) {
+    UpdateOptions options = new UpdateOptions().upsert(true);
+    Document update = new Document();
+    update.put("$set", document);
+    database.getCollection(collection).updateOne(eq("name", document.get("name")), update, options);
   }
 }

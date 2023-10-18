@@ -14,9 +14,6 @@ import com.smithster.gr8plugin.classes.Plot;
 import static com.smithster.gr8plugin.classes.Plot.plots;
 
 public class plotBreakProtection implements Listener {
-    public plotBreakProtection(Plugin plugin) {
-        Bukkit.getPluginManager().registerEvents(this, plugin);
-    }
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {

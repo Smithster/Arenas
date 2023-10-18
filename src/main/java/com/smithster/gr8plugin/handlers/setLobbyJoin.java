@@ -15,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 
 import com.smithster.gr8plugin.classes.LobbyJoin;
 
-import static com.smithster.gr8plugin.Plugin.profiles;
+import static com.smithster.gr8plugin.utils.Profile.profiles;
 
 public class setLobbyJoin implements Listener {
 

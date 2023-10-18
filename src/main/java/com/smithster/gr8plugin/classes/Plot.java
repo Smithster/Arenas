@@ -6,6 +6,9 @@ import java.util.HashMap;
 
 import org.bson.Document;
 import org.bukkit.Location;
+
+import com.smithster.gr8plugin.utils.Data;
+
 import static com.smithster.gr8plugin.Plugin.server;
 
 public class Plot {
@@ -16,7 +19,7 @@ public class Plot {
     private ArrayList<Integer> pos2;
     private Location entryLoc;
 
-    public static HashMap<String, Plot> plots;
+    public static HashMap<String, Plot> plots = new HashMap<String, Plot>();
 
     public Plot(String name) {
         this.name = name;
@@ -131,6 +134,7 @@ public class Plot {
         plot.put("pos1", this.pos1);
         plot.put("pos2", this.pos2);
 
+        Data.save("plots", plot);
     }
 
     public static void load(Document document) {
@@ -141,5 +145,9 @@ public class Plot {
         plot.setPos2((ArrayList<Integer>) document.get("pos2"));
 
         return;
+    }
+
+    public static void delete(String plot) {
+        plots.remove(plot);
     }
 }
