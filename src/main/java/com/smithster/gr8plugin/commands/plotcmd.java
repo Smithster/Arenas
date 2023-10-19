@@ -1,5 +1,7 @@
 package com.smithster.gr8plugin.commands;
 
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -21,7 +23,7 @@ public class plotcmd implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label,
             String[] args) {
 
-        if (!(sender instanceof Player) || args.length <= 1) {
+        if (!(sender instanceof Player) || args.length < 1) {
             return false;
         }
 
@@ -44,6 +46,13 @@ public class plotcmd implements CommandExecutor {
             return false;
         }
 
+        if (args[0].equals("list")) {
+            for (Plot plot : plots.values()) {
+                player.sendMessage(plot.getName());
+            }
+            return true;
+        }
+
         Plot plot = plots.get(args[0]);
         String func = args[1];
 
@@ -56,19 +65,15 @@ public class plotcmd implements CommandExecutor {
 
             String field = args[2];
 
-            if (field.equals("world") && args.length == 4) {
-                setWorld(plot, args[3]);
-                return true;
-            }
+            // if (field.equals("world") && args.length == 4) {
+            // setWorld(plot, args[3]);
+            // return true;
+            // }
 
             if (field.equals("pos")) {
 
                 if (args[3].equals("1") || args[3].equals("2")) {
-                    ArrayList<Integer> xyz = new ArrayList<Integer>();
-                    xyz.add(player.getLocation().getBlockX());
-                    xyz.add(player.getLocation().getBlockY());
-                    xyz.add(player.getLocation().getBlockZ());
-                    setPos(plot, args[3], xyz);
+                    setPos(plot, args[3], player.getLocation());
                     return true;
                 }
             }
@@ -82,15 +87,15 @@ public class plotcmd implements CommandExecutor {
         return false;
     }
 
-    private static void setWorld(Plot plot, String value) {
-        plot.setWorld(value);
-    }
+    // private static void setWorld(Plot plot, World world) {
+    // plot.setWorld(world);
+    // }
 
-    private static void setPos(Plot plot, String pos, ArrayList<Integer> values) {
+    private static void setPos(Plot plot, String pos, Location loc) {
         if (pos.equals("1")) {
-            plot.setPos1(values);
+            plot.setPos1(loc);
         } else {
-            plot.setPos2(values);
+            plot.setPos2(loc);
         }
     }
 

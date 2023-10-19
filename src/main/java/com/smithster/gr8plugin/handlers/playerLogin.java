@@ -9,6 +9,8 @@ import com.smithster.gr8plugin.utils.Profile;
 
 import static com.smithster.gr8plugin.utils.Profile.profiles;
 
+import java.util.UUID;
+
 public class playerLogin implements Listener {
 
     private Plugin plugin;
@@ -19,7 +21,12 @@ public class playerLogin implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        profiles.put(event.getPlayer().getUniqueId(), new Profile(event.getPlayer(), this.plugin));
+        UUID id = event.getPlayer().getUniqueId();
+        if (profiles.containsKey(id)) {
+            profiles.get(id).setPlayer(event.getPlayer());
+        } else {
+            profiles.put(event.getPlayer().getUniqueId(), new Profile(event.getPlayer(), this.plugin));
+        }
     };
 
 }

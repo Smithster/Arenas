@@ -3,6 +3,7 @@ package com.smithster.gr8plugin.utils;
 import java.util.HashMap;
 import java.util.UUID;
 
+import org.bson.Document;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
 
@@ -17,16 +18,31 @@ public class Profile {
     private Team team;
     private Arena arena;
     private gamemode gamemode;
+    private String role;
     private Integer experience;
     public boolean isSettingTrigger = false;
     private String triggerName;
     private PermissionAttachment perms;
 
-    public static HashMap<UUID, Profile> profiles;
+    public static HashMap<UUID, Profile> profiles = new HashMap<UUID, Profile>();
+    public static HashMap<UUID, Profile> offlineProfiles = new HashMap<UUID, Profile>();
 
     public Profile(Player player, Plugin plugin) {
         this.player = player;
         this.perms = this.player.addAttachment(plugin);
+        this.role = "default";
+        this.save();
+    }
+
+    public void save() {
+        Document document = new Document();
+
+        // Object permissions = (Object) this.perms.getPermissions();
+        document.put("UUID", this.player.getUniqueId().toString());
+        document.put("perms", this.perms.getPermissions());
+        document.put("role", this.role);
+
+        Data.save("profiles", document);
     }
 
     public void addPermission(String permission) {
@@ -62,6 +78,10 @@ public class Profile {
             gamemode.gainPoint(team);
         }
     };
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
 
     // AS OF YET NOT USED
     public void setArena(Arena arena) {

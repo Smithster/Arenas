@@ -25,11 +25,9 @@ public class plotBreakProtection implements Listener {
         }
 
         for (Plot plot : plots.values()) {
-
-            if (plot.contains(loc)) {
+            if (!plot.contains(loc)) {
                 continue;
             }
-
             event.setCancelled(true);
         }
 

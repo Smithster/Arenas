@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import org.bson.Document;
 import org.bukkit.Location;
+import org.bukkit.World;
 
 import com.smithster.gr8plugin.utils.Data;
 
@@ -14,9 +15,9 @@ import static com.smithster.gr8plugin.Plugin.server;
 public class Plot {
 
     private String name;
-    private String world;
-    private ArrayList<Integer> pos1;
-    private ArrayList<Integer> pos2;
+    private World world;
+    private Location pos1;
+    private Location pos2;
     private Location entryLoc;
 
     public static HashMap<String, Plot> plots = new HashMap<String, Plot>();
@@ -29,56 +30,73 @@ public class Plot {
     public Plot() {
     }
 
-    public void setWorld(String world) {
+    public void setWorld(World world) {
         this.world = world;
+        this.save();
     }
 
-    public void setPos1(ArrayList<Integer> pos1) {
+    // public void setPos1(ArrayList<Integer> pos1) {
+    // this.pos1 = pos1;
+    // this.save();
+    // }
+
+    public void setPos1(Location pos1) {
+        this.world = pos1.getWorld();
         this.pos1 = pos1;
+        this.save();
     }
 
-    public void setPos2(ArrayList<Integer> pos2) {
+    // public void setPos2(ArrayList<Integer> pos2) {
+    // this.pos2 = pos2;
+    // this.save();
+    // }
+    public void setPos2(Location pos2) {
         this.pos2 = pos2;
+        this.save();
     }
 
     public String getName() {
         return this.name;
     }
 
-    public String getWorld() {
+    public World getWorld() {
         return this.world;
     }
 
-    public ArrayList<Integer> getPos1() {
+    public Location getPos1() {
         return this.pos1;
     }
 
-    public ArrayList<Integer> getPos2() {
+    public Location getPos2() {
         return this.pos2;
     }
 
     public ArrayList<Integer> getMaxCorner() {
-        Integer maxX = Math.max(pos1.get(0), pos2.get(0));
-        Integer maxY = Math.max(pos1.get(1), pos2.get(1));
-        Integer maxZ = Math.max(pos1.get(2), pos2.get(2));
+        Integer maxX = Math.max(pos1.getBlockX(), pos2.getBlockX());
+        Integer maxY = Math.max(pos1.getBlockY(), pos2.getBlockY());
+        Integer maxZ = Math.max(pos1.getBlockZ(), pos2.getBlockZ());
         ArrayList<Integer> maxList = new ArrayList<>(Arrays.asList(maxX, maxY, maxZ));
         return maxList;
     }
 
     public ArrayList<Integer> getMinCorner() {
-        Integer minX = Math.min(pos1.get(0), pos2.get(0));
-        Integer minY = Math.min(pos1.get(1), pos2.get(1));
-        Integer minZ = Math.min(pos1.get(2), pos2.get(2));
+        Integer minX = Math.min(pos1.getBlockX(), pos2.getBlockX());
+        Integer minY = Math.min(pos1.getBlockY(), pos2.getBlockY());
+        Integer minZ = Math.min(pos1.getBlockZ(), pos2.getBlockZ());
         ArrayList<Integer> minList = new ArrayList<>(Arrays.asList(minX, minY, minZ));
         return minList;
     }
 
     public boolean contains(Location loc) {
 
+        if (this.pos1 == null || this.pos2 == null) {
+            return false;
+        }
+
         Integer x = loc.getBlockX();
         Integer y = loc.getBlockY();
         Integer z = loc.getBlockZ();
-        String world = loc.getWorld().getName();
+        World world = loc.getWorld();
 
         ArrayList<Integer> maxLimit = getMaxCorner();
         ArrayList<Integer> minLimit = getMinCorner();
@@ -91,7 +109,7 @@ public class Plot {
         if (z < minLimit.get(2) || z > maxLimit.get(2)) {
             return false;
         }
-        if (world.equals(getWorld())) {
+        if (!world.equals(this.world)) {
             return false;
         }
         return true;
@@ -130,19 +148,36 @@ public class Plot {
         Document plot = new Document();
 
         plot.put("name", this.name);
-        plot.put("world", this.world);
-        plot.put("pos1", this.pos1);
-        plot.put("pos2", this.pos2);
+        plot.put("world", this.world.getName());
+        plot.put("pos1", getXYZArrayList(this.pos1));
+        plot.put("pos2", getXYZArrayList(this.pos2));
 
         Data.save("plots", plot);
+    }
+
+    public static ArrayList<Integer> getXYZArrayList(Location loc) {
+        ArrayList<Integer> xyz = new ArrayList<Integer>();
+        xyz.add(loc.getBlockX());
+        xyz.add(loc.getBlockY());
+        xyz.add(loc.getBlockZ());
+        return xyz;
     }
 
     public static void load(Document document) {
         String name = (String) document.get("name");
         Plot plot = new Plot(name);
-        plot.setWorld((String) document.get("world"));
-        plot.setPos1((ArrayList<Integer>) document.get("pos1"));
-        plot.setPos2((ArrayList<Integer>) document.get("pos2"));
+        plot.setWorld(server.getWorld((String) document.get("world")));
+        if (plot.getWorld() != null) {
+            ArrayList<Integer> xyz1 = (ArrayList<Integer>) document.get("pos1");
+            Location pos1 = new Location(server.getWorld(name), (double) xyz1.get(0), (double) xyz1.get(1),
+                    (double) xyz1.get(2));
+            plot.setPos1(pos1);
+
+            ArrayList<Integer> xyz2 = (ArrayList<Integer>) document.get("pos2");
+            Location pos2 = new Location(server.getWorld(name), (double) xyz2.get(0), (double) xyz2.get(1),
+                    (double) xyz2.get(2));
+            plot.setPos2(pos2);
+        }
 
         return;
     }

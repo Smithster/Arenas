@@ -50,7 +50,7 @@ public class Plugin extends JavaPlugin {
     this.getCommand("permission").setExecutor(new permission());
     // this.getCommand("createSpawn").setExecutor(new createSpawn());
     this.getServer().getPluginManager().registerEvents(new plotBreakProtection(), this);
-    // this.getServer().getPluginManager().registerEvents(null, null);
+    this.getServer().getPluginManager().registerEvents(new playerLogin(this), this);
 
   }
 
