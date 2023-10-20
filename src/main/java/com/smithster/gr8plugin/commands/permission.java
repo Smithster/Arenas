@@ -6,6 +6,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import com.smithster.gr8plugin.Plugin;
+import com.smithster.gr8plugin.utils.Profile;
 
 import static com.smithster.gr8plugin.utils.Profile.profiles;
 
@@ -28,13 +29,13 @@ public class permission implements CommandExecutor {
             String permission = args[2];
 
             UUID pid = Bukkit.getPlayer(playerName).getUniqueId();
-
+            Profile profile = profiles.get(pid);
             if (func.equals("set")) {
-                profiles.get(pid).addPermission(permission);
+                profile.addPermission(permission);
             } else if (func.equals("unset")) {
-                profiles.get(pid).removePermission(permission);
+                profile.removePermission(permission);
             }
-
+            profile.save();
             return true;
         }
 

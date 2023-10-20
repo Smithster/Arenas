@@ -1,10 +1,15 @@
 package com.smithster.gr8plugin.utils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.bson.Document;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionAttachment;
 
 import com.smithster.gr8plugin.Plugin;
@@ -15,6 +20,7 @@ import com.smithster.gr8plugin.gamemodes.gamemode;
 public class Profile {
 
     private Player player;
+    private OfflinePlayer offlinePlayer;
     private Team team;
     private Arena arena;
     private gamemode gamemode;
@@ -24,14 +30,23 @@ public class Profile {
     private String triggerName;
     private PermissionAttachment perms;
 
+    public static Plugin plugin;
     public static HashMap<UUID, Profile> profiles = new HashMap<UUID, Profile>();
     public static HashMap<UUID, Profile> offlineProfiles = new HashMap<UUID, Profile>();
 
-    public Profile(Player player, Plugin plugin) {
+    public Profile(Player player) {
         this.player = player;
         this.perms = this.player.addAttachment(plugin);
         this.role = "default";
-        this.save();
+    }
+
+    public Profile(OfflinePlayer offlinePlayer) {
+        this.offlinePlayer = offlinePlayer;
+        this.role = "default";
+    }
+
+    public static void setPlugin(Plugin p) {
+        plugin = p;
     }
 
     public void save() {
@@ -39,10 +54,36 @@ public class Profile {
 
         // Object permissions = (Object) this.perms.getPermissions();
         document.put("UUID", this.player.getUniqueId().toString());
-        document.put("perms", this.perms.getPermissions());
-        document.put("role", this.role);
+        if (this.perms == null) {
+            document.put("perms", null);
+        } else {
+            document.put("perms", this.perms.getPermissions().keySet().toArray());
+        }
+        if (this.role == null) {
+            document.put("role", null);
+        } else {
+            document.put("role", this.role);
+        }
 
         Data.save("profiles", document);
+        return;
+    }
+
+    public static void load(Document document) {
+        UUID playerID = UUID.fromString((String) document.get("UUID"));
+        OfflinePlayer offlinePlayer = Plugin.server.getOfflinePlayer(playerID);
+        Profile profile = new Profile(offlinePlayer);
+        if (document.get("perms") != null) {
+            String[] permsList = (String[]) document.get("perms", String[].class);
+            for (String perm : permsList) {
+                profile.addPermission(perm);
+            }
+        }
+        if (document.get("role") != null) {
+            profile.setRole((String) document.get("role"));
+        }
+        profiles.put(playerID, profile);
+        return;
     }
 
     public void addPermission(String permission) {
@@ -81,6 +122,19 @@ public class Profile {
 
     public void setPlayer(Player player) {
         this.player = player;
+        PermissionAttachment newPerms = player.addAttachment(plugin);
+
+        if (this.perms != null && this.perms.getPermissions().size() != 0) {
+            for (String permission : this.perms.getPermissions().keySet()) {
+                newPerms.setPermission(permission, true);
+            }
+        }
+
+        this.perms = newPerms;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     // AS OF YET NOT USED

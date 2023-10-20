@@ -8,13 +8,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.mongodb.client.model.Updates;
+import com.smithster.gr8plugin.Plugin;
 import com.smithster.gr8plugin.classes.Plot;
 
 import static com.mongodb.client.model.Filters.eq;
 import org.bson.Document;
 
 import static com.smithster.gr8plugin.classes.Plot.plots;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -65,15 +65,16 @@ public class plotcmd implements CommandExecutor {
 
             String field = args[2];
 
-            // if (field.equals("world") && args.length == 4) {
-            // setWorld(plot, args[3]);
-            // return true;
-            // }
+            if (field.equals("world") && args.length == 3) {
+                setWorld(plot, player.getWorld());
+                return true;
+            }
 
             if (field.equals("pos")) {
 
                 if (args[3].equals("1") || args[3].equals("2")) {
                     setPos(plot, args[3], player.getLocation());
+                    plot.save();
                     return true;
                 }
             }
@@ -87,9 +88,9 @@ public class plotcmd implements CommandExecutor {
         return false;
     }
 
-    // private static void setWorld(Plot plot, World world) {
-    // plot.setWorld(world);
-    // }
+    private static void setWorld(Plot plot, World world) {
+        plot.setWorld(world);
+    }
 
     private static void setPos(Plot plot, String pos, Location loc) {
         if (pos.equals("1")) {

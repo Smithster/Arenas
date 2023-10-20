@@ -28,7 +28,7 @@ import org.bson.Document;
  * gr8plugin java plugin
  */
 public class Plugin extends JavaPlugin {
-  private static final Logger LOGGER = Logger.getLogger("gr8plugin");
+  public static final Logger LOGGER = Logger.getLogger("gr8plugin");
 
   // public static MongoCollection<Document> playersCollection =
   // database.getCollection("playerStates");
@@ -43,14 +43,16 @@ public class Plugin extends JavaPlugin {
 
   public void onEnable() {
     server = getServer();
+    Profile.setPlugin(this);
     Data.init();
 
     this.getCommand("arena").setExecutor(new arena());
     this.getCommand("plot").setExecutor(new plotcmd());
     this.getCommand("permission").setExecutor(new permission());
-    // this.getCommand("createSpawn").setExecutor(new createSpawn());
+    // this.getCommand("createSpawn").setExecutor(new createLobbyJoin());
+    this.getCommand("lobby").setExecutor(new lobby());
     this.getServer().getPluginManager().registerEvents(new plotBreakProtection(), this);
-    this.getServer().getPluginManager().registerEvents(new playerLogin(this), this);
+    this.getServer().getPluginManager().registerEvents(new playerLogin(), this);
 
   }
 

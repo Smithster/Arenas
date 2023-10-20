@@ -19,3 +19,7 @@ commands:
       description: Set player permissions
       usage: /<command> [name] [set/unset] [permission]
       permission: gr8plugin.permission
+   lobby:
+      description: Control lobbies
+      usage: /<command> (create [name]) OR ([name] [function] [value])
+      permission: gr8plugin.lobby

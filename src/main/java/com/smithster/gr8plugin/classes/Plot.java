@@ -30,9 +30,12 @@ public class Plot {
     public Plot() {
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public void setWorld(World world) {
         this.world = world;
-        this.save();
     }
 
     // public void setPos1(ArrayList<Integer> pos1) {
@@ -43,7 +46,6 @@ public class Plot {
     public void setPos1(Location pos1) {
         this.world = pos1.getWorld();
         this.pos1 = pos1;
-        this.save();
     }
 
     // public void setPos2(ArrayList<Integer> pos2) {
@@ -52,7 +54,6 @@ public class Plot {
     // }
     public void setPos2(Location pos2) {
         this.pos2 = pos2;
-        this.save();
     }
 
     public String getName() {
@@ -148,9 +149,9 @@ public class Plot {
         Document plot = new Document();
 
         plot.put("name", this.name);
-        plot.put("world", this.world.getName());
-        plot.put("pos1", getXYZArrayList(this.pos1));
-        plot.put("pos2", getXYZArrayList(this.pos2));
+        plot.put("world", this.world != null ? this.world.getName() : null);
+        plot.put("pos1", this.pos1 != null ? getXYZArrayList(this.pos1) : null);
+        plot.put("pos2", this.pos2 != null ? getXYZArrayList(this.pos2) : null);
 
         Data.save("plots", plot);
     }
@@ -166,13 +167,18 @@ public class Plot {
     public static void load(Document document) {
         String name = (String) document.get("name");
         Plot plot = new Plot(name);
-        plot.setWorld(server.getWorld((String) document.get("world")));
-        if (plot.getWorld() != null) {
+        if (document.get("world") != null) {
+            plot.setWorld(server.getWorld((String) document.get("world")));
+        }
+
+        if (document.get("pos1") != null) {
             ArrayList<Integer> xyz1 = (ArrayList<Integer>) document.get("pos1");
             Location pos1 = new Location(server.getWorld(name), (double) xyz1.get(0), (double) xyz1.get(1),
                     (double) xyz1.get(2));
             plot.setPos1(pos1);
+        }
 
+        if (document.get("pos2") != null) {
             ArrayList<Integer> xyz2 = (ArrayList<Integer>) document.get("pos2");
             Location pos2 = new Location(server.getWorld(name), (double) xyz2.get(0), (double) xyz2.get(1),
                     (double) xyz2.get(2));

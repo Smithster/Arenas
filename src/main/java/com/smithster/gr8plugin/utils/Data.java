@@ -23,6 +23,7 @@ public class Data {
 
   // Defining database collections
   public static MongoCollection<Document> plots = database.getCollection("plots");
+  public static MongoCollection<Document> profiles = database.getCollection("profiles");
   public static MongoCollection<Document> spawns = database.getCollection("spawns");
   public static MongoCollection<Document> arenas = database.getCollection("arenas");
   public static MongoCollection<Document> lobbies = database.getCollection("lobbies");
@@ -32,6 +33,10 @@ public class Data {
 
     for (Document document : plots.find()) {
       Plot.load(document);
+    }
+
+    for (Document document : profiles.find()) {
+      Profile.load(document);
     }
 
     // for (Document document : spawns.find()) {

@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 
 public class LobbyJoin {
     // Static stored map of lobbyJoins
-    public static HashMap<String, LobbyJoin> lobbyJoins;
+    public static HashMap<String, LobbyJoin> lobbyJoins = new HashMap<String, LobbyJoin>();
 
     // Class variables
     private Integer blockX;
