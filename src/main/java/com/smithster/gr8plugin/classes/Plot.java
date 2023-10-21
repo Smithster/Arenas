@@ -3,17 +3,20 @@ package com.smithster.gr8plugin.classes;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.UUID;
 
 import org.bson.Document;
+import org.bson.types.ObjectId;
 import org.bukkit.Location;
 import org.bukkit.World;
 
+import com.smithster.gr8plugin.Plugin;
 import com.smithster.gr8plugin.utils.Data;
 
 import static com.smithster.gr8plugin.Plugin.server;
 
 public class Plot {
-
+    private ObjectId _id;
     private String name;
     private World world;
     private Location pos1;
@@ -148,39 +151,38 @@ public class Plot {
     public void save() {
         Document plot = new Document();
 
+        plot.put("_id", this._id);
         plot.put("name", this.name);
         plot.put("world", this.world != null ? this.world.getName() : null);
-        plot.put("pos1", this.pos1 != null ? getXYZArrayList(this.pos1) : null);
-        plot.put("pos2", this.pos2 != null ? getXYZArrayList(this.pos2) : null);
+        plot.put("pos1", this.pos1 != null ? Data.getXYZArrayList(this.pos1) : null);
+        plot.put("pos2", this.pos2 != null ? Data.getXYZArrayList(this.pos2) : null);
 
-        Data.save("plots", plot);
-    }
-
-    public static ArrayList<Integer> getXYZArrayList(Location loc) {
-        ArrayList<Integer> xyz = new ArrayList<Integer>();
-        xyz.add(loc.getBlockX());
-        xyz.add(loc.getBlockY());
-        xyz.add(loc.getBlockZ());
-        return xyz;
+        ObjectId insertedId = Data.save("plots", plot);
+        this._id = insertedId == null ? this._id : insertedId;
     }
 
     public static void load(Document document) {
         String name = (String) document.get("name");
         Plot plot = new Plot(name);
-        if (document.get("world") != null) {
-            plot.setWorld(server.getWorld((String) document.get("world")));
+
+        plot._id = (ObjectId) document.get("_id");
+
+        World world = server.getWorld(document.get("world") != null ? (String) document.get("world") : "");
+
+        if (world != null) {
+            plot.setWorld(world);
         }
 
         if (document.get("pos1") != null) {
             ArrayList<Integer> xyz1 = (ArrayList<Integer>) document.get("pos1");
-            Location pos1 = new Location(server.getWorld(name), (double) xyz1.get(0), (double) xyz1.get(1),
+            Location pos1 = new Location(world, (double) xyz1.get(0), (double) xyz1.get(1),
                     (double) xyz1.get(2));
             plot.setPos1(pos1);
         }
 
         if (document.get("pos2") != null) {
             ArrayList<Integer> xyz2 = (ArrayList<Integer>) document.get("pos2");
-            Location pos2 = new Location(server.getWorld(name), (double) xyz2.get(0), (double) xyz2.get(1),
+            Location pos2 = new Location(world, (double) xyz2.get(0), (double) xyz2.get(1),
                     (double) xyz2.get(2));
             plot.setPos2(pos2);
         }

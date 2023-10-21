@@ -49,10 +49,10 @@ public class Plugin extends JavaPlugin {
     this.getCommand("arena").setExecutor(new arena());
     this.getCommand("plot").setExecutor(new plotcmd());
     this.getCommand("permission").setExecutor(new permission());
-    // this.getCommand("createSpawn").setExecutor(new createLobbyJoin());
     this.getCommand("lobby").setExecutor(new lobby());
     this.getServer().getPluginManager().registerEvents(new plotBreakProtection(), this);
     this.getServer().getPluginManager().registerEvents(new playerLogin(), this);
+    this.getServer().getPluginManager().registerEvents(new setLobbyJoin(), this);
 
   }
 

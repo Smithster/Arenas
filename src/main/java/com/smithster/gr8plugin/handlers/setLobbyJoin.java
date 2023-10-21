@@ -14,6 +14,7 @@ import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.smithster.gr8plugin.classes.LobbyJoin;
+import com.smithster.gr8plugin.utils.Profile;
 
 import static com.smithster.gr8plugin.utils.Profile.profiles;
 
@@ -22,25 +23,42 @@ public class setLobbyJoin implements Listener {
     @EventHandler
     public void onBlockDamage(BlockDamageEvent event) {
         Player player = event.getPlayer();
+        Profile profile = profiles.get(player.getUniqueId());
         Block block = event.getBlock();
 
-        if (!profiles.get(player.getUniqueId()).isSettingTrigger) {
+        if (!profile.isSettingJoin()) {
             return;
         }
 
-        String lobbyJoinName = profiles.get(player.getUniqueId()).getTriggerName();
+        LobbyJoin lobbyJoin = profile.getJoin();
+        Location loc = block.getLocation();
 
-        LobbyJoin lobbyJoin = new LobbyJoin();
-        Location loc = block.getLocation(null);
-        ArrayList<Integer> pos = new ArrayList<Integer>();
-        pos.add(loc.getBlockX());
-        pos.add(loc.getBlockY());
-        pos.add(loc.getBlockZ());
-        lobbyJoin.setLocation(pos, loc.getWorld().getName());
+        lobbyJoin.setLocation(loc);
+        lobbyJoin.setActive(true);
+        lobbyJoin.save();
 
-        lobbyJoin.save(lobbyJoinName);
+        player.sendMessage("You have created a new trigger");
+        event.setCancelled(true);
+    }
 
-        player.sendMessage(String.format("You have created a new trigger called: %s", lobbyJoinName));
+    @EventHandler
+    public void onBlockBreak(BlockBreakEvent event) {
+        Player player = event.getPlayer();
+        Profile profile = profiles.get(player.getUniqueId());
+        Block block = event.getBlock();
+
+        if (!profile.isSettingJoin()) {
+            return;
+        }
+
+        LobbyJoin lobbyJoin = profile.getJoin();
+        Location loc = block.getLocation();
+
+        lobbyJoin.setLocation(loc);
+        lobbyJoin.setActive(true);
+        lobbyJoin.save();
+
+        player.sendMessage("You have created a new trigger");
         event.setCancelled(true);
     }
 }

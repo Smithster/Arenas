@@ -6,8 +6,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.smithster.gr8plugin.classes.Lobby;
+import com.smithster.gr8plugin.classes.LobbyJoin;
+import com.smithster.gr8plugin.utils.Profile;
+
 import static com.smithster.gr8plugin.classes.Lobby.lobbies;
 import static com.smithster.gr8plugin.classes.Plot.plots;
+import static com.smithster.gr8plugin.utils.Profile.profiles;
 
 public class lobby implements CommandExecutor {
 
@@ -16,6 +20,12 @@ public class lobby implements CommandExecutor {
         if (args.length == 0) {
             return false;
         }
+
+        if (!(sender instanceof Player)) {
+            return false;
+        }
+
+        Player player = (Player) sender;
 
         if (args[0].equals("create")) {
             if (args.length == 1) {
@@ -37,8 +47,23 @@ public class lobby implements CommandExecutor {
             Lobby lobby = lobbies.get(args[0]);
 
             if (args[1].equals("join")) {
-                Player player = (Player) sender;
+
                 lobby.enter(player);
+                return true;
+            }
+
+            if (args[1].equals("set")) {
+
+                if (args[2].equals("join")) {
+
+                    Profile profile = profiles.get(player.getUniqueId());
+                    profile.settingJoin(true);
+                    LobbyJoin join = new LobbyJoin(lobby);
+                    profile.setJoin(join);
+
+                    return true;
+                }
+
             }
         }
 

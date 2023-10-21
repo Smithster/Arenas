@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
+import org.bson.types.ObjectId;
 import org.bson.Document;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -15,6 +16,7 @@ public class Lobby extends Plot {
 
     public static HashMap<String, Lobby> lobbies = new HashMap<String, Lobby>();
 
+    private ObjectId _id;
     private ArrayList<UUID> players;
     private Integer limit;
 
@@ -31,17 +33,20 @@ public class Lobby extends Plot {
     public void save() {
         Document lobby = new Document();
 
+        lobby.put("_id", this._id);
         lobby.put("name", this.getName());
         lobby.put("world", this.getWorld() != null ? this.getWorld().getName() : null);
-        lobby.put("pos1", this.getPos1() != null ? getXYZArrayList(this.getPos1()) : null);
-        lobby.put("pos2", this.getPos2() != null ? getXYZArrayList(this.getPos2()) : null);
+        lobby.put("pos1", this.getPos1() != null ? Data.getXYZArrayList(this.getPos1()) : null);
+        lobby.put("pos2", this.getPos2() != null ? Data.getXYZArrayList(this.getPos2()) : null);
 
-        Data.save("lobbies", lobby);
+        ObjectId insertedId = Data.save("lobbies", lobby);
+        this._id = insertedId == null ? this._id : insertedId;
     }
 
     public static void load(Document document) {
         String name = (String) document.get("name");
-        Plot lobby = new Lobby(name);
+        Lobby lobby = new Lobby(name);
+        lobby._id = (ObjectId) document.get("_id");
         if (document.get("world") != null) {
             lobby.setWorld(server.getWorld((String) document.get("world")));
         }

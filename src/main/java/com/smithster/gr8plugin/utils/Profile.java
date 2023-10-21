@@ -2,11 +2,13 @@ package com.smithster.gr8plugin.utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
 import org.bson.Document;
+import org.bson.types.ObjectId;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
@@ -14,6 +16,7 @@ import org.bukkit.permissions.PermissionAttachment;
 
 import com.smithster.gr8plugin.Plugin;
 import com.smithster.gr8plugin.classes.Arena;
+import com.smithster.gr8plugin.classes.LobbyJoin;
 import com.smithster.gr8plugin.classes.Team;
 import com.smithster.gr8plugin.gamemodes.gamemode;
 
@@ -26,8 +29,9 @@ public class Profile {
     private gamemode gamemode;
     private String role;
     private Integer experience;
-    public boolean isSettingTrigger = false;
-    private String triggerName;
+    private boolean settingJoin = false;
+    private LobbyJoin join;
+    private Set<String> permList;
     private PermissionAttachment perms;
 
     public static Plugin plugin;
@@ -53,11 +57,13 @@ public class Profile {
         Document document = new Document();
 
         // Object permissions = (Object) this.perms.getPermissions();
-        document.put("UUID", this.player.getUniqueId().toString());
+        document.put("_id", this.player.getUniqueId().toString());
         if (this.perms == null) {
             document.put("perms", null);
         } else {
-            document.put("perms", this.perms.getPermissions().keySet().toArray());
+            // ArrayList<String> permList = new
+            // ArrayList<String>(this.perms.getPermissions().keySet());
+            document.put("perms", new ArrayList<String>(this.perms.getPermissions().keySet()));
         }
         if (this.role == null) {
             document.put("role", null);
@@ -70,14 +76,13 @@ public class Profile {
     }
 
     public static void load(Document document) {
-        UUID playerID = UUID.fromString((String) document.get("UUID"));
+        UUID playerID = UUID.fromString((String) document.get("_id"));
         OfflinePlayer offlinePlayer = Plugin.server.getOfflinePlayer(playerID);
         Profile profile = new Profile(offlinePlayer);
+        profile.setOfflinePermList(new HashSet<String>());
         if (document.get("perms") != null) {
-            String[] permsList = (String[]) document.get("perms", String[].class);
-            for (String perm : permsList) {
-                profile.addPermission(perm);
-            }
+            Set<String> permsList = new HashSet<String>((ArrayList<String>) document.get("perms"));
+            profile.setOfflinePermList(permsList);
         }
         if (document.get("role") != null) {
             profile.setRole((String) document.get("role"));
@@ -87,24 +92,46 @@ public class Profile {
     }
 
     public void addPermission(String permission) {
-        this.perms.setPermission(permission, true);
+        this.permList.add(permission);
+        if (this.offlinePlayer.isOnline()) {
+            this.perms.setPermission(permission, true);
+        }
     }
 
     public void removePermission(String permission) {
-        this.perms.unsetPermission(permission);
+        this.permList.remove(permission);
+        if (this.offlinePlayer.isOnline()) {
+            this.perms.unsetPermission(permission);
+        }
     }
 
-    public void toggleIsSettingTrigger() {
-        this.isSettingTrigger = !(this.isSettingTrigger);
+    public void setOfflinePermList(Set<String> permList) {
+        this.permList = permList;
     }
 
-    public String getTriggerName() {
-        return this.triggerName;
+    public Set<String> getOfflinePermList() {
+        return this.permList;
     }
 
-    public void setTriggerName(String name) {
-        this.triggerName = name;
+    public void setJoin(LobbyJoin join) {
+        this.join = join;
     }
+
+    public LobbyJoin getJoin() {
+        return this.join;
+    }
+
+    public void settingJoin(boolean b) {
+        this.settingJoin = b;
+    }
+
+    public boolean isSettingJoin() {
+        return this.settingJoin;
+    }
+
+    // public void setTriggerName(String name) {
+    // this.triggerName = name;
+    // }
 
     public void setTeam(Team team) {
         this.team = team;
@@ -122,15 +149,13 @@ public class Profile {
 
     public void setPlayer(Player player) {
         this.player = player;
-        PermissionAttachment newPerms = player.addAttachment(plugin);
+        PermissionAttachment perms = player.addAttachment(plugin);
 
-        if (this.perms != null && this.perms.getPermissions().size() != 0) {
-            for (String permission : this.perms.getPermissions().keySet()) {
-                newPerms.setPermission(permission, true);
-            }
+        for (String permission : this.permList) {
+            perms.setPermission(permission, true);
         }
 
-        this.perms = newPerms;
+        this.perms = perms;
     }
 
     public void setRole(String role) {
