@@ -4,6 +4,8 @@ import com.smithster.gr8plugin.gamemodes.gamemode;
 
 import java.util.ArrayList;
 
+import org.bukkit.entity.Player;
+
 public class Arena extends Plot {
 
     private gamemode gamemode;
@@ -26,7 +28,7 @@ public class Arena extends Plot {
         this.teams.add(team);
     }
 
-    public Team getTeam(Integer i){
+    public Team getTeam(Integer i) {
         return this.teams.get(i);
     }
 
@@ -54,10 +56,10 @@ public class Arena extends Plot {
     }
 
     public void playerJoin(Player player) {
-        if (this.teams.length > 1){
-            Team team = this.getTeam(this.players.length % this.teams.length);
+        if (this.teams.size() > 1) {
+            Team team = this.getTeam(this.players.size() % this.teams.size());
             this.players.add(player);
         }
-        
+
     }
 }

@@ -39,10 +39,13 @@ public class Lobby extends Plot {
 
         lobby.put("_id", this._id);
         lobby.put("name", this.getName());
-        lobby.put("plotName", this.plotName());
-        // lobby.put("world", this.getWorld() != null ? this.getWorld().getName() : null);
-        // lobby.put("pos1", this.getPos1() != null ? Data.getXYZArrayList(this.getPos1()) : null);
-        // lobby.put("pos2", this.getPos2() != null ? Data.getXYZArrayList(this.getPos2()) : null);
+        lobby.put("plotName", this.plotName);
+        // lobby.put("world", this.getWorld() != null ? this.getWorld().getName() :
+        // null);
+        // lobby.put("pos1", this.getPos1() != null ?
+        // Data.getXYZArrayList(this.getPos1()) : null);
+        // lobby.put("pos2", this.getPos2() != null ?
+        // Data.getXYZArrayList(this.getPos2()) : null);
 
         ObjectId insertedId = Data.save("lobbies", lobby);
         this._id = insertedId == null ? this._id : insertedId;
@@ -54,29 +57,31 @@ public class Lobby extends Plot {
         Lobby lobby = new Lobby(plotName, name);
         lobby._id = (ObjectId) document.get("_id");
         // if (document.get("world") != null) {
-        //     lobby.setWorld(server.getWorld((String) document.get("world")));
+        // lobby.setWorld(server.getWorld((String) document.get("world")));
         // }
 
         // if (document.get("pos1") != null) {
-        //     ArrayList<Integer> xyz1 = (ArrayList<Integer>) document.get("pos1");
-        //     Location pos1 = new Location(server.getWorld(name), (double) xyz1.get(0), (double) xyz1.get(1),
-        //             (double) xyz1.get(2));
-        //     lobby.setPos1(pos1);
+        // ArrayList<Integer> xyz1 = (ArrayList<Integer>) document.get("pos1");
+        // Location pos1 = new Location(server.getWorld(name), (double) xyz1.get(0),
+        // (double) xyz1.get(1),
+        // (double) xyz1.get(2));
+        // lobby.setPos1(pos1);
         // }
 
         // if (document.get("pos2") != null) {
-        //     ArrayList<Integer> xyz2 = (ArrayList<Integer>) document.get("pos2");
-        //     Location pos2 = new Location(server.getWorld(name), (double) xyz2.get(0), (double) xyz2.get(1),
-        //             (double) xyz2.get(2));
-        //     lobby.setPos2(pos2);
+        // ArrayList<Integer> xyz2 = (ArrayList<Integer>) document.get("pos2");
+        // Location pos2 = new Location(server.getWorld(name), (double) xyz2.get(0),
+        // (double) xyz2.get(1),
+        // (double) xyz2.get(2));
+        // lobby.setPos2(pos2);
         // }
 
         return;
     }
 
-    public void finishVote(){
+    public void finishVote() {
         Arena winner = this.callVote();
-        for (Player player : this.players){
+        for (Player player : this.players) {
             winner.playerJoin(player);
         }
         this.clearLobby();
@@ -103,29 +108,29 @@ public class Lobby extends Plot {
         return false;
     }
 
-    public void startVote(){
-        this.LobbyVote = new LobbyVote(this.arenas);
+    public void startVote() {
+        this.vote = new LobbyVote(this.arenas);
     }
 
-    public Arena callVote(){
-        this.LobbyVote.getWinner();
+    public Arena callVote() {
+        return this.vote.getWinner();
     }
 
-    public String enter(Player player) {
-        if (this.isLobbyFull()){
-            return "This lobby is currently full";
+    public void enter(Player player) {
+        if (this.isLobbyFull()) {
+            player.sendMessage("This lobby is currently full");
         }
         Location entry = this.getEntryLoc();
-        if (entry == null && this.isLobbyFull == false){
-            player.sendMessage("Unable to join");
+        if (entry == null) {
+            player.sendMessage("Unable to join, an entry location hasn't been set for this Lobby.");
         } else {
             player.teleport(this.getEntryLoc());
         }
         this.playerJoin(player);
     }
 
-    public void clearLobby(){
-        this.LobbyVote = null;
+    public void clearLobby() {
+        this.vote = null;
         this.players.clear();
     }
 }
