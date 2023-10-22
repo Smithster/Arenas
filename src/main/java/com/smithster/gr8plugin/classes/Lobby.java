@@ -8,6 +8,7 @@ import org.bson.types.ObjectId;
 import org.bson.Document;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import com.smithster.gr8plugin.gamemodes.gamemode;
 import static com.smithster.gr8plugin.Plugin.server;
 
 import com.smithster.gr8plugin.utils.Data;
@@ -17,12 +18,15 @@ public class Lobby extends Plot {
     public static HashMap<String, Lobby> lobbies = new HashMap<String, Lobby>();
 
     private ObjectId _id;
-    private ArrayList<UUID> players;
+    private ArrayList<Player> players;
     private Integer limit;
+    private LobbyVote vote;
+    private String plotName;
+    private ArrayList<Arena> arenas;
 
-    public Lobby(String name) {
-        this.setName(name);
-        Plot plot = plots.get(name);
+    public Lobby(String plotName, String name) {
+        this.plotName = plotName;
+        Plot plot = plots.get(plotName);
         this.setWorld(plot.getWorld());
         this.setPos1(plot.getPos1());
         this.setPos2(plot.getPos2());
@@ -35,9 +39,10 @@ public class Lobby extends Plot {
 
         lobby.put("_id", this._id);
         lobby.put("name", this.getName());
-        lobby.put("world", this.getWorld() != null ? this.getWorld().getName() : null);
-        lobby.put("pos1", this.getPos1() != null ? Data.getXYZArrayList(this.getPos1()) : null);
-        lobby.put("pos2", this.getPos2() != null ? Data.getXYZArrayList(this.getPos2()) : null);
+        lobby.put("plotName", this.plotName());
+        // lobby.put("world", this.getWorld() != null ? this.getWorld().getName() : null);
+        // lobby.put("pos1", this.getPos1() != null ? Data.getXYZArrayList(this.getPos1()) : null);
+        // lobby.put("pos2", this.getPos2() != null ? Data.getXYZArrayList(this.getPos2()) : null);
 
         ObjectId insertedId = Data.save("lobbies", lobby);
         this._id = insertedId == null ? this._id : insertedId;
@@ -45,27 +50,36 @@ public class Lobby extends Plot {
 
     public static void load(Document document) {
         String name = (String) document.get("name");
-        Lobby lobby = new Lobby(name);
+        String plotName = (String) document.get("plotName");
+        Lobby lobby = new Lobby(plotName, name);
         lobby._id = (ObjectId) document.get("_id");
-        if (document.get("world") != null) {
-            lobby.setWorld(server.getWorld((String) document.get("world")));
-        }
+        // if (document.get("world") != null) {
+        //     lobby.setWorld(server.getWorld((String) document.get("world")));
+        // }
 
-        if (document.get("pos1") != null) {
-            ArrayList<Integer> xyz1 = (ArrayList<Integer>) document.get("pos1");
-            Location pos1 = new Location(server.getWorld(name), (double) xyz1.get(0), (double) xyz1.get(1),
-                    (double) xyz1.get(2));
-            lobby.setPos1(pos1);
-        }
+        // if (document.get("pos1") != null) {
+        //     ArrayList<Integer> xyz1 = (ArrayList<Integer>) document.get("pos1");
+        //     Location pos1 = new Location(server.getWorld(name), (double) xyz1.get(0), (double) xyz1.get(1),
+        //             (double) xyz1.get(2));
+        //     lobby.setPos1(pos1);
+        // }
 
-        if (document.get("pos2") != null) {
-            ArrayList<Integer> xyz2 = (ArrayList<Integer>) document.get("pos2");
-            Location pos2 = new Location(server.getWorld(name), (double) xyz2.get(0), (double) xyz2.get(1),
-                    (double) xyz2.get(2));
-            lobby.setPos2(pos2);
-        }
+        // if (document.get("pos2") != null) {
+        //     ArrayList<Integer> xyz2 = (ArrayList<Integer>) document.get("pos2");
+        //     Location pos2 = new Location(server.getWorld(name), (double) xyz2.get(0), (double) xyz2.get(1),
+        //             (double) xyz2.get(2));
+        //     lobby.setPos2(pos2);
+        // }
 
         return;
+    }
+
+    public void finishVote(){
+        Arena winner = this.callVote();
+        for (Player player : this.players){
+            winner.playerJoin(player);
+        }
+        this.clearLobby();
     }
 
     public Integer getLimit() {
@@ -76,8 +90,9 @@ public class Lobby extends Plot {
         this.limit = limit;
     }
 
-    public void playerJoin(UUID playerUUID) {
-        this.players.add(playerUUID);
+    public void playerJoin(Player player) {
+        this.players.add(player);
+
     }
 
     public boolean isLobbyFull() {
@@ -88,8 +103,29 @@ public class Lobby extends Plot {
         return false;
     }
 
-    public void enter(Player player) {
-        this.playerJoin(player.getUniqueId());
-        player.teleport(this.getEntryLoc());
+    public void startVote(){
+        this.LobbyVote = new LobbyVote(this.arenas);
+    }
+
+    public Arena callVote(){
+        this.LobbyVote.getWinner();
+    }
+
+    public String enter(Player player) {
+        if (this.isLobbyFull()){
+            return "This lobby is currently full";
+        }
+        Location entry = this.getEntryLoc();
+        if (entry == null && this.isLobbyFull == false){
+            player.sendMessage("Unable to join");
+        } else {
+            player.teleport(this.getEntryLoc());
+        }
+        this.playerJoin(player);
+    }
+
+    public void clearLobby(){
+        this.LobbyVote = null;
+        this.players.clear();
     }
 }

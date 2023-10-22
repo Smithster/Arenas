@@ -28,13 +28,15 @@ public class lobby implements CommandExecutor {
         Player player = (Player) sender;
 
         if (args[0].equals("create")) {
-            if (args.length == 1) {
+            if (args.length <= 2) {
                 return false;
             }
-            String name = args[1];
 
-            if (plots.containsKey(name)) {
-                Lobby lobby = new Lobby(name);
+            String plotName = args[1];
+            String name = args[2];
+
+            if (plots.containsKey(plotName)) {
+                Lobby lobby = new Lobby(plotName, name);
                 lobby.save();
             } else {
                 sender.sendMessage("You must first create a plot with the same name you intend to use for the lobby");

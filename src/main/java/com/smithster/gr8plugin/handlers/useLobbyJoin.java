@@ -15,16 +15,20 @@ import static com.smithster.gr8plugin.classes.LobbyJoin.getLobbyJoin;
 public class useLobbyJoin implements Listener {
 
     @EventHandler
-    public void onRedstoneTrigger(PlayerInteractEvent event) {
+    public void onRightClick(PlayerInteractEvent event) {
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             Block block = event.getClickedBlock();
+
+            if (!LobbyJoin.isLobbyJoin(block)){
+                return;
+            }
+
             LobbyJoin lobbyJoin = getLobbyJoin(block);
 
-            if (lobbyJoin != null) {
-                event.setCancelled(true);
-                Player player = event.getPlayer();
-                lobbyJoin.join(player);
-            }
+            event.setCancelled(true);
+            Player player = event.getPlayer();
+            lobbyJoin.join(player);
+            
         }
     }
 }

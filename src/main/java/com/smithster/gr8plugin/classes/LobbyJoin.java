@@ -102,8 +102,12 @@ public class LobbyJoin {
         join.setLocation(loc);
     }
 
+    public static void remove(Location loc) {
+        lobbyJoins.remove(loc);
+    }
+
     public void join(Player player) {
-        lobby.enter(player);
+        this.lobby.enter(player);
     }
 
 }

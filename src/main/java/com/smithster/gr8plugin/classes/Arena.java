@@ -9,6 +9,7 @@ public class Arena extends Plot {
     private gamemode gamemode;
     private Boolean isActive = false;
     private ArrayList<Team> teams = new ArrayList<Team>();
+    private ArrayList<Player> players = new ArrayList<Player>();
 
     public void toggleActiveState() {
         this.isActive = !this.isActive;
@@ -23,6 +24,10 @@ public class Arena extends Plot {
             return;
         }
         this.teams.add(team);
+    }
+
+    public Team getTeam(Integer i){
+        return this.teams.get(i);
     }
 
     public void removeTeam(Team team) {
@@ -46,5 +51,13 @@ public class Arena extends Plot {
         for (Team team : teams) {
             team.spawn();
         }
+    }
+
+    public void playerJoin(Player player) {
+        if (this.teams.length > 1){
+            Team team = this.getTeam(this.players.length % this.teams.length);
+            this.players.add(player);
+        }
+        
     }
 }
