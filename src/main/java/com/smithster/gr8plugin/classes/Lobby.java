@@ -18,14 +18,15 @@ public class Lobby extends Plot {
     public static HashMap<String, Lobby> lobbies = new HashMap<String, Lobby>();
 
     private ObjectId _id;
-    private ArrayList<Player> players;
-    private Integer limit;
+    private HashMap<Player, Location> players = new HashMap<Player, Location>();
+    private Integer limit = 10;
     private LobbyVote vote;
     private String plotName;
-    private ArrayList<Arena> arenas;
+    private ArrayList<Arena> arenas = new ArrayList<Arena>();
 
     public Lobby(String plotName, String name) {
         this.plotName = plotName;
+        this.setName(name);
         Plot plot = plots.get(plotName);
         this.setWorld(plot.getWorld());
         this.setPos1(plot.getPos1());
@@ -40,12 +41,6 @@ public class Lobby extends Plot {
         lobby.put("_id", this._id);
         lobby.put("name", this.getName());
         lobby.put("plotName", this.plotName);
-        // lobby.put("world", this.getWorld() != null ? this.getWorld().getName() :
-        // null);
-        // lobby.put("pos1", this.getPos1() != null ?
-        // Data.getXYZArrayList(this.getPos1()) : null);
-        // lobby.put("pos2", this.getPos2() != null ?
-        // Data.getXYZArrayList(this.getPos2()) : null);
 
         ObjectId insertedId = Data.save("lobbies", lobby);
         this._id = insertedId == null ? this._id : insertedId;
@@ -56,32 +51,17 @@ public class Lobby extends Plot {
         String plotName = (String) document.get("plotName");
         Lobby lobby = new Lobby(plotName, name);
         lobby._id = (ObjectId) document.get("_id");
-        // if (document.get("world") != null) {
-        // lobby.setWorld(server.getWorld((String) document.get("world")));
-        // }
-
-        // if (document.get("pos1") != null) {
-        // ArrayList<Integer> xyz1 = (ArrayList<Integer>) document.get("pos1");
-        // Location pos1 = new Location(server.getWorld(name), (double) xyz1.get(0),
-        // (double) xyz1.get(1),
-        // (double) xyz1.get(2));
-        // lobby.setPos1(pos1);
-        // }
-
-        // if (document.get("pos2") != null) {
-        // ArrayList<Integer> xyz2 = (ArrayList<Integer>) document.get("pos2");
-        // Location pos2 = new Location(server.getWorld(name), (double) xyz2.get(0),
-        // (double) xyz2.get(1),
-        // (double) xyz2.get(2));
-        // lobby.setPos2(pos2);
-        // }
-
         return;
+    }
+
+    public static void remove(Lobby lobby) {
+        lobbies.remove(lobby.getName());
+        Data.remove("lobbies", lobby._id);
     }
 
     public void finishVote() {
         Arena winner = this.callVote();
-        for (Player player : this.players) {
+        for (Player player : this.players.keySet()) {
             winner.playerJoin(player);
         }
         this.clearLobby();
@@ -96,7 +76,7 @@ public class Lobby extends Plot {
     }
 
     public void playerJoin(Player player) {
-        this.players.add(player);
+        this.players.put(player, player.getLocation());
 
     }
 
@@ -119,14 +99,23 @@ public class Lobby extends Plot {
     public void enter(Player player) {
         if (this.isLobbyFull()) {
             player.sendMessage("This lobby is currently full");
+            return;
         }
         Location entry = this.getEntryLoc();
         if (entry == null) {
             player.sendMessage("Unable to join, an entry location hasn't been set for this Lobby.");
+            return;
         } else {
             player.teleport(this.getEntryLoc());
+            this.playerJoin(player);
+            return;
         }
-        this.playerJoin(player);
+    }
+
+    public void leave(Player player) {
+        player.teleport(this.players.get(player));
+        this.players.remove(player);
+        this.vote.removeVote(player);
     }
 
     public void clearLobby() {

@@ -103,7 +103,9 @@ public class LobbyJoin {
     }
 
     public static void remove(Location loc) {
+        LobbyJoin join = lobbyJoins.get(loc);
         lobbyJoins.remove(loc);
+        Data.remove("lobbyJoins", join._id);
     }
 
     public void join(Player player) {

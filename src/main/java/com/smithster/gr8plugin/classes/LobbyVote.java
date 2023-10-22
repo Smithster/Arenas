@@ -18,6 +18,10 @@ public class LobbyVote {
         votes.put(player, arena);
     }
 
+    public void removeVote(Player player) {
+        votes.remove(player);
+    }
+
     public Arena getWinner() {
         HashMap<Arena, Integer> voteCount = new HashMap<Arena, Integer>();
         Integer winningScore = 0;

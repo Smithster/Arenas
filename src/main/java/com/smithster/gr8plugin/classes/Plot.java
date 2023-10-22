@@ -137,11 +137,7 @@ public class Plot {
 
     public void setEntryLoc(Location loc) {
         this.entryLoc = loc;
-    }
-
-    public void setEntryLoc(ArrayList<Integer> pos, String world) {
-        this.entryLoc = new Location(server.getWorld(world), (double) pos.get(0), (double) pos.get(1),
-                (double) pos.get(2));
+        this.save();
     }
 
     public void action() {
@@ -156,6 +152,7 @@ public class Plot {
         plot.put("world", this.world != null ? this.world.getName() : null);
         plot.put("pos1", this.pos1 != null ? Data.getXYZArrayList(this.pos1) : null);
         plot.put("pos2", this.pos2 != null ? Data.getXYZArrayList(this.pos2) : null);
+        plot.put("entry", this.entryLoc != null ? Data.getXYZArrayList(this.entryLoc) : null);
 
         ObjectId insertedId = Data.save("plots", plot);
         this._id = insertedId == null ? this._id : insertedId;
@@ -171,26 +168,33 @@ public class Plot {
 
         if (world != null) {
             plot.setWorld(world);
+        } else {
+            return;
         }
 
         if (document.get("pos1") != null) {
             ArrayList<Integer> xyz1 = (ArrayList<Integer>) document.get("pos1");
-            Location pos1 = new Location(world, (double) xyz1.get(0), (double) xyz1.get(1),
-                    (double) xyz1.get(2));
+            Location pos1 = Data.getLocation(world, xyz1);
             plot.setPos1(pos1);
         }
 
         if (document.get("pos2") != null) {
             ArrayList<Integer> xyz2 = (ArrayList<Integer>) document.get("pos2");
-            Location pos2 = new Location(world, (double) xyz2.get(0), (double) xyz2.get(1),
-                    (double) xyz2.get(2));
+            Location pos2 = Data.getLocation(world, xyz2);
             plot.setPos2(pos2);
+        }
+
+        if (document.get("entry") != null) {
+            ArrayList<Integer> xyz = (ArrayList<Integer>) document.get("entry");
+            Location entry = Data.getLocation(world, xyz);
+            plot.setEntryLoc(entry);
         }
 
         return;
     }
 
-    public static void delete(String plot) {
-        plots.remove(plot);
+    public static void remove(Plot plot) {
+        plots.remove(plot.getName());
+        Data.remove("plots", plot._id);
     }
 }

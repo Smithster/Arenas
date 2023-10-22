@@ -18,7 +18,7 @@ import static com.smithster.gr8plugin.classes.Plot.plots;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class plotcmd implements CommandExecutor {
+public class plot implements CommandExecutor {
 
     public boolean onCommand(CommandSender sender, Command command, String label,
             String[] args) {
@@ -53,6 +53,20 @@ public class plotcmd implements CommandExecutor {
             return true;
         }
 
+        if (args[0].equals("remove")) {
+            if (args.length < 2) {
+                return false;
+            }
+            if (plots.containsKey(args[1])) {
+                Plot.remove(plots.get(args[1]));
+                return true;
+            } else {
+                player.sendMessage(String.format("No plot exists with name %s", args[1]));
+                return true;
+            }
+
+        }
+
         Plot plot = plots.get(args[0]);
         String func = args[1];
 
@@ -78,11 +92,11 @@ public class plotcmd implements CommandExecutor {
                     return true;
                 }
             }
-        }
 
-        if (func.equals("remove")) {
-            deletePlot(args[0]);
-            return true;
+            if (field.equals("entry")) {
+                plot.setEntryLoc(player.getLocation());
+                return true;
+            }
         }
 
         return false;
@@ -98,9 +112,5 @@ public class plotcmd implements CommandExecutor {
         } else {
             plot.setPos2(loc);
         }
-    }
-
-    private static void deletePlot(String plotName) {
-        Plot.delete(plotName);
     }
 }

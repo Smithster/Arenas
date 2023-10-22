@@ -17,6 +17,7 @@ import org.bukkit.permissions.PermissionAttachment;
 import com.smithster.gr8plugin.Plugin;
 import com.smithster.gr8plugin.classes.Arena;
 import com.smithster.gr8plugin.classes.LobbyJoin;
+import com.smithster.gr8plugin.classes.LobbyLeave;
 import com.smithster.gr8plugin.classes.Team;
 import com.smithster.gr8plugin.gamemodes.gamemode;
 
@@ -30,7 +31,9 @@ public class Profile {
     private String role;
     private Integer experience;
     private boolean settingJoin = false;
+    private boolean settingLeave = false;
     private LobbyJoin join;
+    private LobbyLeave leave;
     private Set<String> permList;
     private PermissionAttachment perms;
 
@@ -127,6 +130,22 @@ public class Profile {
 
     public boolean isSettingJoin() {
         return this.settingJoin;
+    }
+
+    public void settingLeave(boolean b) {
+        this.settingLeave = b;
+    }
+
+    public boolean isSettingLeave() {
+        return this.settingLeave;
+    }
+
+    public void setLeave(LobbyLeave leave) {
+        this.leave = leave;
+    }
+
+    public LobbyLeave getLeave() {
+        return this.leave;
     }
 
     // public void setTriggerName(String name) {
