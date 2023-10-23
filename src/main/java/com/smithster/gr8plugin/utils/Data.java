@@ -23,6 +23,7 @@ import com.mongodb.client.model.UpdateOptions;
 import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.InsertOneResult;
 import com.smithster.gr8plugin.Plugin;
+import com.smithster.gr8plugin.classes.Arena;
 import com.smithster.gr8plugin.classes.Lobby;
 import com.smithster.gr8plugin.classes.LobbyJoin;
 import com.smithster.gr8plugin.classes.LobbyLeave;
@@ -57,6 +58,10 @@ public class Data {
 
     for (Document document : lobbies.find()) {
       Lobby.load(document);
+    }
+
+    for (Document document : arenas.find()) {
+      Arena.load(document);
     }
 
     for (Document document : lobbyJoins.find()) {
@@ -99,7 +104,21 @@ public class Data {
     return xyz;
   }
 
+  public static ArrayList<Integer> getXYZRotArrayList(Location loc) {
+    ArrayList<Integer> xyz = new ArrayList<Integer>();
+    xyz.add(loc.getBlockX());
+    xyz.add(loc.getBlockY());
+    xyz.add(loc.getBlockZ());
+    xyz.add(((Float) loc.getYaw()).intValue());
+    xyz.add(((Float) loc.getPitch()).intValue());
+    return xyz;
+  }
+
   public static Location getLocation(World world, ArrayList<Integer> xyz) {
     return new Location(world, xyz.get(0), xyz.get(1), xyz.get(2));
+  }
+
+  public static Location getRotLocation(World world, ArrayList<Integer> xyz) {
+    return new Location(world, xyz.get(0), xyz.get(1), xyz.get(2), xyz.get(3), xyz.get(4));
   }
 }

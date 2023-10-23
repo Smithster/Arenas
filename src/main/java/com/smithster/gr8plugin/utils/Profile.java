@@ -18,6 +18,7 @@ import com.smithster.gr8plugin.Plugin;
 import com.smithster.gr8plugin.classes.Arena;
 import com.smithster.gr8plugin.classes.LobbyJoin;
 import com.smithster.gr8plugin.classes.LobbyLeave;
+import com.smithster.gr8plugin.classes.LobbyVote;
 import com.smithster.gr8plugin.classes.Team;
 import com.smithster.gr8plugin.gamemodes.gamemode;
 
@@ -29,13 +30,16 @@ public class Profile {
     private Arena arena;
     private gamemode gamemode;
     private String role;
-    private Integer experience;
+    // private Integer experience;
     private boolean settingJoin = false;
     private boolean settingLeave = false;
+    private boolean settingVote = false;
     private LobbyJoin join;
     private LobbyLeave leave;
+    private LobbyVote vote;
     private Set<String> permList;
     private PermissionAttachment perms;
+    private Party party;
 
     public static Plugin plugin;
     public static HashMap<UUID, Profile> profiles = new HashMap<UUID, Profile>();
@@ -45,6 +49,7 @@ public class Profile {
         this.player = player;
         this.perms = this.player.addAttachment(plugin);
         this.role = "default";
+        this.party = new Party(this.player);
     }
 
     public Profile(OfflinePlayer offlinePlayer) {
@@ -148,9 +153,33 @@ public class Profile {
         return this.leave;
     }
 
-    // public void setTriggerName(String name) {
-    // this.triggerName = name;
-    // }
+    public void settingVote(boolean b) {
+        this.settingVote = b;
+    }
+
+    public boolean isSettingVote() {
+        return this.settingVote;
+    }
+
+    public void setVote(LobbyVote vote) {
+        this.vote = vote;
+    }
+
+    public LobbyVote getVote() {
+        return this.vote;
+    }
+
+    public void setParty(Party party) {
+        this.party = party;
+    }
+
+    public Party getParty() {
+        return this.party;
+    }
+
+    public boolean isPartyLeader() {
+        return this.party.isPartyLeader(this.player);
+    }
 
     public void setTeam(Team team) {
         this.team = team;

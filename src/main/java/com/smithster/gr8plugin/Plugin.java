@@ -53,8 +53,8 @@ public class Plugin extends JavaPlugin {
 
     this.getServer().getPluginManager().registerEvents(new plotBreakProtection(), this);
     this.getServer().getPluginManager().registerEvents(new playerLogin(), this);
-    this.getServer().getPluginManager().registerEvents(new setLobbyJoin(), this);
-    this.getServer().getPluginManager().registerEvents(new useLobbyJoin(), this);
+    this.getServer().getPluginManager().registerEvents(new setLobbyTools(), this);
+    this.getServer().getPluginManager().registerEvents(new useLobbyTools(), this);
 
   }
 

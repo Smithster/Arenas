@@ -1,17 +1,40 @@
 package com.smithster.gr8plugin.classes;
 
 import com.smithster.gr8plugin.gamemodes.gamemode;
+import com.smithster.gr8plugin.utils.Data;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import org.bson.Document;
+import org.bson.types.ObjectId;
 import org.bukkit.entity.Player;
 
-public class Arena extends Plot {
+public class Arena {
 
+    public static HashMap<String, Arena> arenas = new HashMap<String, Arena>();
+
+    private ObjectId _id;
+    private String name;
     private gamemode gamemode;
     private Boolean isActive = false;
+    private Plot plot;
     private ArrayList<Team> teams = new ArrayList<Team>();
     private ArrayList<Player> players = new ArrayList<Player>();
+
+    public Arena(String plotName, String name) {
+        this.plot = Plot.plots.get(plotName);
+        this.name = name;
+        arenas.put(name, this);
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return this.name;
+    }
 
     public void toggleActiveState() {
         this.isActive = !this.isActive;
@@ -61,5 +84,29 @@ public class Arena extends Plot {
             this.players.add(player);
         }
 
+    }
+
+    public void save() {
+        Document arena = new Document();
+
+        arena.put("_id", this._id);
+        arena.put("name", this.name);
+        arena.put("plotName", this.plot.getName());
+
+        ObjectId insertedId = Data.save("arenas", arena);
+        this._id = insertedId == null ? this._id : insertedId;
+    }
+
+    public static void load(Document document) {
+        String name = (String) document.get("name");
+        String plotName = (String) document.get("plotName");
+        Arena arena = new Arena(plotName, name);
+        arena._id = (ObjectId) document.get("_id");
+        return;
+    }
+
+    public static void remove(Arena arena) {
+        arenas.remove(arena.name);
+        Data.remove("lobbies", arena._id);
     }
 }

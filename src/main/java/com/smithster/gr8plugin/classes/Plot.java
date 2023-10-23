@@ -152,7 +152,7 @@ public class Plot {
         plot.put("world", this.world != null ? this.world.getName() : null);
         plot.put("pos1", this.pos1 != null ? Data.getXYZArrayList(this.pos1) : null);
         plot.put("pos2", this.pos2 != null ? Data.getXYZArrayList(this.pos2) : null);
-        plot.put("entry", this.entryLoc != null ? Data.getXYZArrayList(this.entryLoc) : null);
+        plot.put("entry", this.entryLoc != null ? Data.getXYZRotArrayList(this.entryLoc) : null);
 
         ObjectId insertedId = Data.save("plots", plot);
         this._id = insertedId == null ? this._id : insertedId;
@@ -186,7 +186,7 @@ public class Plot {
 
         if (document.get("entry") != null) {
             ArrayList<Integer> xyz = (ArrayList<Integer>) document.get("entry");
-            Location entry = Data.getLocation(world, xyz);
+            Location entry = Data.getRotLocation(world, xyz);
             plot.setEntryLoc(entry);
         }
 

@@ -71,6 +71,10 @@ public class LobbyJoin {
         this.lobby = lobby;
     }
 
+    public Lobby getLobby() {
+        return this.lobby;
+    }
+
     public void save() {
         if (this.loc == null) {
             return;

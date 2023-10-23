@@ -27,6 +27,11 @@ public class LobbyLeave {
 
     public void setLocation(Location loc) {
         this.loc = loc;
+        lobbyLeaves.put(loc, this);
+    }
+
+    public Lobby getLobby() {
+        return this.lobby;
     }
 
     public static Boolean isLobbyLeave(Block block) {

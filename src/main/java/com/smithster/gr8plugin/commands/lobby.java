@@ -5,9 +5,11 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.smithster.gr8plugin.classes.Arena;
 import com.smithster.gr8plugin.classes.Lobby;
 import com.smithster.gr8plugin.classes.LobbyJoin;
 import com.smithster.gr8plugin.classes.LobbyLeave;
+import com.smithster.gr8plugin.classes.LobbyVote;
 import com.smithster.gr8plugin.utils.Profile;
 
 import static com.smithster.gr8plugin.classes.Lobby.lobbies;
@@ -92,6 +94,21 @@ public class lobby implements CommandExecutor {
                     profile.settingLeave(true);
                     LobbyLeave leave = new LobbyLeave(lobby);
                     profile.setLeave(leave);
+                    sender.sendMessage("To finish setting the lobby leave, punch a block to be the trigger.");
+
+                    return true;
+                }
+
+                if (args[2].equals("vote") && args.length >= 4) {
+                    Arena arena = Arena.arenas.get(args[3]);
+                    if (arena == null) {
+                        player.sendMessage("No arena exists with that name");
+                        return true;
+                    }
+                    Profile profile = profiles.get(player.getUniqueId());
+                    profile.settingVote(true);
+                    LobbyVote leave = new LobbyVote(lobby, arena);
+                    profile.setVote(leave);
                     sender.sendMessage("To finish setting the lobby leave, punch a block to be the trigger.");
 
                     return true;
