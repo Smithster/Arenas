@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
+import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
@@ -16,8 +17,10 @@ import org.bukkit.permissions.PermissionAttachment;
 
 import com.smithster.gr8plugin.Plugin;
 import com.smithster.gr8plugin.classes.Arena;
+import com.smithster.gr8plugin.classes.Lobby;
 import com.smithster.gr8plugin.classes.LobbyJoin;
 import com.smithster.gr8plugin.classes.LobbyLeave;
+import com.smithster.gr8plugin.classes.LobbyStart;
 import com.smithster.gr8plugin.classes.LobbyVote;
 import com.smithster.gr8plugin.classes.Team;
 import com.smithster.gr8plugin.gamemodes.gamemode;
@@ -28,18 +31,22 @@ public class Profile {
     private OfflinePlayer offlinePlayer;
     private Team team;
     private Arena arena;
+    private Lobby lobby;
     private gamemode gamemode;
     private String role;
     // private Integer experience;
     private boolean settingJoin = false;
     private boolean settingLeave = false;
     private boolean settingVote = false;
+    private boolean settingStart = false;
     private LobbyJoin join;
     private LobbyLeave leave;
     private LobbyVote vote;
+    private LobbyStart start;
     private Set<String> permList;
     private PermissionAttachment perms;
     private Party party;
+    private Location savedSpawn;
 
     public static Plugin plugin;
     public static HashMap<UUID, Profile> profiles = new HashMap<UUID, Profile>();
@@ -169,6 +176,22 @@ public class Profile {
         return this.vote;
     }
 
+    public void settingStart(boolean b) {
+        this.settingStart = b;
+    }
+
+    public boolean isSettingStart() {
+        return this.settingStart;
+    }
+
+    public void setStart(LobbyStart start) {
+        this.start = start;
+    }
+
+    public LobbyStart getStart() {
+        return this.start;
+    }
+
     public void setParty(Party party) {
         this.party = party;
     }
@@ -197,6 +220,7 @@ public class Profile {
 
     public void setPlayer(Player player) {
         this.player = player;
+        this.party = new Party(this.player);
         PermissionAttachment perms = player.addAttachment(plugin);
 
         for (String permission : this.permList) {
@@ -208,6 +232,23 @@ public class Profile {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public void setArenaSpawnPoint(Location loc) {
+        this.savedSpawn = this.player.getBedSpawnLocation();
+        this.player.setBedSpawnLocation(loc, true);
+    }
+
+    public void revertArenaSpawnPoint() {
+        this.player.setBedSpawnLocation(savedSpawn, true);
+    }
+
+    public void setLobby(Lobby lobby) {
+        this.lobby = lobby;
+    }
+
+    public Lobby getLobby() {
+        return this.lobby;
     }
 
     // AS OF YET NOT USED

@@ -10,6 +10,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import com.smithster.gr8plugin.classes.LobbyJoin;
 import com.smithster.gr8plugin.classes.LobbyLeave;
+import com.smithster.gr8plugin.classes.LobbyStart;
 import com.smithster.gr8plugin.classes.LobbyVote;
 import com.smithster.gr8plugin.utils.Party;
 import com.smithster.gr8plugin.utils.Profile;
@@ -31,15 +32,15 @@ public class useLobbyTools implements Listener {
 
             event.setCancelled(true);
             Player player = event.getPlayer();
-            Profile profile = Profile.profiles.get(player);
+            Profile profile = Profile.profiles.get(player.getUniqueId());
             if (!profile.isPartyLeader()) {
                 player.sendMessage("You must be the party leader to do this.");
                 return;
             }
-
+            player.sendMessage("Joining lobby");
             Party party = profile.getParty();
             party.joinLobby(lobbyJoin.getLobby());
-
+            player.sendMessage("Lobby Joined!");
         }
     }
 
@@ -56,7 +57,7 @@ public class useLobbyTools implements Listener {
 
             event.setCancelled(true);
             Player player = event.getPlayer();
-            Profile profile = Profile.profiles.get(player);
+            Profile profile = Profile.profiles.get(player.getUniqueId());
             if (!profile.isPartyLeader()) {
                 player.sendMessage("You must be the party leader to do this.");
                 return;
@@ -83,6 +84,25 @@ public class useLobbyTools implements Listener {
             Player player = event.getPlayer();
             if (lobbyVote.getLobby().containsPlayer(player)) {
                 lobbyVote.vote(player);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onRightClickStart(PlayerInteractEvent event) {
+        if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            Block block = event.getClickedBlock();
+
+            if (!LobbyStart.isLobbyStart(block)) {
+                return;
+            }
+
+            LobbyStart lobbyStart = LobbyStart.getLobbyStart(block);
+
+            event.setCancelled(true);
+            Player player = event.getPlayer();
+            if (lobbyStart.getLobby().containsPlayer(player)) {
+                lobbyStart.startGame();
             }
         }
     }

@@ -8,6 +8,9 @@ import com.mongodb.client.MongoDatabase;
 import com.smithster.gr8plugin.Plugin;
 import com.smithster.gr8plugin.classes.Arena;
 import com.smithster.gr8plugin.classes.Lobby;
+import com.smithster.gr8plugin.classes.Spawn;
+import com.smithster.gr8plugin.classes.Team;
+import com.smithster.gr8plugin.gamemodes.gamemode;
 
 import static com.smithster.gr8plugin.classes.Plot.plots;
 import static com.smithster.gr8plugin.classes.Arena.arenas;
@@ -66,6 +69,54 @@ public class arena implements CommandExecutor {
                     player.sendMessage(String.format("No lobby by the name %s", args[1]));
                     return true;
                 }
+            }
+        }
+
+        if (Arena.arenas.containsKey(args[0])) {
+            Arena arena = Arena.arenas.get(args[0]);
+
+            if (args.length == 1) {
+                return false;
+            }
+
+            if (args[1].equals("set")) {
+                if (args.length == 2) {
+                    return false;
+                }
+
+                if (args[2].equals("team")) {
+                    if (args.length < 5) {
+                        return false;
+                    }
+
+                    String name = args[3];
+
+                    Spawn spawn = Spawn.spawns.get(args[4]);
+
+                    if (spawn == null) {
+                        player.sendMessage(String.format("There is no plot with the name %s", args[4]));
+                        return true;
+                    }
+
+                    String colour = null;
+                    if (args.length == 6) {
+                        colour = args[5];
+                    }
+
+                    Team team = colour == null ? new Team(name, spawn) : new Team(name, spawn, colour);
+                    team.save();
+                    arena.addTeam(team);
+                    arena.save();
+                    return true;
+                }
+
+                // if (args[2].equals("gamemode")){
+                // if (args.length < 4){
+                // return false;
+                // }
+
+                // arena.setGamemode(gamemode.gamemodes.get(args[3]));
+                // }
             }
         }
 

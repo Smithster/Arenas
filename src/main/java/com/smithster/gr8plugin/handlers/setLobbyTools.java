@@ -15,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 
 import com.smithster.gr8plugin.classes.LobbyJoin;
 import com.smithster.gr8plugin.classes.LobbyLeave;
+import com.smithster.gr8plugin.classes.LobbyStart;
 import com.smithster.gr8plugin.classes.LobbyVote;
 import com.smithster.gr8plugin.classes.VoteAgent;
 import com.smithster.gr8plugin.utils.Profile;
@@ -160,6 +161,32 @@ public class setLobbyTools implements Listener {
 
         player.sendMessage("You have created a new trigger!");
         profile.settingVote(false);
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onBlockBreakStart(BlockBreakEvent event) {
+        Player player = event.getPlayer();
+        Profile profile = profiles.get(player.getUniqueId());
+        Block block = event.getBlock();
+
+        if (!profile.isSettingStart()) {
+            return;
+        }
+
+        LobbyStart lobbyStart = profile.getStart();
+        Location loc = block.getLocation();
+
+        if (LobbyStart.lobbyStarts.containsKey(loc)) {
+            player.sendMessage("A trigger already exists at this location.");
+            return;
+        }
+
+        lobbyStart.setLocation(loc);
+        lobbyStart.save();
+
+        player.sendMessage("You have created a new trigger!");
+        profile.settingStart(false);
         event.setCancelled(true);
     }
 }

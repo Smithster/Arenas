@@ -9,6 +9,7 @@ import com.smithster.gr8plugin.classes.Arena;
 import com.smithster.gr8plugin.classes.Lobby;
 import com.smithster.gr8plugin.classes.LobbyJoin;
 import com.smithster.gr8plugin.classes.LobbyLeave;
+import com.smithster.gr8plugin.classes.LobbyStart;
 import com.smithster.gr8plugin.classes.LobbyVote;
 import com.smithster.gr8plugin.utils.Profile;
 
@@ -95,6 +96,17 @@ public class lobby implements CommandExecutor {
                     LobbyLeave leave = new LobbyLeave(lobby);
                     profile.setLeave(leave);
                     sender.sendMessage("To finish setting the lobby leave, punch a block to be the trigger.");
+
+                    return true;
+                }
+
+                if (args[2].equals("start")) {
+
+                    Profile profile = profiles.get(player.getUniqueId());
+                    profile.settingStart(true);
+                    LobbyStart start = new LobbyStart(lobby);
+                    profile.setStart(start);
+                    sender.sendMessage("To finish setting the lobby start, punch a block to be the trigger.");
 
                     return true;
                 }

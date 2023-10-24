@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import org.bukkit.entity.Player;
 
+import com.smithster.gr8plugin.classes.Arena;
 import com.smithster.gr8plugin.classes.Lobby;
+import com.smithster.gr8plugin.classes.Team;
 
 public class Party {
 
@@ -18,19 +20,19 @@ public class Party {
 
     public void join(Player player) {
         this.players.add(player);
-        Profile.profiles.get(player).setParty(this);
+        Profile.profiles.get(player.getUniqueId()).setParty(this);
         player.sendMessage(String.format("You have joined %s's party", this.leader.getName()));
     }
 
     public void leave(Player player) {
         this.players.remove(player);
-        Profile.profiles.get(player).setParty(new Party(player));
+        Profile.profiles.get(player.getUniqueId()).setParty(new Party(player));
         player.sendMessage(String.format("You have left %s's party", this.leader.getName()));
     }
 
     public void joinLobby(Lobby lobby) {
         for (Player player : this.players) {
-            lobby.playerJoin(player);
+            lobby.enter(player);
         }
     }
 
@@ -40,7 +42,32 @@ public class Party {
         }
     }
 
+    public void joinArena(Arena arena) {
+        arena.enter(this);
+    }
+
+    public void leaveArena() {
+        for (Player player : this.players) {
+            Profile profile = Profile.profiles.get(player.getUniqueId());
+            profile.revertArenaSpawnPoint();
+        }
+    }
+
     public boolean isPartyLeader(Player player) {
         return this.leader.equals(player);
+    }
+
+    public void joinTeam(Team team) {
+        for (Player player : this.players) {
+            team.playerJoin(player);
+        }
+    }
+
+    public void setArena(Arena arena) {
+        for (Player player : this.players) {
+            Profile profile = Profile.profiles.get(player.getUniqueId());
+
+            profile.setArena(arena);
+        }
     }
 }

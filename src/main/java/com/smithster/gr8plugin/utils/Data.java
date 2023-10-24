@@ -27,7 +27,11 @@ import com.smithster.gr8plugin.classes.Arena;
 import com.smithster.gr8plugin.classes.Lobby;
 import com.smithster.gr8plugin.classes.LobbyJoin;
 import com.smithster.gr8plugin.classes.LobbyLeave;
+import com.smithster.gr8plugin.classes.LobbyStart;
+import com.smithster.gr8plugin.classes.LobbyVote;
 import com.smithster.gr8plugin.classes.Plot;
+import com.smithster.gr8plugin.classes.Spawn;
+import com.smithster.gr8plugin.classes.Team;
 
 public class Data {
 
@@ -40,10 +44,13 @@ public class Data {
   public static MongoCollection<Document> plots = database.getCollection("plots");
   public static MongoCollection<Document> profiles = database.getCollection("profiles");
   public static MongoCollection<Document> spawns = database.getCollection("spawns");
+  public static MongoCollection<Document> teams = database.getCollection("teams");
   public static MongoCollection<Document> arenas = database.getCollection("arenas");
   public static MongoCollection<Document> lobbies = database.getCollection("lobbies");
   public static MongoCollection<Document> lobbyJoins = database.getCollection("lobbyJoins");
   public static MongoCollection<Document> lobbyLeaves = database.getCollection("lobbyLeaves");
+  public static MongoCollection<Document> lobbyVotes = database.getCollection("lobbyVotes");
+  public static MongoCollection<Document> lobbyStarts = database.getCollection("lobbyStarts");
 
   // Collection loading
   public static void init() {
@@ -60,6 +67,14 @@ public class Data {
       Lobby.load(document);
     }
 
+    for (Document document : spawns.find()) {
+      Spawn.load(document);
+    }
+
+    for (Document document : teams.find()) {
+      Team.load(document);
+    }
+
     for (Document document : arenas.find()) {
       Arena.load(document);
     }
@@ -70,6 +85,14 @@ public class Data {
 
     for (Document document : lobbyLeaves.find()) {
       LobbyLeave.load(document);
+    }
+
+    for (Document document : lobbyVotes.find()) {
+      LobbyVote.load(document);
+    }
+
+    for (Document document : lobbyStarts.find()) {
+      LobbyStart.load(document);
     }
 
     // for (Document document : spawns.find()) {
@@ -120,5 +143,13 @@ public class Data {
 
   public static Location getRotLocation(World world, ArrayList<Integer> xyz) {
     return new Location(world, xyz.get(0), xyz.get(1), xyz.get(2), xyz.get(3), xyz.get(4));
+  }
+
+  public static ArrayList<String> getTeamNames(ArrayList<Team> teams) {
+    ArrayList<String> names = new ArrayList<String>();
+    for (Team team : teams) {
+      names.add(team.getName());
+    }
+    return names;
   }
 }

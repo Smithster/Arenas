@@ -35,7 +35,7 @@ public class VoteAgent {
             }
         }
         for (Arena arena : score.keySet()) {
-            player.sendMessage(String.format("%s: %s", arena.getName() + score.get(arena).toString()));
+            player.sendMessage(String.format("%s : %s", arena.getName(), score.get(arena).toString()));
         }
     }
 
@@ -48,11 +48,11 @@ public class VoteAgent {
             Integer score = 0;
             if (voteCount.containsKey(arena)) {
                 score = voteCount.get(arena) + 1;
-
-                voteCount.put(arena, score);
             } else {
-                voteCount.put(arena, 1);
+                score = 1;
             }
+
+            voteCount.put(arena, 1);
 
             if (score > winningScore) {
                 winningScore = score;

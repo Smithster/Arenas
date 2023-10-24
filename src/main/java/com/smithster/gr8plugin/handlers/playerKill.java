@@ -5,6 +5,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
+import com.smithster.gr8plugin.classes.Arena;
 import com.smithster.gr8plugin.utils.Profile;
 
 import static com.smithster.gr8plugin.utils.Profile.profiles;
@@ -17,8 +18,16 @@ public class playerKill implements Listener {
         Player killed = (Player) event.getEntity();
         Player killer = (Player) killed.getKiller();
 
-        Profile profile = profiles.get(killer.getUniqueId());
-        profile.handleKill(killed.getUniqueId());
+        Profile killerProfile = profiles.get(killer.getUniqueId());
+        Profile killedProfile = profiles.get(killed.getUniqueId());
+
+        Arena arena = killerProfile.getArena();
+        if (arena == null || !arena.equals(killedProfile.getArena())) {
+            return;
+        }
+
+        arena.handleKill(killerProfile, killedProfile);
+
         return;
     }
 }

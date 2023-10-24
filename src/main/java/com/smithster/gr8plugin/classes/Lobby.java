@@ -13,6 +13,8 @@ import static com.smithster.gr8plugin.Plugin.server;
 import static com.smithster.gr8plugin.classes.Plot.plots;
 
 import com.smithster.gr8plugin.utils.Data;
+import com.smithster.gr8plugin.utils.Party;
+import com.smithster.gr8plugin.utils.Profile;
 
 public class Lobby {
 
@@ -58,11 +60,24 @@ public class Lobby {
     }
 
     public void finishVote() {
-        Arena winner = this.callVote();
-        for (Player player : this.players.keySet()) {
-            winner.playerJoin(player);
+        Arena arena = this.callVote();
+
+        if (arena == null) {
+            for (Player player : this.players.keySet()) {
+                player.sendMessage("Players must vote before starting a match.");
+            }
+            return;
         }
-        this.clearLobby();
+        for (Player player : this.players.keySet()) {
+            Profile profile = Profile.profiles.get(player.getUniqueId());
+            if (!profile.isPartyLeader()) {
+                continue;
+            }
+            Party party = profile.getParty();
+            party.joinArena(arena);
+        }
+        arena.start(this);
+        this.vote = null;
     }
 
     public String getName() {
@@ -83,7 +98,7 @@ public class Lobby {
 
     public void playerJoin(Player player) {
         this.players.put(player, player.getLocation());
-
+        Profile.profiles.get(player.getUniqueId()).setLobby(this);
     }
 
     public boolean isLobbyFull() {
@@ -125,6 +140,13 @@ public class Lobby {
         }
     }
 
+    public void moveBackToLobby(Player player) {
+        player.teleport(this.plot.getEntryLoc());
+        if (this.vote == null) {
+            this.startVote();
+        }
+    }
+
     public void leave(Player player) {
         player.teleport(this.players.get(player));
         this.players.remove(player);
@@ -132,11 +154,6 @@ public class Lobby {
             return;
         }
         this.vote.removeVote(player);
-    }
-
-    public void clearLobby() {
-        this.vote = null;
-        this.players.clear();
     }
 
     public boolean containsPlayer(Player player) {
