@@ -8,7 +8,7 @@ import org.bson.types.ObjectId;
 import org.bson.Document;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import com.smithster.gr8plugin.gamemodes.gamemode;
+import com.smithster.gr8plugin.gamemodes.Gamemode;
 import static com.smithster.gr8plugin.Plugin.server;
 import static com.smithster.gr8plugin.classes.Plot.plots;
 

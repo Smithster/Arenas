@@ -32,6 +32,7 @@ import com.smithster.gr8plugin.classes.LobbyVote;
 import com.smithster.gr8plugin.classes.Plot;
 import com.smithster.gr8plugin.classes.Spawn;
 import com.smithster.gr8plugin.classes.Team;
+import com.smithster.gr8plugin.gamemodes.Gamemode;
 
 public class Data {
 
@@ -54,6 +55,8 @@ public class Data {
 
   // Collection loading
   public static void init() {
+
+    Gamemode.init();
 
     for (Document document : plots.find()) {
       Plot.load(document);

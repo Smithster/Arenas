@@ -32,6 +32,7 @@ public class Party {
 
     public void joinLobby(Lobby lobby) {
         for (Player player : this.players) {
+            Profile.profiles.get(player.getUniqueId()).setLobby(lobby);
             lobby.enter(player);
         }
     }
@@ -49,7 +50,7 @@ public class Party {
     public void leaveArena() {
         for (Player player : this.players) {
             Profile profile = Profile.profiles.get(player.getUniqueId());
-            profile.revertArenaSpawnPoint();
+            profile.leaveArena();
         }
     }
 
@@ -66,7 +67,6 @@ public class Party {
     public void setArena(Arena arena) {
         for (Player player : this.players) {
             Profile profile = Profile.profiles.get(player.getUniqueId());
-
             profile.setArena(arena);
         }
     }

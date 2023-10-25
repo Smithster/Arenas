@@ -1,7 +1,7 @@
 package com.smithster.gr8plugin.classes;
 
 import com.smithster.gr8plugin.gamemodes.TeamDeathmatch;
-import com.smithster.gr8plugin.gamemodes.gamemode;
+import com.smithster.gr8plugin.gamemodes.Gamemode;
 import com.smithster.gr8plugin.utils.Data;
 import com.smithster.gr8plugin.utils.Party;
 import com.smithster.gr8plugin.utils.Profile;
@@ -19,7 +19,7 @@ public class Arena {
 
     private ObjectId _id;
     private String name;
-    private gamemode gamemode;
+    private Gamemode gamemode;
     private Boolean isActive = false;
     private Plot plot;
     private ArrayList<Team> teams = new ArrayList<Team>();
@@ -66,11 +66,11 @@ public class Arena {
         this.teams.clear();
     }
 
-    public void setGamemode(gamemode gamemode) {
+    public void setGamemode(Gamemode gamemode) {
         this.gamemode = gamemode;
     }
 
-    public gamemode getGamemode() {
+    public Gamemode getGamemode() {
         return this.gamemode;
     }
 
@@ -103,8 +103,7 @@ public class Arena {
 
     public void handleKill(Profile killer, Profile killed) {
         this.gamemode.handleKill(killer, killed);
-        Team winner = this.gamemode.checkForWinner();
-
+        Team winner = this.checkForWinner();
         if (winner == null) {
             return;
         }
@@ -112,10 +111,21 @@ public class Arena {
         this.handleWin(winner);
     }
 
+    public Team checkForWinner() {
+        for (Team team : this.teams) {
+            if (this.gamemode.hasWon(team)) {
+                return team;
+            }
+            for (Player player : team.getPlayers()) {
+            }
+        }
+        return null;
+    }
+
     public void handleWin(Team winner) {
         for (Player player : this.players) {
             player.sendMessage(String.format("The winner was team %s!", winner.getName()));
-            Profile profile = Profile.profiles.get(player);
+            Profile profile = Profile.profiles.get(player.getUniqueId());
             if (profile.isPartyLeader()) {
                 profile.getParty().leaveArena();
             }
@@ -123,8 +133,20 @@ public class Arena {
         this.toggleActiveState();
         this.players.clear();
         for (Team team : this.teams) {
-            team.setScore(0);
+            team.clear();
         }
+    }
+
+    public void addPlayer(Player player) {
+        this.players.add(player);
+    }
+
+    public void removePlayer(Player player) {
+        this.players.remove(player);
+    }
+
+    public void clearPlayers() {
+        this.players.clear();
     }
 
     public void save() {
@@ -134,6 +156,7 @@ public class Arena {
         arena.put("name", this.name);
         arena.put("plotName", this.plot.getName());
         arena.put("teams", Data.getTeamNames(this.teams));
+        arena.put("gamemode", this.gamemode.getType());
 
         ObjectId insertedId = Data.save("arenas", arena);
         this._id = insertedId == null ? this._id : insertedId;
@@ -144,14 +167,16 @@ public class Arena {
         String plotName = (String) document.get("plotName");
         Arena arena = new Arena(plotName, name);
         arena._id = (ObjectId) document.get("_id");
-        if (document.get("teams") == null) {
-            return;
+        if (document.get("teams") != null) {
+            for (String team : (ArrayList<String>) document.get("teams")) {
+                arena.addTeam(Team.teams.get(team));
+            }
         }
-        for (String team : (ArrayList<String>) document.get("teams")) {
-            arena.addTeam(Team.teams.get(team));
+
+        if (document.get("gamemode") != null) {
+            arena.setGamemode(Gamemode.gamemodes.get((String) document.get("gamemode")));
         }
-        TeamDeathmatch tdm = new TeamDeathmatch();
-        arena.setGamemode(tdm);
+
         return;
     }
 

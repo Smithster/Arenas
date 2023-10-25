@@ -20,7 +20,7 @@ public class Team {
     private ObjectId _id;
     private String name;
     private Spawn spawn;
-    private Integer score;
+    private Integer score = 0;
     private String colour;
 
     public Team(String name, Spawn spawn) {
@@ -63,6 +63,7 @@ public class Team {
 
     public void clear() {
         this.players.clear();
+        this.score = 0;
     }
 
     public boolean hasPlayer(Player player) {
@@ -70,8 +71,11 @@ public class Team {
     }
 
     public void gainPoint(Integer points) {
-        this.score = +points;
-
+        this.score += points;
+        for (Player player : this.players) {
+            player.sendMessage("Your team gained a point");
+            player.sendMessage(this.score.toString());
+        }
     }
 
     public void removePoint(Integer points) {

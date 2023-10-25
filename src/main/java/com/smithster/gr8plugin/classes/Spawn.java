@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import com.smithster.gr8plugin.utils.Data;
@@ -26,6 +27,10 @@ public class Spawn {
 
     public void spawn(Player player) {
         player.teleport(this.plot.getEntryLoc());
+    }
+
+    public Location getSpawnLoc() {
+        return this.plot.getEntryLoc();
     }
 
     public String getName() {

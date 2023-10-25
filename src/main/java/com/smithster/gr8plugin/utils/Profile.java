@@ -23,7 +23,7 @@ import com.smithster.gr8plugin.classes.LobbyLeave;
 import com.smithster.gr8plugin.classes.LobbyStart;
 import com.smithster.gr8plugin.classes.LobbyVote;
 import com.smithster.gr8plugin.classes.Team;
-import com.smithster.gr8plugin.gamemodes.gamemode;
+import com.smithster.gr8plugin.gamemodes.Gamemode;
 
 public class Profile {
 
@@ -32,7 +32,7 @@ public class Profile {
     private Team team;
     private Arena arena;
     private Lobby lobby;
-    private gamemode gamemode;
+    private Gamemode gamemode;
     private String role;
     // private Integer experience;
     private boolean settingJoin = false;
@@ -205,18 +205,13 @@ public class Profile {
     }
 
     public void setTeam(Team team) {
+        this.setArenaSpawnPoint(team.getSpawn().getSpawnLoc());
         this.team = team;
     }
 
     public Team getTeam() {
         return this.team;
     }
-
-    public void handleKill(UUID killed) {
-        if (this.gamemode.getType().equals("TDM")) {
-            gamemode.gainPoint(team);
-        }
-    };
 
     public void setPlayer(Player player) {
         this.player = player;
@@ -241,6 +236,7 @@ public class Profile {
 
     public void revertArenaSpawnPoint() {
         this.player.setBedSpawnLocation(savedSpawn, true);
+        this.player.sendMessage("Your spawn has been reset!");
     }
 
     public void setLobby(Lobby lobby) {
@@ -251,9 +247,15 @@ public class Profile {
         return this.lobby;
     }
 
-    // AS OF YET NOT USED
     public void setArena(Arena arena) {
+        arena.addPlayer(this.player);
         this.arena = arena;
+    }
+
+    public void leaveArena() {
+        this.arena = null;
+        this.lobby.moveBackToLobby(this.player);
+        this.revertArenaSpawnPoint();
     }
 
     public Arena getArena() {
@@ -262,6 +264,10 @@ public class Profile {
 
     public Player getPlayer() {
         return this.player;
+    }
+
+    public void respawn() {
+        this.player.spigot().respawn();
     }
 
 }

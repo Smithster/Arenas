@@ -10,7 +10,7 @@ import com.smithster.gr8plugin.classes.Arena;
 import com.smithster.gr8plugin.classes.Lobby;
 import com.smithster.gr8plugin.classes.Spawn;
 import com.smithster.gr8plugin.classes.Team;
-import com.smithster.gr8plugin.gamemodes.gamemode;
+import com.smithster.gr8plugin.gamemodes.Gamemode;
 
 import static com.smithster.gr8plugin.classes.Plot.plots;
 import static com.smithster.gr8plugin.classes.Arena.arenas;
@@ -110,13 +110,20 @@ public class arena implements CommandExecutor {
                     return true;
                 }
 
-                // if (args[2].equals("gamemode")){
-                // if (args.length < 4){
-                // return false;
-                // }
+                if (args[2].equals("gamemode")) {
+                    if (args.length < 4) {
+                        return false;
+                    }
+                    Gamemode gamemode = Gamemode.gamemodes.get(args[3]);
 
-                // arena.setGamemode(gamemode.gamemodes.get(args[3]));
-                // }
+                    if (gamemode == null) {
+                        player.sendMessage("No gamemode exists of that type");
+                        return true;
+                    }
+                    arena.setGamemode(gamemode);
+                    arena.save();
+                    return true;
+                }
             }
         }
 
