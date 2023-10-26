@@ -205,7 +205,6 @@ public class Profile {
     }
 
     public void setTeam(Team team) {
-        this.setArenaSpawnPoint(team.getSpawn().getSpawnLoc());
         this.team = team;
     }
 
@@ -229,16 +228,6 @@ public class Profile {
         this.role = role;
     }
 
-    public void setArenaSpawnPoint(Location loc) {
-        this.savedSpawn = this.player.getBedSpawnLocation();
-        this.player.setBedSpawnLocation(loc, true);
-    }
-
-    public void revertArenaSpawnPoint() {
-        this.player.setBedSpawnLocation(savedSpawn, true);
-        this.player.sendMessage("Your spawn has been reset!");
-    }
-
     public void setLobby(Lobby lobby) {
         this.lobby = lobby;
     }
@@ -255,7 +244,6 @@ public class Profile {
     public void leaveArena() {
         this.arena = null;
         this.lobby.moveBackToLobby(this.player);
-        this.revertArenaSpawnPoint();
     }
 
     public Arena getArena() {
@@ -267,7 +255,7 @@ public class Profile {
     }
 
     public void respawn() {
-        this.player.spigot().respawn();
+        this.team.getSpawn().spawn(this.player);
     }
 
 }

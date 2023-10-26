@@ -142,6 +142,9 @@ public class Arena {
     }
 
     public void removePlayer(Player player) {
+        for (Team team : this.teams) {
+            team.playerLeave(player);
+        }
         this.players.remove(player);
     }
 

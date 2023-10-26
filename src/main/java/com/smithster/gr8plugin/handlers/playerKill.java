@@ -1,9 +1,12 @@
 package com.smithster.gr8plugin.handlers;
 
 import org.bukkit.Bukkit;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.plugin.Plugin;
@@ -22,6 +25,45 @@ public class playerKill implements Listener {
     }
 
     @EventHandler
+    public void onPlayerDamage(EntityDamageByEntityEvent event) {
+
+        Entity hit = event.getEntity();
+        Entity hitter = event.getDamager();
+
+        if (!(hit instanceof Player) || !(hitter instanceof Player)) {
+            return;
+        }
+
+        Player killed = (Player) hit;
+        Player killer = (Player) hitter;
+
+        Double damage = event.getFinalDamage();
+        Double killedHealth = killed.getHealth();
+
+        if (damage < killedHealth) {
+            return;
+        }
+
+        Profile killerProfile = profiles.get(killer.getUniqueId());
+        Profile killedProfile = profiles.get(killed.getUniqueId());
+
+        Arena arena = killedProfile.getArena();
+        if (arena == null) {
+            return;
+        }
+        event.setCancelled(true);
+
+        if (arena != killerProfile.getArena()) {
+            return;
+        }
+
+        killedProfile.respawn();
+        killed.setHealth(killed.getAttribute(Attribute.GENERIC_MAX_HEALTH).getDefaultValue());
+        arena.handleKill(killerProfile, killedProfile);
+        return;
+    }
+
+    @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
 
         Player killed = (Player) event.getEntity();
@@ -35,7 +77,7 @@ public class playerKill implements Listener {
         Profile killedProfile = profiles.get(killed.getUniqueId());
 
         Arena arena = killerProfile.getArena();
-        if (arena == null || !arena.equals(killedProfile.getArena())) {
+        if (arena == null || !(arena == killedProfile.getArena())) {
             return;
         }
         arena.handleKill(killerProfile, killedProfile);
