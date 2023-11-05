@@ -12,7 +12,9 @@ import static com.mongodb.client.model.Filters.eq;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.client.MongoClient;
@@ -148,7 +150,7 @@ public class Data {
     return new Location(world, xyz.get(0), xyz.get(1), xyz.get(2), xyz.get(3), xyz.get(4));
   }
 
-  public static ArrayList<String> getTeamNames(ArrayList<Team> teams) {
+  public static ArrayList<String> getTeamNames(Set<Team> teams) {
     ArrayList<String> names = new ArrayList<String>();
     for (Team team : teams) {
       names.add(team.getName());

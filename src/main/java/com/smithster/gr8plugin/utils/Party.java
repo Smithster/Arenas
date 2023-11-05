@@ -68,6 +68,7 @@ public class Party {
         for (Player player : this.players) {
             Profile profile = Profile.profiles.get(player.getUniqueId());
             profile.setArena(arena);
+            player.setScoreboard(arena.getScoreboard());
         }
     }
 }

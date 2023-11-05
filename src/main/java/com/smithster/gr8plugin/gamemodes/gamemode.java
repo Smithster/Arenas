@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.Scoreboard;
 
 import com.smithster.gr8plugin.classes.Arena;
 import com.smithster.gr8plugin.classes.Team;
@@ -64,5 +65,9 @@ public class Gamemode {
 
     public void handleWin(Team team) {
 
+    }
+
+    public void setScoreboard(Scoreboard scoreboard){
+        return;
     }
 }

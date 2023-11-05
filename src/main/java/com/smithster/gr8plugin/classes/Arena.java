@@ -1,6 +1,7 @@
 package com.smithster.gr8plugin.classes;
 
 import com.smithster.gr8plugin.gamemodes.TeamDeathmatch;
+import com.smithster.gr8plugin.Plugin;
 import com.smithster.gr8plugin.gamemodes.Gamemode;
 import com.smithster.gr8plugin.utils.Data;
 import com.smithster.gr8plugin.utils.Party;
@@ -12,6 +13,7 @@ import java.util.HashMap;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.Scoreboard;
 
 public class Arena {
 
@@ -20,15 +22,17 @@ public class Arena {
     private ObjectId _id;
     private String name;
     private Gamemode gamemode;
+    private Scoreboard scoreboard;
     private Boolean isActive = false;
     private Plot plot;
-    private ArrayList<Team> teams = new ArrayList<Team>();
+    private HashMap<Team, org.bukkit.scoreboard.Team> teams = new HashMap<Team, org.bukkit.scoreboard.Team>();
     private ArrayList<Player> players = new ArrayList<Player>();
 
     public Arena(String plotName, String name) {
         this.plot = Plot.plots.get(plotName);
         this.name = name;
         arenas.put(name, this);
+        this.scoreboard = Plugin.server.getScoreboardManager().getNewScoreboard();
     }
 
     public void setName(String name) {
@@ -48,14 +52,16 @@ public class Arena {
     }
 
     public void addTeam(Team team) {
-        if (this.teams.contains(team)) {
+        if (this.teams.containsKey(team)) {
             return;
         }
-        this.teams.add(team);
+        org.bukkit.scoreboard.Team bukkitTeam = this.scoreboard.registerNewTeam(team.getName());
+        team.setBukkitTeam(bukkitTeam);
+        this.teams.put(team, bukkitTeam);
     }
 
-    public Team getTeam(Integer i) {
-        return this.teams.get(i);
+    public org.bukkit.scoreboard.Team getTeam(Team team) {
+        return this.teams.get(team);
     }
 
     public void removeTeam(Team team) {
@@ -68,6 +74,7 @@ public class Arena {
 
     public void setGamemode(Gamemode gamemode) {
         this.gamemode = gamemode;
+        gamemode.setScoreboard(this.scoreboard);
     }
 
     public Gamemode getGamemode() {
@@ -76,7 +83,7 @@ public class Arena {
 
     public void start(Lobby lobby) {
         this.toggleActiveState();
-        for (Team team : teams) {
+        for (Team team : teams.keySet()) {
             team.spawn();
         }
     }
@@ -91,7 +98,7 @@ public class Arena {
     public void enter(Party party) {
         Integer minSize = 0;
         Team smallest = null;
-        for (Team team : this.teams) {
+        for (Team team : this.teams.keySet()) {
             if (minSize > team.size() || smallest == null) {
                 smallest = team;
                 minSize = team.size();
@@ -112,7 +119,7 @@ public class Arena {
     }
 
     public Team checkForWinner() {
-        for (Team team : this.teams) {
+        for (Team team : this.teams.keySet()) {
             if (this.gamemode.hasWon(team)) {
                 return team;
             }
@@ -132,7 +139,7 @@ public class Arena {
         }
         this.toggleActiveState();
         this.players.clear();
-        for (Team team : this.teams) {
+        for (Team team : this.teams.keySet()) {
             team.clear();
         }
     }
@@ -142,7 +149,7 @@ public class Arena {
     }
 
     public void removePlayer(Player player) {
-        for (Team team : this.teams) {
+        for (Team team : this.teams.keySet()) {
             team.playerLeave(player);
         }
         this.players.remove(player);
@@ -152,13 +159,17 @@ public class Arena {
         this.players.clear();
     }
 
+    public Scoreboard getScoreboard(){
+        return this.scoreboard;
+    }
+
     public void save() {
         Document arena = new Document();
 
         arena.put("_id", this._id);
         arena.put("name", this.name);
         arena.put("plotName", this.plot.getName());
-        arena.put("teams", Data.getTeamNames(this.teams));
+        arena.put("teams", Data.getTeamNames(this.teams.keySet()));
         arena.put("gamemode", this.gamemode.getType());
 
         ObjectId insertedId = Data.save("arenas", arena);

@@ -22,6 +22,7 @@ public class Team {
     private Spawn spawn;
     private Integer score = 0;
     private String colour;
+    private org.bukkit.scoreboard.Team bukkitTeam;
 
     public Team(String name, Spawn spawn) {
         this.name = name;
@@ -103,6 +104,15 @@ public class Team {
             player.sendMessage(String.format("Good luck, you're in the team: %s", this.name));
             this.spawn.spawn(player);
         }
+    }
+
+    public void setBukkitTeam(org.bukkit.scoreboard.Team bukkitTeam){
+        this.bukkitTeam = bukkitTeam;
+        bukkitTeam.addEntry(this.name);
+    }
+
+    public org.bukkit.scoreboard.Team getBukkitTeam(){
+        return this.bukkitTeam;
     }
 
     public void save() {
