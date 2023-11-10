@@ -2,6 +2,8 @@ package com.smithster.gr8plugin.gamemodes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
@@ -67,7 +69,7 @@ public class Gamemode {
 
     }
 
-    public void setScoreboard(Scoreboard scoreboard){
+    public void setScoreboard(Scoreboard scoreboard, Set<Team> teams){
         return;
     }
 }

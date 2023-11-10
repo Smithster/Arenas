@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.Score;
 
 import com.smithster.gr8plugin.utils.Data;
 
@@ -20,7 +21,7 @@ public class Team {
     private ObjectId _id;
     private String name;
     private Spawn spawn;
-    private Integer score = 0;
+    private Score score;
     private String colour;
     private org.bukkit.scoreboard.Team bukkitTeam;
 
@@ -64,15 +65,20 @@ public class Team {
 
     public void clear() {
         this.players.clear();
-        this.score = 0;
+        this.score.setScore(0);
     }
 
     public boolean hasPlayer(Player player) {
         return this.players.contains(player);
     }
 
+    public void initScore(Score score){
+        this.score = score;
+        this.score.setScore(0);
+    }
+
     public void gainPoint(Integer points) {
-        this.score += points;
+        this.score.setScore(this.score.getScore() + points);
         for (Player player : this.players) {
             player.sendMessage("Your team gained a point");
             player.sendMessage(this.score.toString());
@@ -80,15 +86,15 @@ public class Team {
     }
 
     public void removePoint(Integer points) {
-        this.score = -points;
+        this.score.setScore(this.score.getScore() - points);
     }
 
     public Integer getScore() {
-        return this.score;
+        return this.score.getScore();
     }
 
-    public void setScore(Integer score) {
-        this.score = score;
+    public void setScore(Integer points) {
+        this.score.setScore(points);
     }
 
     public void setSpawn(Spawn spawn) {

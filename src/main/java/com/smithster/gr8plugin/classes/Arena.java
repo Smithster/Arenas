@@ -74,7 +74,9 @@ public class Arena {
 
     public void setGamemode(Gamemode gamemode) {
         this.gamemode = gamemode;
-        gamemode.setScoreboard(this.scoreboard);
+        if (this.teams.size() != 0){
+            gamemode.setScoreboard(this.scoreboard, this.teams.keySet());
+        }
     }
 
     public Gamemode getGamemode() {
@@ -169,8 +171,13 @@ public class Arena {
         arena.put("_id", this._id);
         arena.put("name", this.name);
         arena.put("plotName", this.plot.getName());
-        arena.put("teams", Data.getTeamNames(this.teams.keySet()));
-        arena.put("gamemode", this.gamemode.getType());
+        if (this.teams != null){
+            arena.put("teams", Data.getTeamNames(this.teams.keySet()));
+        }
+        if (this.gamemode != null){
+            arena.put("gamemode", this.gamemode.getType());
+        }
+        
 
         ObjectId insertedId = Data.save("arenas", arena);
         this._id = insertedId == null ? this._id : insertedId;
