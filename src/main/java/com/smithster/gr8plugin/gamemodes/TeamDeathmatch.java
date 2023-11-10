@@ -15,6 +15,8 @@ import com.smithster.gr8plugin.utils.Profile;
 
 public class TeamDeathmatch extends Gamemode {
 
+    Objective objective;
+
     public TeamDeathmatch() {
         this.setType("TDM");
         this.setMaxScore(10);
@@ -24,12 +26,12 @@ public class TeamDeathmatch extends Gamemode {
         killer.getTeam().gainPoint(1);
     }
 
-    public void setScoreboard(Scoreboard scoreboard, Set<Team> teams){
-        Objective objective = scoreboard.registerNewObjective("score", "dummy", "Points");
-        objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+    public void setScoreboard(Scoreboard scoreboard){
+        this.objective = scoreboard.registerNewObjective("score", "dummy", "Points");
+        this.objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+    }
 
-        for (Team team : teams){
-            team.initScore(objective.getScore(team.getName()));
-        }
+    public void addTeam(Team team){
+        team.initScore(this.objective.getScore(team.getName()));
     }
 }

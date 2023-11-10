@@ -58,6 +58,7 @@ public class Arena {
         org.bukkit.scoreboard.Team bukkitTeam = this.scoreboard.registerNewTeam(team.getName());
         team.setBukkitTeam(bukkitTeam);
         this.teams.put(team, bukkitTeam);
+        this.gamemode.addTeam(team);
     }
 
     public org.bukkit.scoreboard.Team getTeam(Team team) {
@@ -74,9 +75,7 @@ public class Arena {
 
     public void setGamemode(Gamemode gamemode) {
         this.gamemode = gamemode;
-        if (this.teams.size() != 0){
-            gamemode.setScoreboard(this.scoreboard, this.teams.keySet());
-        }
+        gamemode.setScoreboard(this.scoreboard);
     }
 
     public Gamemode getGamemode() {
@@ -171,14 +170,13 @@ public class Arena {
         arena.put("_id", this._id);
         arena.put("name", this.name);
         arena.put("plotName", this.plot.getName());
-        if (this.teams != null){
-            arena.put("teams", Data.getTeamNames(this.teams.keySet()));
-        }
         if (this.gamemode != null){
             arena.put("gamemode", this.gamemode.getType());
         }
+        if (this.teams != null){
+            arena.put("teams", Data.getTeamNames(this.teams.keySet()));
+        }
         
-
         ObjectId insertedId = Data.save("arenas", arena);
         this._id = insertedId == null ? this._id : insertedId;
     }
@@ -188,14 +186,13 @@ public class Arena {
         String plotName = (String) document.get("plotName");
         Arena arena = new Arena(plotName, name);
         arena._id = (ObjectId) document.get("_id");
+        if (document.get("gamemode") != null) {
+            arena.setGamemode(Gamemode.gamemodes.get((String) document.get("gamemode")));
+        }
         if (document.get("teams") != null) {
             for (String team : (ArrayList<String>) document.get("teams")) {
                 arena.addTeam(Team.teams.get(team));
             }
-        }
-
-        if (document.get("gamemode") != null) {
-            arena.setGamemode(Gamemode.gamemodes.get((String) document.get("gamemode")));
         }
 
         return;

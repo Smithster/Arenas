@@ -69,7 +69,11 @@ public class Gamemode {
 
     }
 
-    public void setScoreboard(Scoreboard scoreboard, Set<Team> teams){
+    public void setScoreboard(Scoreboard scoreboard){
+        return;
+    }
+
+    public void addTeam(Team team){
         return;
     }
 }
