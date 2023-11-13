@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Score;
 
@@ -22,7 +23,7 @@ public class Team {
     private String name;
     private Spawn spawn;
     private Score score;
-    private String colour;
+    private ChatColor color;
     private org.bukkit.scoreboard.Team bukkitTeam;
 
     public Team(String name, Spawn spawn) {
@@ -34,7 +35,7 @@ public class Team {
     public Team(String name, Spawn spawn, String colour) {
         this.name = name;
         this.spawn = spawn;
-        this.colour = colour;
+        this.color = Data.getChatColor(colour);
         teams.put(name, this);
     }
 
@@ -121,13 +122,29 @@ public class Team {
         return this.bukkitTeam;
     }
 
+    public boolean hasColor(){
+        return this.color == null? false : true;
+    }
+
+    public void setChatColor(String color){
+        this.color = Data.getChatColor(color);
+    }
+
+    public ChatColor getChatColor(){
+        return this.color;
+    }
+
+    public String getColoredName(){
+        return this.color + this.name;
+    }
+
     public void save() {
         Document team = new Document();
 
         team.put("_id", this._id);
         team.put("name", this.name);
         team.put("spawn", this.spawn.getName());
-        team.put("colour", this.colour);
+        team.put("colour", this.hasColor()? Data.getColorString(this.color) : null);
 
         ObjectId insertedId = Data.save("teams", team);
         this._id = insertedId == null ? this._id : insertedId;
@@ -141,5 +158,4 @@ public class Team {
         team._id = (ObjectId) document.get("_id");
         return;
     }
-
 }

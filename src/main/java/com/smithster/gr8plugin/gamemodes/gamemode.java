@@ -76,4 +76,12 @@ public class Gamemode {
     public void addTeam(Team team){
         return;
     }
+
+    // public void resetScoreboard(HashMap<String, Team> teamsMap){
+    //     return;
+    // }
+
+    public void resetScoreName(Team team, String lastName){
+        return;
+    }
 }

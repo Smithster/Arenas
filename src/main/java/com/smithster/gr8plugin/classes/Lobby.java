@@ -159,4 +159,8 @@ public class Lobby {
     public boolean containsPlayer(Player player) {
         return this.players.containsKey(player);
     }
+
+    public Plot getPlot(){
+        return this.plot;
+    }
 }

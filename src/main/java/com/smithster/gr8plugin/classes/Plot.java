@@ -135,6 +135,10 @@ public class Plot {
         return this.entryLoc;
     }
 
+    public boolean hasEntryLoc(){
+        return this.entryLoc == null? false : true;
+    }
+
     public void setEntryLoc(Location loc) {
         this.entryLoc = loc;
         this.save();

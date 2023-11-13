@@ -103,11 +103,38 @@ public class arena implements CommandExecutor {
                         colour = args[5];
                     }
 
+                    if (Team.teams.containsKey(name)){
+                        player.sendMessage("A team already exists with this name");
+                        return true;
+                    }
+
                     Team team = colour == null ? new Team(name, spawn) : new Team(name, spawn, colour);
+                    if (!arena.hasGamemode()){
+                        player.sendMessage("You must set a gamemode on the arena before allocating teams");
+                        return true;
+                    }
                     team.save();
                     arena.addTeam(team);
                     arena.save();
                     return true;
+                }
+
+                if (args[2].equals("color")){
+                    if (args.length < 5) {
+                        return false;
+                    }
+
+                    String teamName = args[3];
+
+                    String colour = args[4];
+                    Team team = arena.getTeam(teamName); 
+                    if (team != null) {
+                        String lastName = team.getColoredName();
+                        team.setChatColor(colour);
+                        arena.getGamemode().resetScoreName(team, lastName);
+                        team.save();
+                        return true;
+                    }
                 }
 
                 if (args[2].equals("gamemode")) {

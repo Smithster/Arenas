@@ -8,6 +8,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockRedstoneEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import com.smithster.gr8plugin.classes.Lobby;
 import com.smithster.gr8plugin.classes.LobbyJoin;
 import com.smithster.gr8plugin.classes.LobbyLeave;
 import com.smithster.gr8plugin.classes.LobbyStart;
@@ -29,15 +30,22 @@ public class useLobbyTools implements Listener {
             }
 
             LobbyJoin lobbyJoin = LobbyJoin.getLobbyJoin(block);
+            Lobby lobby = lobbyJoin.getLobby();
 
             event.setCancelled(true);
+
             Player player = event.getPlayer();
+
+            if (!lobby.getPlot().hasEntryLoc()){
+                player.sendMessage("This lobby doesn't have an entry location set yet");
+                return;
+            }
+
             Profile profile = Profile.profiles.get(player.getUniqueId());
             if (!profile.isPartyLeader()) {
                 player.sendMessage("You must be the party leader to do this.");
                 return;
             }
-            player.sendMessage("Joining lobby");
             Party party = profile.getParty();
             party.joinLobby(lobbyJoin.getLobby());
             player.sendMessage("Lobby Joined!");

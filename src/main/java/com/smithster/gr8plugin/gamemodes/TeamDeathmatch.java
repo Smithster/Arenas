@@ -1,9 +1,11 @@
 package com.smithster.gr8plugin.gamemodes;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -27,11 +29,35 @@ public class TeamDeathmatch extends Gamemode {
     }
 
     public void setScoreboard(Scoreboard scoreboard){
-        this.objective = scoreboard.registerNewObjective("score", "dummy", "Points");
+        this.objective = scoreboard.registerNewObjective("score", "dummy", ChatColor.DARK_RED + "Points");
         this.objective.setDisplaySlot(DisplaySlot.SIDEBAR);
     }
 
-    public void addTeam(Team team){
-        team.initScore(this.objective.getScore(team.getName()));
+    public void resetScores(){
+        this.objective.unregister();
     }
+
+    public void addTeam(Team team){
+        team.initScore(this.objective.getScore(team.hasColor()? team.getChatColor() + team.getName() : team.getName()));
+    }
+
+    public void resetScoreName(Team team, String lastName){
+        Integer oldScore = this.objective.getScore(lastName).getScore();
+        Score newScore = this.objective.getScore(team.hasColor()? team.getChatColor() + team.getName() : team.getName());
+        newScore.setScore(oldScore);
+        this.objective.getScoreboard().resetScores(lastName);
+        team.initScore(newScore);
+    }
+
+    // public void resetScoreboard(HashMap<String, Team> teams){
+    //     this.objective.getScoreboard().resetScores(getType());
+    //     for (Team team : teams.values()){
+            
+    //         Score score = this.objective.getScore(team.hasColor()? team.getChatColor() + team.getName() : team.getName());
+        
+    //         score.setScore(team.getScore());
+    //         team.initScore(score);
+    //     }
+    //     return;
+    // }
 }

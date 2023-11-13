@@ -126,6 +126,8 @@ public class lobby implements CommandExecutor {
                     return true;
                 }
             }
+        } else {
+            player.sendMessage("No lobby exists with that name");
         }
 
         return false;

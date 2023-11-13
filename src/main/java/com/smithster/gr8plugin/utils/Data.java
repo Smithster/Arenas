@@ -4,6 +4,7 @@ import org.bson.BsonObjectId;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 
@@ -15,6 +16,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.client.MongoClient;
@@ -36,6 +38,7 @@ import com.smithster.gr8plugin.classes.Spawn;
 import com.smithster.gr8plugin.classes.Team;
 import com.smithster.gr8plugin.gamemodes.Gamemode;
 
+
 public class Data {
 
   // Setting up mongoDB connection (basedon localhost and default port)
@@ -55,8 +58,27 @@ public class Data {
   public static MongoCollection<Document> lobbyVotes = database.getCollection("lobbyVotes");
   public static MongoCollection<Document> lobbyStarts = database.getCollection("lobbyStarts");
 
+  public static Map<ChatColor, String> colors = new HashMap<ChatColor, String>();
+
   // Collection loading
   public static void init() {
+
+    colors.put(ChatColor.DARK_AQUA, "darkaqua");
+    colors.put(ChatColor.DARK_RED, "darkred");
+    colors.put(ChatColor.DARK_BLUE, "darkblue");
+    colors.put(ChatColor.DARK_GREEN, "darkgreen");
+    colors.put(ChatColor.DARK_GRAY, "darkgray");
+    colors.put(ChatColor.DARK_PURPLE, "darkpurple");
+    colors.put(ChatColor.AQUA, "aqua");
+    colors.put(ChatColor.BLACK, "black");
+    colors.put(ChatColor.BLUE, "blue");
+    colors.put(ChatColor.GOLD, "gold");
+    colors.put(ChatColor.GRAY, "gray");
+    colors.put(ChatColor.GREEN, "green");
+    colors.put(ChatColor.LIGHT_PURPLE, "lightpurple");
+    colors.put(ChatColor.YELLOW, "yellow");
+    colors.put(ChatColor.WHITE, "white");
+    colors.put(ChatColor.RED, "red");
 
     Gamemode.init();
 
@@ -156,5 +178,18 @@ public class Data {
       names.add(team.getName());
     }
     return names;
+  }
+
+  public static String getColorString(ChatColor chatColor){    
+    return colors.get(chatColor);
+  }
+
+  public static ChatColor getChatColor(String color){
+    for (Entry<ChatColor, String> entry : colors.entrySet()){
+      if (color.equals(entry.getValue())){
+        return entry.getKey();
+      }
+    }
+    return null;
   }
 }

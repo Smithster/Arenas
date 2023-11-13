@@ -25,6 +25,7 @@ public class Arena {
     private Scoreboard scoreboard;
     private Boolean isActive = false;
     private Plot plot;
+    private HashMap<String, Team> teamsMap = new HashMap<String, Team>();
     private HashMap<Team, org.bukkit.scoreboard.Team> teams = new HashMap<Team, org.bukkit.scoreboard.Team>();
     private ArrayList<Player> players = new ArrayList<Player>();
 
@@ -57,8 +58,17 @@ public class Arena {
         }
         org.bukkit.scoreboard.Team bukkitTeam = this.scoreboard.registerNewTeam(team.getName());
         team.setBukkitTeam(bukkitTeam);
+        this.teamsMap.put(team.getName(), team);
         this.teams.put(team, bukkitTeam);
         this.gamemode.addTeam(team);
+    }
+
+    // public void resetScoreboard() {
+    //     this.gamemode.resetScoreboard(teamsMap);
+    // }
+
+    public Team getTeam(String team){
+        return this.teamsMap.get(team);
     }
 
     public org.bukkit.scoreboard.Team getTeam(Team team) {
@@ -78,6 +88,9 @@ public class Arena {
         gamemode.setScoreboard(this.scoreboard);
     }
 
+    public boolean hasGamemode(){
+        return this.gamemode == null? false : true;
+    }
     public Gamemode getGamemode() {
         return this.gamemode;
     }
@@ -123,8 +136,6 @@ public class Arena {
         for (Team team : this.teams.keySet()) {
             if (this.gamemode.hasWon(team)) {
                 return team;
-            }
-            for (Player player : team.getPlayers()) {
             }
         }
         return null;
