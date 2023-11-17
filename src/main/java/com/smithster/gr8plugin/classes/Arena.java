@@ -175,6 +175,16 @@ public class Arena {
         return this.scoreboard;
     }
 
+    public boolean isSetup(){
+        for (Team team : teams.keySet()){
+            Spawn spawn = team.getSpawn();
+            if (spawn == null || spawn.getSpawnLoc() == null){
+                return false;
+            }
+        }
+        return true;
+    }
+
     public void save() {
         Document arena = new Document();
 

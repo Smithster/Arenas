@@ -61,13 +61,20 @@ public class Lobby {
 
     public void finishVote() {
         Arena arena = this.callVote();
-
+        
         if (arena == null) {
             for (Player player : this.players.keySet()) {
                 player.sendMessage("Players must vote before starting a match.");
             }
             return;
         }
+
+        if (!arena.isSetup()){
+            for (Player player : this.players.keySet()) {
+                player.sendMessage("This arena hasn't been setup correctly");
+            }
+        }
+
         for (Player player : this.players.keySet()) {
             Profile profile = Profile.profiles.get(player.getUniqueId());
             if (!profile.isPartyLeader()) {

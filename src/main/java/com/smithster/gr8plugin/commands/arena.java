@@ -94,7 +94,7 @@ public class arena implements CommandExecutor {
                     Spawn spawn = Spawn.spawns.get(args[4]);
 
                     if (spawn == null) {
-                        player.sendMessage(String.format("There is no plot with the name %s", args[4]));
+                        player.sendMessage(String.format("There is no spawn with the name %s", args[4]));
                         return true;
                     }
 
@@ -113,6 +113,7 @@ public class arena implements CommandExecutor {
                         player.sendMessage("You must set a gamemode on the arena before allocating teams");
                         return true;
                     }
+                    
                     team.save();
                     arena.addTeam(team);
                     arena.save();

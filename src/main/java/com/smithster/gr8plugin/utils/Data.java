@@ -57,6 +57,7 @@ public class Data {
   public static MongoCollection<Document> lobbyLeaves = database.getCollection("lobbyLeaves");
   public static MongoCollection<Document> lobbyVotes = database.getCollection("lobbyVotes");
   public static MongoCollection<Document> lobbyStarts = database.getCollection("lobbyStarts");
+  public static MongoCollection<Document> loadouts = database.getCollection("loadouts");
 
   public static Map<ChatColor, String> colors = new HashMap<ChatColor, String>();
 
@@ -120,6 +121,10 @@ public class Data {
 
     for (Document document : lobbyStarts.find()) {
       LobbyStart.load(document);
+    }
+
+    for (Document document : loadouts.find()) {
+      Loadout.load(document);
     }
 
     // for (Document document : spawns.find()) {

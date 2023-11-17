@@ -27,3 +27,7 @@ commands:
       description: Create spawns
       usage: /<command> create plot name
       permission: gr8plugin.spawn
+   loadout:
+      description: Create loadouts
+      usage: /<command>
+      permission: gr8plugin.loadout

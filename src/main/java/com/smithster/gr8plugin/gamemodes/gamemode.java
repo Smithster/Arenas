@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 
 import com.smithster.gr8plugin.classes.Arena;
@@ -15,6 +17,8 @@ import com.smithster.gr8plugin.utils.Profile;
 public class Gamemode {
 
     public static HashMap<String, Gamemode> gamemodes = new HashMap<String, Gamemode>();
+
+    private Objective objective;
 
     public static void init() {
         gamemodes.put("TDM", new TeamDeathmatch());
@@ -82,6 +86,10 @@ public class Gamemode {
     // }
 
     public void resetScoreName(Team team, String lastName){
-        return;
+        Integer oldScore = this.objective.getScore(lastName).getScore();
+        Score newScore = this.objective.getScore(team.hasColor()? team.getChatColor() + team.getName() : team.getName());
+        newScore.setScore(oldScore);
+        this.objective.getScoreboard().resetScores(lastName);
+        team.initScore(newScore);
     }
 }
