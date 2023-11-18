@@ -33,6 +33,10 @@ public class Loadout {
         player.getInventory().setContents(this.contents);
     }
 
+    public String getName(){
+        return this.name;
+    }
+
     public void save(){
         Document document = new Document();
         ArrayList<Document> items = new ArrayList<Document>();

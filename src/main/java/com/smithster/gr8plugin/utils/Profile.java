@@ -17,6 +17,7 @@ import org.bukkit.permissions.PermissionAttachment;
 
 import com.smithster.gr8plugin.Plugin;
 import com.smithster.gr8plugin.classes.Arena;
+import com.smithster.gr8plugin.classes.LoadoutSelect;
 import com.smithster.gr8plugin.classes.Lobby;
 import com.smithster.gr8plugin.classes.LobbyJoin;
 import com.smithster.gr8plugin.classes.LobbyLeave;
@@ -39,10 +40,12 @@ public class Profile {
     private boolean settingLeave = false;
     private boolean settingVote = false;
     private boolean settingStart = false;
+    private boolean settingSelect = false;
     private LobbyJoin join;
     private LobbyLeave leave;
     private LobbyVote vote;
     private LobbyStart start;
+    private LoadoutSelect select;
     private Set<String> permList;
     private PermissionAttachment perms;
     private Party party;
@@ -190,6 +193,22 @@ public class Profile {
 
     public LobbyStart getStart() {
         return this.start;
+    }
+    
+    public void settingSelect(boolean b) {
+        this.settingSelect = b;
+    }
+
+    public boolean isSettingSelect() {
+        return this.settingSelect;
+    }
+
+    public void setSelect(LoadoutSelect select) {
+        this.select = select;
+    }
+
+    public LoadoutSelect getSelect() {
+        return this.select;
     }
 
     public void setParty(Party party) {

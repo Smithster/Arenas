@@ -28,6 +28,7 @@ import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.InsertOneResult;
 import com.smithster.gr8plugin.Plugin;
 import com.smithster.gr8plugin.classes.Arena;
+import com.smithster.gr8plugin.classes.LoadoutSelect;
 import com.smithster.gr8plugin.classes.Lobby;
 import com.smithster.gr8plugin.classes.LobbyJoin;
 import com.smithster.gr8plugin.classes.LobbyLeave;
@@ -58,6 +59,7 @@ public class Data {
   public static MongoCollection<Document> lobbyVotes = database.getCollection("lobbyVotes");
   public static MongoCollection<Document> lobbyStarts = database.getCollection("lobbyStarts");
   public static MongoCollection<Document> loadouts = database.getCollection("loadouts");
+  public static MongoCollection<Document> loadoutSelects = database.getCollection("loadoutSelects");
 
   public static Map<ChatColor, String> colors = new HashMap<ChatColor, String>();
 
@@ -126,10 +128,11 @@ public class Data {
     for (Document document : loadouts.find()) {
       Loadout.load(document);
     }
+    
+    for (Document document : loadoutSelects.find()) {
+      LoadoutSelect.load(document);
+    }
 
-    // for (Document document : spawns.find()) {
-    // Spawns
-    // }
   }
 
   public static ObjectId save(String collection, Document document) {

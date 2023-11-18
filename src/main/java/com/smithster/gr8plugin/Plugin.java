@@ -59,6 +59,8 @@ public class Plugin extends JavaPlugin {
     this.getServer().getPluginManager().registerEvents(new playerKill(this), this);
     this.getServer().getPluginManager().registerEvents(new setLobbyTools(), this);
     this.getServer().getPluginManager().registerEvents(new useLobbyTools(), this);
+    this.getServer().getPluginManager().registerEvents(new setLoadoutTools(), this);
+    this.getServer().getPluginManager().registerEvents(new useLoadoutTools(), this);
 
   }
 
