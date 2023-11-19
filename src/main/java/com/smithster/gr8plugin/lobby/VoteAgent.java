@@ -1,4 +1,4 @@
-package com.smithster.gr8plugin.classes;
+package com.smithster.gr8plugin.lobby;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.bukkit.entity.Player;
 
 import com.mongodb.internal.logging.StructuredLogMessage.Entry;
+import com.smithster.gr8plugin.arena.Arena;
 
 public class VoteAgent {
 

@@ -5,16 +5,16 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.smithster.gr8plugin.classes.Arena;
-import com.smithster.gr8plugin.classes.Lobby;
-import com.smithster.gr8plugin.classes.LobbyJoin;
-import com.smithster.gr8plugin.classes.LobbyLeave;
-import com.smithster.gr8plugin.classes.LobbyStart;
-import com.smithster.gr8plugin.classes.LobbyVote;
+import com.smithster.gr8plugin.arena.Arena;
+import com.smithster.gr8plugin.lobby.Lobby;
+import com.smithster.gr8plugin.lobby.LobbyJoin;
+import com.smithster.gr8plugin.lobby.LobbyLeave;
+import com.smithster.gr8plugin.lobby.LobbyStart;
+import com.smithster.gr8plugin.lobby.LobbyVote;
 import com.smithster.gr8plugin.utils.Profile;
 
-import static com.smithster.gr8plugin.classes.Lobby.lobbies;
-import static com.smithster.gr8plugin.classes.Plot.plots;
+import static com.smithster.gr8plugin.lobby.Lobby.lobbies;
+import static com.smithster.gr8plugin.utils.Plot.plots;
 import static com.smithster.gr8plugin.utils.Profile.profiles;
 
 public class lobby implements CommandExecutor {

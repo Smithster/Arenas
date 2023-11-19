@@ -1,4 +1,4 @@
-package com.smithster.gr8plugin.classes;
+package com.smithster.gr8plugin.loadouts;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 
 import com.smithster.gr8plugin.Plugin;
 import com.smithster.gr8plugin.utils.Data;
-import com.smithster.gr8plugin.utils.Loadout;
 
 public class LoadoutSelect {
     

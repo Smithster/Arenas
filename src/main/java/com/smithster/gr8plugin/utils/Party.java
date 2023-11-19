@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 import org.bukkit.entity.Player;
 
-import com.smithster.gr8plugin.classes.Arena;
-import com.smithster.gr8plugin.classes.Lobby;
-import com.smithster.gr8plugin.classes.Team;
+import com.smithster.gr8plugin.arena.Arena;
+import com.smithster.gr8plugin.lobby.Lobby;
+import com.smithster.gr8plugin.team.Team;
 
 public class Party {
 

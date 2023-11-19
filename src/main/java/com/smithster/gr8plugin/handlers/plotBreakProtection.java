@@ -1,5 +1,7 @@
 package com.smithster.gr8plugin.handlers;
 
+import static com.smithster.gr8plugin.utils.Plot.plots;
+
 import org.bson.Document;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -10,11 +12,9 @@ import org.bukkit.block.Block;
 import org.bukkit.Location;
 
 import com.smithster.gr8plugin.Plugin;
-import com.smithster.gr8plugin.classes.Plot;
-import com.smithster.gr8plugin.classes.Lobby;
-import com.smithster.gr8plugin.classes.LobbyJoin;
-
-import static com.smithster.gr8plugin.classes.Plot.plots;
+import com.smithster.gr8plugin.lobby.Lobby;
+import com.smithster.gr8plugin.lobby.LobbyJoin;
+import com.smithster.gr8plugin.utils.Plot;
 
 public class plotBreakProtection implements Listener {
 

@@ -10,8 +10,8 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 
-import com.smithster.gr8plugin.classes.Arena;
-import com.smithster.gr8plugin.classes.Team;
+import com.smithster.gr8plugin.arena.Arena;
+import com.smithster.gr8plugin.team.Team;
 import com.smithster.gr8plugin.utils.Profile;
 
 public class Gamemode {

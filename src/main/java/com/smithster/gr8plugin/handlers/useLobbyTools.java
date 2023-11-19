@@ -1,5 +1,7 @@
 package com.smithster.gr8plugin.handlers;
 
+import static com.smithster.gr8plugin.lobby.LobbyJoin.getLobbyJoin;
+
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -8,15 +10,13 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockRedstoneEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import com.smithster.gr8plugin.classes.Lobby;
-import com.smithster.gr8plugin.classes.LobbyJoin;
-import com.smithster.gr8plugin.classes.LobbyLeave;
-import com.smithster.gr8plugin.classes.LobbyStart;
-import com.smithster.gr8plugin.classes.LobbyVote;
+import com.smithster.gr8plugin.lobby.Lobby;
+import com.smithster.gr8plugin.lobby.LobbyJoin;
+import com.smithster.gr8plugin.lobby.LobbyLeave;
+import com.smithster.gr8plugin.lobby.LobbyStart;
+import com.smithster.gr8plugin.lobby.LobbyVote;
 import com.smithster.gr8plugin.utils.Party;
 import com.smithster.gr8plugin.utils.Profile;
-
-import static com.smithster.gr8plugin.classes.LobbyJoin.getLobbyJoin;
 
 public class useLobbyTools implements Listener {
 

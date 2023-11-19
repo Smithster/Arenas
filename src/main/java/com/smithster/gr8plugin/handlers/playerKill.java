@@ -11,7 +11,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.plugin.Plugin;
 
-import com.smithster.gr8plugin.classes.Arena;
+import com.smithster.gr8plugin.arena.Arena;
 import com.smithster.gr8plugin.utils.Profile;
 
 import static com.smithster.gr8plugin.utils.Profile.profiles;

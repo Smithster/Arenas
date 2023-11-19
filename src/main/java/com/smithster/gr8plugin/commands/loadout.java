@@ -6,8 +6,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
-import com.smithster.gr8plugin.classes.LoadoutSelect;
-import com.smithster.gr8plugin.utils.Loadout;
+import com.smithster.gr8plugin.loadouts.Loadout;
+import com.smithster.gr8plugin.loadouts.LoadoutSelect;
 import com.smithster.gr8plugin.utils.Profile;
 
 public class loadout implements CommandExecutor {

@@ -13,11 +13,11 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.inventory.ItemStack;
 
-import com.smithster.gr8plugin.classes.LobbyJoin;
-import com.smithster.gr8plugin.classes.LobbyLeave;
-import com.smithster.gr8plugin.classes.LobbyStart;
-import com.smithster.gr8plugin.classes.LobbyVote;
-import com.smithster.gr8plugin.classes.VoteAgent;
+import com.smithster.gr8plugin.lobby.LobbyJoin;
+import com.smithster.gr8plugin.lobby.LobbyLeave;
+import com.smithster.gr8plugin.lobby.LobbyStart;
+import com.smithster.gr8plugin.lobby.LobbyVote;
+import com.smithster.gr8plugin.lobby.VoteAgent;
 import com.smithster.gr8plugin.utils.Profile;
 
 import static com.smithster.gr8plugin.utils.Profile.profiles;

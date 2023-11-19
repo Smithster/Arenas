@@ -16,15 +16,15 @@ import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionAttachment;
 
 import com.smithster.gr8plugin.Plugin;
-import com.smithster.gr8plugin.classes.Arena;
-import com.smithster.gr8plugin.classes.LoadoutSelect;
-import com.smithster.gr8plugin.classes.Lobby;
-import com.smithster.gr8plugin.classes.LobbyJoin;
-import com.smithster.gr8plugin.classes.LobbyLeave;
-import com.smithster.gr8plugin.classes.LobbyStart;
-import com.smithster.gr8plugin.classes.LobbyVote;
-import com.smithster.gr8plugin.classes.Team;
+import com.smithster.gr8plugin.arena.Arena;
 import com.smithster.gr8plugin.gamemodes.Gamemode;
+import com.smithster.gr8plugin.loadouts.LoadoutSelect;
+import com.smithster.gr8plugin.lobby.Lobby;
+import com.smithster.gr8plugin.lobby.LobbyJoin;
+import com.smithster.gr8plugin.lobby.LobbyLeave;
+import com.smithster.gr8plugin.lobby.LobbyStart;
+import com.smithster.gr8plugin.lobby.LobbyVote;
+import com.smithster.gr8plugin.team.Team;
 
 public class Profile {
 

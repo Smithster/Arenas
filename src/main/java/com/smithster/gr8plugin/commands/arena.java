@@ -1,19 +1,19 @@
 package com.smithster.gr8plugin.commands;
 
+import static com.smithster.gr8plugin.arena.Arena.arenas;
+import static com.smithster.gr8plugin.utils.Plot.plots;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 
 import com.mongodb.client.MongoDatabase;
 import com.smithster.gr8plugin.Plugin;
-import com.smithster.gr8plugin.classes.Arena;
-import com.smithster.gr8plugin.classes.Lobby;
-import com.smithster.gr8plugin.classes.Spawn;
-import com.smithster.gr8plugin.classes.Team;
+import com.smithster.gr8plugin.arena.Arena;
 import com.smithster.gr8plugin.gamemodes.Gamemode;
-
-import static com.smithster.gr8plugin.classes.Plot.plots;
-import static com.smithster.gr8plugin.classes.Arena.arenas;
+import com.smithster.gr8plugin.lobby.Lobby;
+import com.smithster.gr8plugin.team.Spawn;
+import com.smithster.gr8plugin.team.Team;
 
 public class arena implements CommandExecutor {
 

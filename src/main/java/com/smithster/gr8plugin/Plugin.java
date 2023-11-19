@@ -1,8 +1,9 @@
 package com.smithster.gr8plugin;
 
-import com.smithster.gr8plugin.classes.*;
+import com.smithster.gr8plugin.arena.Arena;
 import com.smithster.gr8plugin.commands.*;
 import com.smithster.gr8plugin.handlers.*;
+import com.smithster.gr8plugin.lobby.*;
 import com.smithster.gr8plugin.utils.Data;
 import com.smithster.gr8plugin.utils.Profile;
 

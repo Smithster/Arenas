@@ -6,7 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 
-import com.smithster.gr8plugin.classes.LoadoutSelect;
+import com.smithster.gr8plugin.loadouts.LoadoutSelect;
 import com.smithster.gr8plugin.utils.Profile;
 
 public class setLoadoutTools implements Listener{

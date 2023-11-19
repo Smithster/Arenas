@@ -6,7 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-import com.smithster.gr8plugin.classes.Arena;
+import com.smithster.gr8plugin.arena.Arena;
 
 import static com.smithster.gr8plugin.Plugin.arenas;
 

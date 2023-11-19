@@ -5,8 +5,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import com.smithster.gr8plugin.classes.Arena;
-import com.smithster.gr8plugin.classes.Lobby;
+import com.smithster.gr8plugin.arena.Arena;
+import com.smithster.gr8plugin.lobby.Lobby;
 import com.smithster.gr8plugin.utils.Profile;
 
 public class playerLeave implements Listener {

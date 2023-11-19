@@ -9,12 +9,13 @@ import org.bukkit.entity.Player;
 
 import com.mongodb.client.model.Updates;
 import com.smithster.gr8plugin.Plugin;
-import com.smithster.gr8plugin.classes.Plot;
+import com.smithster.gr8plugin.utils.Plot;
 
 import static com.mongodb.client.model.Filters.eq;
+import static com.smithster.gr8plugin.utils.Plot.plots;
+
 import org.bson.Document;
 
-import static com.smithster.gr8plugin.classes.Plot.plots;
 import java.util.ArrayList;
 import java.util.Arrays;
 

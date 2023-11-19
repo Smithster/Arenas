@@ -1,4 +1,4 @@
-package com.smithster.gr8plugin.utils;
+package com.smithster.gr8plugin.loadouts;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,6 +9,8 @@ import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+
+import com.smithster.gr8plugin.utils.Data;
 
 public class Loadout {
 
