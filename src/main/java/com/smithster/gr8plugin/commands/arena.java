@@ -10,10 +10,12 @@ import org.bukkit.entity.Player;
 import com.mongodb.client.MongoDatabase;
 import com.smithster.gr8plugin.Plugin;
 import com.smithster.gr8plugin.arena.Arena;
+import com.smithster.gr8plugin.arena.Flag;
 import com.smithster.gr8plugin.gamemodes.Gamemode;
 import com.smithster.gr8plugin.lobby.Lobby;
 import com.smithster.gr8plugin.team.Spawn;
 import com.smithster.gr8plugin.team.Team;
+import com.smithster.gr8plugin.utils.Profile;
 
 public class arena implements CommandExecutor {
 
@@ -103,24 +105,24 @@ public class arena implements CommandExecutor {
                         colour = args[5];
                     }
 
-                    if (Team.teams.containsKey(name)){
+                    if (Team.teams.containsKey(name)) {
                         player.sendMessage("A team already exists with this name");
                         return true;
                     }
 
                     Team team = colour == null ? new Team(name, spawn) : new Team(name, spawn, colour);
-                    if (!arena.hasGamemode()){
+                    if (!arena.hasGamemode()) {
                         player.sendMessage("You must set a gamemode on the arena before allocating teams");
                         return true;
                     }
-                    
+
                     team.save();
                     arena.addTeam(team);
                     arena.save();
                     return true;
                 }
 
-                if (args[2].equals("color")){
+                if (args[2].equals("color")) {
                     if (args.length < 5) {
                         return false;
                     }
@@ -128,7 +130,7 @@ public class arena implements CommandExecutor {
                     String teamName = args[3];
 
                     String colour = args[4];
-                    Team team = arena.getTeam(teamName); 
+                    Team team = arena.getTeam(teamName);
                     if (team != null) {
                         String lastName = team.getColoredName();
                         team.setChatColor(colour);
@@ -150,6 +152,26 @@ public class arena implements CommandExecutor {
                     }
                     arena.setGamemode(gamemode);
                     arena.save();
+                    return true;
+                }
+
+                if (args[2].equals("flag")) {
+                    if (args.length < 4) {
+                        return false;
+                    }
+
+                    Team team = Team.teams.get(args[3]);
+
+                    if (team == null) {
+                        player.sendMessage("No team exists with this name");
+                        return true;
+                    }
+
+                    Profile profile = Profile.profiles.get(player.getUniqueId());
+
+                    profile.settingFlag(true);
+                    Flag flag = new Flag(team);
+                    profile.setFlag(flag);
                     return true;
                 }
             }

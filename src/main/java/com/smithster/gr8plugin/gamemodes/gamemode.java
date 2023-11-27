@@ -73,21 +73,22 @@ public class Gamemode {
 
     }
 
-    public void setScoreboard(Scoreboard scoreboard){
+    public void setScoreboard(Scoreboard scoreboard) {
         return;
     }
 
-    public void addTeam(Team team){
+    public void addTeam(Team team) {
         return;
     }
 
     // public void resetScoreboard(HashMap<String, Team> teamsMap){
-    //     return;
+    // return;
     // }
 
-    public void resetScoreName(Team team, String lastName){
+    public void resetScoreName(Team team, String lastName) {
         Integer oldScore = this.objective.getScore(lastName).getScore();
-        Score newScore = this.objective.getScore(team.hasColor()? team.getChatColor() + team.getName() : team.getName());
+        Score newScore = this.objective
+                .getScore(team.hasColor() ? team.getChatColor() + team.getName() : team.getName());
         newScore.setScore(oldScore);
         this.objective.getScoreboard().resetScores(lastName);
         team.initScore(newScore);

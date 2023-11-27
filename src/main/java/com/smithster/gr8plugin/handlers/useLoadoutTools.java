@@ -9,11 +9,11 @@ import com.smithster.gr8plugin.loadouts.LoadoutSelect;
 public class useLoadoutTools implements Listener {
 
     @EventHandler
-    public void onRightClick(PlayerInteractEvent event){
+    public void onInteraction(PlayerInteractEvent event) {
 
         LoadoutSelect ls = LoadoutSelect.LoadoutSelects.get(event.getClickedBlock().getLocation());
 
-        if (ls == null){
+        if (ls == null) {
             return;
         }
 

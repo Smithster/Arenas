@@ -13,6 +13,8 @@ import com.smithster.gr8plugin.utils.Profile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
@@ -68,15 +70,19 @@ public class Arena {
     }
 
     // public void resetScoreboard() {
-    //     this.gamemode.resetScoreboard(teamsMap);
+    // this.gamemode.resetScoreboard(teamsMap);
     // }
 
-    public Team getTeam(String team){
+    public Team getTeam(String team) {
         return this.teamsMap.get(team);
     }
 
     public org.bukkit.scoreboard.Team getTeam(Team team) {
         return this.teams.get(team);
+    }
+
+    public Set<String> getTeams() {
+        return this.teamsMap.keySet();
     }
 
     public void removeTeam(Team team) {
@@ -92,9 +98,10 @@ public class Arena {
         gamemode.setScoreboard(this.scoreboard);
     }
 
-    public boolean hasGamemode(){
-        return this.gamemode == null? false : true;
+    public boolean hasGamemode() {
+        return this.gamemode == null ? false : true;
     }
+
     public Gamemode getGamemode() {
         return this.gamemode;
     }
@@ -175,14 +182,14 @@ public class Arena {
         this.players.clear();
     }
 
-    public Scoreboard getScoreboard(){
+    public Scoreboard getScoreboard() {
         return this.scoreboard;
     }
 
-    public boolean isSetup(){
-        for (Team team : teams.keySet()){
+    public boolean isSetup() {
+        for (Team team : teams.keySet()) {
             Spawn spawn = team.getSpawn();
-            if (spawn == null || spawn.getSpawnLoc() == null){
+            if (spawn == null || spawn.getSpawnLoc() == null) {
                 return false;
             }
         }
@@ -195,13 +202,13 @@ public class Arena {
         arena.put("_id", this._id);
         arena.put("name", this.name);
         arena.put("plotName", this.plot.getName());
-        if (this.gamemode != null){
+        if (this.gamemode != null) {
             arena.put("gamemode", this.gamemode.getType());
         }
-        if (this.teams != null){
+        if (this.teams != null) {
             arena.put("teams", Data.getTeamNames(this.teams.keySet()));
         }
-        
+
         ObjectId insertedId = Data.save("arenas", arena);
         this._id = insertedId == null ? this._id : insertedId;
     }
