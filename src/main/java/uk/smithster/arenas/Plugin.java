@@ -13,10 +13,10 @@ import uk.smithster.arenas.handlers.*;
 import uk.smithster.arenas.utils.Profile;
 
 /*
- * gr8plugin java plugin
+ * arenas java plugin
  */
 public class Plugin extends JavaPlugin {
-  public static final Logger LOGGER = Logger.getLogger("gr8plugin");
+  public static final Logger LOGGER = Logger.getLogger("arenas");
 
   // public static MongoCollection<Document> playersCollection =
   // database.getCollection("playerStates");
@@ -53,7 +53,7 @@ public class Plugin extends JavaPlugin {
   }
 
   public void onDisable() {
-    LOGGER.info("gr8plugin disabled");
+    LOGGER.info("arenas disabled");
   }
 
 }

@@ -22,7 +22,7 @@ public class permission implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label,
             String[] args) {
 
-        if (sender.hasPermission("gr8plugin.admin.permission") && args.length == 3) {
+        if (sender.hasPermission("arenas.admin.permission") && args.length == 3) {
             String playerName = args[0];
             String func = args[1];
             String permission = args[2];

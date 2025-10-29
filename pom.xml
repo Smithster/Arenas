@@ -6,7 +6,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>uk.smithster</groupId>
-	<artifactId>gr8plugin</artifactId>
+	<artifactId>arenas</artifactId>
 	<version>0.0.1</version>
 
 	<properties>

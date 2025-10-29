@@ -20,7 +20,7 @@ public class plotBreakProtection implements Listener {
         Block block = event.getBlock();
         Location loc = block.getLocation();
 
-        if (event.getPlayer().hasPermission("gr8plugin.plotBreak")) {
+        if (event.getPlayer().hasPermission("arenas.plotBreak")) {
             return;
         }
 
@@ -37,7 +37,7 @@ public class plotBreakProtection implements Listener {
         Block block = event.getBlock();
         Location loc = block.getLocation();
 
-        if (event.getPlayer().hasPermission("gr8plugin.joinBreak")) {
+        if (event.getPlayer().hasPermission("arenas.joinBreak")) {
             if (LobbyJoin.lobbyJoins.containsKey(loc)) {
                 LobbyJoin.remove(loc);
                 event.getPlayer().sendMessage("You have destroyed this lobby join trigger.");
@@ -56,7 +56,7 @@ public class plotBreakProtection implements Listener {
         Block block = event.getBlock();
         Location loc = block.getLocation();
 
-        if (event.getPlayer().hasPermission("gr8plugin.plotDamage")) {
+        if (event.getPlayer().hasPermission("arenas.plotDamage")) {
             return;
         }
 
@@ -73,7 +73,7 @@ public class plotBreakProtection implements Listener {
         Block block = event.getBlock();
         Location loc = block.getLocation();
 
-        if (event.getPlayer().hasPermission("gr8plugin.joinDamage")) {
+        if (event.getPlayer().hasPermission("arenas.joinDamage")) {
             return;
         }
 
