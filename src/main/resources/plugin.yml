@@ -1,33 +1,33 @@
-name: gr8plugin
-main: com.smithster.gr8plugin.Plugin
+name: arenas
+main: uk.smithster.arenas.Plugin
 version: 0.0.1
 api-version: 1.15
 commands:
    arena:
       description: Create an arena
       usage: /<command> type args
-      permission: gr8plugin.arena
+      permission: arenas.arena
    plot:
       description: Create a plot, or edit an existing plots values
       usage: /<command> (create [name]) OR ([name] [function] [value])
-      permission: gr8plugin.plot
+      permission: arenas.plot
    createSpawn:
       description: Create a new radial spawn point
       usage: /<command> [name] [team]
-      permission: gr8plugin.createSpawn
+      permission: arenas.createSpawn
    permission:
       description: Set player permissions
       usage: /<command> [name] [set/unset] [permission]
-      permission: gr8plugin.permission
+      permission: arenas.permission
    lobby:
       description: Control lobbies
       usage: /<command> (create [name]) OR ([name] [function] [value])
-      permission: gr8plugin.lobby
+      permission: arenas.lobby
    spawn:
       description: Create spawns
       usage: /<command> create plot name
-      permission: gr8plugin.spawn
+      permission: arenas.spawn
    loadout:
       description: Create loadouts
       usage: /<command>
-      permission: gr8plugin.loadout
+      permission: arenas.loadout
