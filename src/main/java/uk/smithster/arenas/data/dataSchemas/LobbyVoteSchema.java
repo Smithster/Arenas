@@ -1,20 +1,21 @@
 package uk.smithster.arenas.data.dataSchemas;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
-import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import uk.smithster.arenas.data.Data;
 import uk.smithster.arenas.lobby.LobbyVote;
 
 public class LobbyVoteSchema extends DataSchema {
     static final String schemaType = "lobbyVote";
-    static JsonArray jsonData = Data.lobbyVotes;
+    static JsonObject jsonData = Data.lobbyVotes;
     static final String path = "./saved_data/lobbyVotes.json";
 
     public static SchemaMetaData metaData = new SchemaMetaData(schemaType, path, jsonData);
 
-    Integer id;
+    UUID id;
     String world;
     ArrayList<Integer> pos;
     String lobby;

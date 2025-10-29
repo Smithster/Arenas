@@ -1,6 +1,7 @@
 package uk.smithster.arenas.arena;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -17,7 +18,7 @@ public class Flag {
 
     public static HashMap<Location, Flag> flags = new HashMap<Location, Flag>();
 
-    private Integer id;
+    private UUID id;
     private Location loc;
     private Player carrier;
     private Team team;
@@ -52,14 +53,14 @@ public class Flag {
         return this.carrier == null ? false : true;
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return this.id;
     }
 
     public void save() {
         FlagSchema flag = new FlagSchema(this);
 
-        Integer insertedId = Data.save(flag);
+        UUID insertedId = Data.save(flag);
         this.id = insertedId == null ? this.id : insertedId;
     }
 

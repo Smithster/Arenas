@@ -3,6 +3,7 @@ package uk.smithster.arenas.arena;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
+import java.util.UUID;
 
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
@@ -25,7 +26,7 @@ public class Arena {
 
     public static HashMap<String, Arena> arenas = new HashMap<String, Arena>();
 
-    private Integer id;
+    private UUID id;
     private String name;
     private Gamemode gamemode;
     private Scoreboard scoreboard;
@@ -196,7 +197,7 @@ public class Arena {
         return true;
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return this.id;
     }
 
@@ -207,7 +208,7 @@ public class Arena {
     public void save() {
         ArenaSchema arenaData = new ArenaSchema(this);
         
-        Integer insertedId = Data.save(arenaData);
+        UUID insertedId = Data.save(arenaData);
         this.id = insertedId == null ? this.id : insertedId;
     }
 
@@ -215,7 +216,7 @@ public class Arena {
         String name = data.get("name").getAsString();
         String plotName = data.get("plotName").getAsString();
         Arena arena = new Arena(plotName, name);
-        arena.id = data.get("id").getAsInt();
+        arena.id = UUID.fromString(data.get("id").getAsString());
         if (data.get("gamemode") != null) {
             arena.setGamemode(Gamemode.gamemodes.get(data.get("gamemode").getAsString()));
         }

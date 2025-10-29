@@ -1,6 +1,7 @@
 package uk.smithster.arenas.loadouts;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -16,7 +17,7 @@ public class LoadoutSelect {
     
     public static HashMap<Location, LoadoutSelect> LoadoutSelects = new HashMap<Location, LoadoutSelect>();
 
-    private Integer id;
+    private UUID id;
     private Location loc;
     private Loadout loadout;
 
@@ -51,14 +52,14 @@ public class LoadoutSelect {
         return this.loadout;
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return this.id;
     }
 
     public void save(){
         LoadoutSelectSchema loadoutSelect = new LoadoutSelectSchema(this);
 
-        Integer insertedId = Data.save(loadoutSelect);
+        UUID insertedId = Data.save(loadoutSelect);
         this.id = insertedId == null ? this.id : insertedId;
     }
 

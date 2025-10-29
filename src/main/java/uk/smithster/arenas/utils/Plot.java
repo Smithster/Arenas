@@ -5,6 +5,7 @@ import static uk.smithster.arenas.Plugin.server;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.UUID;
 
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -16,7 +17,7 @@ import uk.smithster.arenas.data.Data;
 import uk.smithster.arenas.data.dataSchemas.PlotSchema;
 
 public class Plot {
-    private Integer id;
+    private UUID id;
     private String name;
     private World world;
     private Location pos1;
@@ -145,14 +146,14 @@ public class Plot {
         return;
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return this.id;
     }
 
     public void save() {
         PlotSchema plotData = new PlotSchema(this);
 
-        Integer insertedId = Data.save(plotData);
+        UUID insertedId = Data.save(plotData);
         this.id = insertedId == null ? this.id : insertedId;
     }
 
@@ -160,7 +161,7 @@ public class Plot {
         String name = document.get("name").getAsString();
         Plot plot = new Plot(name);
 
-        plot.id = document.get("id").getAsInt();
+        plot.id = UUID.fromString(document.get("id").getAsString());
 
         World world = server.getWorld(document.get("world") != null ? document.get("world").getAsString() : "");
 

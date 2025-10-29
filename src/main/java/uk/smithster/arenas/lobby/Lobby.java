@@ -4,6 +4,7 @@ import static uk.smithster.arenas.utils.Plot.plots;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -21,7 +22,7 @@ public class Lobby {
 
     public static HashMap<String, Lobby> lobbies = new HashMap<String, Lobby>();
 
-    private Integer id;
+    private UUID id;
     private String name;
     private HashMap<Player, Location> players = new HashMap<Player, Location>();
     private Integer limit = 10;
@@ -36,14 +37,14 @@ public class Lobby {
         lobbies.put(name, this);
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return this.id;
     }
 
     public void save() {
         LobbySchema lobby = new LobbySchema(this);
 
-        Integer insertedId = Data.save(lobby);
+        UUID insertedId = Data.save(lobby);
         this.id = insertedId == null ? this.id : insertedId;
     }
 
@@ -51,7 +52,7 @@ public class Lobby {
         String name = document.get("name").getAsString();
         String plotName = document.get("plotName").getAsString();
         Lobby lobby = new Lobby(plotName, name);
-        lobby.id = document.get("id").getAsInt();
+        lobby.id = UUID.fromString(document.get("id").getAsString());
         return;
     }
 

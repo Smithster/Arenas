@@ -2,6 +2,7 @@ package uk.smithster.arenas.loadouts;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -19,7 +20,7 @@ public class Loadout {
 
     public static HashMap<String, Loadout> loadouts = new HashMap<String, Loadout>();
     
-    private Integer id;
+    private UUID id;
     private String name;
     private ItemStack[] contents;
 
@@ -43,7 +44,7 @@ public class Loadout {
         return this.name;
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return this.id;
     }
 
@@ -54,7 +55,7 @@ public class Loadout {
     public void save(){
         LoadoutSchema loadout = new LoadoutSchema(this);
 
-        Integer insertedId = Data.save(loadout);
+        UUID insertedId = Data.save(loadout);
         this.id = insertedId == null ? this.id : insertedId;
     }
 

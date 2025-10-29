@@ -1,20 +1,21 @@
 package uk.smithster.arenas.data.dataSchemas;
 
 import java.util.Set;
+import java.util.UUID;
 
-import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import uk.smithster.arenas.arena.Arena;
 import uk.smithster.arenas.data.Data;
 
 public class ArenaSchema extends DataSchema {
     static final String schemaType = "arena";
-    static JsonArray jsonData = Data.arenas;
+    static JsonObject jsonData = Data.arenas;
     static final String path = "./saved_data/arenas.json";
 
     public static SchemaMetaData metaData = new SchemaMetaData(schemaType, path, jsonData);
 
-    Integer id;
+    UUID id;
     String name;
     String plotName;
     String gamemode;

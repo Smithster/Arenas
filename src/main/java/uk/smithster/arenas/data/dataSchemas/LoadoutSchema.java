@@ -1,20 +1,23 @@
 package uk.smithster.arenas.data.dataSchemas;
 
+import java.util.UUID;
+
 import org.bukkit.inventory.ItemStack;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import uk.smithster.arenas.data.Data;
 import uk.smithster.arenas.loadouts.Loadout;
 
 public class LoadoutSchema extends DataSchema {
     static final String schemaType = "loadout";
-    static JsonArray jsonData = Data.loadouts;
+    static JsonObject jsonData = Data.loadouts;
     static final String path = "./saved_data/loadouts.json";
 
     public static SchemaMetaData metaData = new SchemaMetaData(schemaType, path, jsonData);
 
-    Integer id;
+    UUID id;
     String name;
     JsonArray items;
 

@@ -4,6 +4,7 @@ import static uk.smithster.arenas.utils.Profile.profiles;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -20,7 +21,7 @@ public class Team {
 
     private ArrayList<Player> players = new ArrayList<Player>();
 
-    private Integer id;
+    private UUID id;
     private String name;
     private Spawn spawn;
     private Score score;
@@ -143,14 +144,14 @@ public class Team {
         return this.color;
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return this.id;
     }
 
     public void save() {
         TeamSchema team = new TeamSchema(this);
 
-        Integer insertedId = Data.save(team);
+        UUID insertedId = Data.save(team);
         this.id = insertedId == null ? this.id : insertedId;
     }
 
@@ -159,7 +160,7 @@ public class Team {
         Spawn spawn = Spawn.spawns.get(document.get("spawn").getAsString());
         String colour = document.get("colour").getAsString();
         Team team = colour == null ? new Team(name, spawn) : new Team(name, spawn, colour);
-        team.id = document.get("id").getAsInt();
+        team.id = UUID.fromString(document.get("id").getAsString());
         return;
     }
 }

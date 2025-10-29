@@ -1,22 +1,24 @@
 package uk.smithster.arenas.data.dataSchemas;
 
-import com.google.gson.JsonArray;
+import java.util.UUID;
+
+import com.google.gson.JsonObject;
 
 public abstract class DataSchema {
-    public Integer id;
+    public UUID id;
     public static String schemaType;
     public static String path;
-    public static JsonArray jsonData;
+    public static JsonObject jsonData;
     public SchemaMetaData metaData;
     public String getPath(){
         return path;
     };
 
-    public JsonArray getJsonArray() {
+    public JsonObject getJsonObject() {
         return jsonData;
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return this.id;
     }
 }

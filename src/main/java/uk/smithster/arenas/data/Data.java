@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.Map.Entry;
 
 import uk.smithster.arenas.arena.Arena;
@@ -43,18 +44,18 @@ public class Data {
 
   // Defining data files for in app memory
   
-  public static JsonArray plots;
-  public static JsonArray profiles;
-  public static JsonArray spawns;
-  public static JsonArray teams;
-  public static JsonArray arenas;
-  public static JsonArray lobbies;
-  public static JsonArray lobbyJoins;
-  public static JsonArray lobbyLeaves;
-  public static JsonArray lobbyVotes;
-  public static JsonArray lobbyStarts;
-  public static JsonArray loadouts;
-  public static JsonArray loadoutSelects;
+  public static JsonObject plots;
+  public static JsonObject profiles;
+  public static JsonObject spawns;
+  public static JsonObject teams;
+  public static JsonObject arenas;
+  public static JsonObject lobbies;
+  public static JsonObject lobbyJoins;
+  public static JsonObject lobbyLeaves;
+  public static JsonObject lobbyVotes;
+  public static JsonObject lobbyStarts;
+  public static JsonObject loadouts;
+  public static JsonObject loadoutSelects;
   
   public static void initJsonFiles() {
     try {
@@ -101,64 +102,64 @@ public class Data {
 
     Gamemode.init();
     
-    for (JsonElement document : plots) {
-      Plot.load((JsonObject) document);
+    for (String key : plots.keySet()) {
+      Plot.load((JsonObject) plots.get(key));
     }
 
-    for (JsonElement document : profiles) {
-      Profile.load((JsonObject) document);
+    for (String key : profiles.keySet()) {
+      Profile.load((JsonObject) profiles.get(key));
     }
 
-    for (JsonElement document : lobbies) {
-      Lobby.load((JsonObject) document);
+    for (String key : lobbies.keySet()) {
+      Lobby.load((JsonObject) lobbies.get(key));
     }
 
-    for (JsonElement document : spawns) {
-      Spawn.load((JsonObject) document);
+    for (String key : spawns.keySet()) {
+      Spawn.load((JsonObject) spawns.get(key));
     }
 
-    for (JsonElement document : teams) {
-      Team.load((JsonObject) document);
+    for (String key : teams.keySet()) {
+      Team.load((JsonObject) teams.get(key));
     }
 
-    for (JsonElement document : arenas) {
-      Arena.load((JsonObject) document);
+    for (String key : arenas.keySet()) {
+      Arena.load((JsonObject) arenas.get(key));
     }
 
-    for (JsonElement document : lobbyJoins) {
-      LobbyJoin.load((JsonObject) document);
+    for (String key : lobbyJoins.keySet()) {
+      LobbyJoin.load((JsonObject) lobbyJoins.get(key));
     }
 
-    for (JsonElement document : lobbyLeaves) {
-      LobbyLeave.load((JsonObject) document);
+    for (String key : lobbyLeaves.keySet()) {
+      LobbyLeave.load((JsonObject) lobbyLeaves.get(key));
     }
 
-    for (JsonElement document : lobbyVotes) {
-      LobbyVote.load((JsonObject) document);
+    for (String key : lobbyVotes.keySet()) {
+      LobbyVote.load((JsonObject) lobbyVotes.get(key));
     }
 
-    for (JsonElement document : lobbyStarts) {
-      LobbyStart.load((JsonObject) document);
+    for (String key : lobbyStarts.keySet()) {
+      LobbyStart.load((JsonObject) lobbyStarts.get(key));
     }
 
-    for (JsonElement document : loadouts) {
-      Loadout.load((JsonObject) document);
+    for (String key : loadouts.keySet()) {
+      Loadout.load((JsonObject) loadouts.get(key));
     }
     
-    for (JsonElement document : loadoutSelects) {
-      LoadoutSelect.load((JsonObject) document);
+    for (String key : loadoutSelects.keySet()) {
+      LoadoutSelect.load((JsonObject) loadoutSelects.get(key));
     }
 
   }
 
-  public static Integer save(DataSchema data) {
+  public static UUID save(DataSchema data) {
     FileWriter fileWriter;
     try {
-      JsonArray dataArray = data.getJsonArray();
-
-      Integer id = data.getId() != null ? data.getId() : dataArray.size(); 
+      JsonObject dataObject = data.getJsonObject();
+      dataObject.add(null, dataObject);
+      UUID id = data.getId() != null ? data.getId() : UUID.randomUUID(); 
       fileWriter = new FileWriter(data.getPath());
-      gson.toJson(dataArray, fileWriter);
+      gson.toJson(dataObject, fileWriter);
       return id;
 
     } catch (IOException e) {
@@ -170,13 +171,13 @@ public class Data {
   public static void remove(DataSchema data) {
     FileWriter fileWriter;
     try {
-      JsonArray dataArray = data.getJsonArray();
+      JsonObject dataObject = data.getJsonObject();
 
-      Integer id = data.getId(); 
-      dataArray.remove(id);
+      UUID id = data.getId(); 
+      dataObject.remove(id.toString());
 
       fileWriter = new FileWriter(data.getPath());
-      gson.toJson(dataArray, fileWriter);
+      gson.toJson(dataObject, fileWriter);
 
     } catch (IOException e) {
       e.printStackTrace();
@@ -247,7 +248,7 @@ public class Data {
     return null;
   }
 
-  public static JsonArray registerJsonData(SchemaMetaData schemaMetaData) throws FileNotFoundException, IOException {
+  public static JsonObject registerJsonData(SchemaMetaData schemaMetaData) throws FileNotFoundException, IOException {
     new File("./saved_data").mkdir();
     File saveFile = new File(schemaMetaData.getPath());
     boolean fileCreated = saveFile.createNewFile();
@@ -260,7 +261,7 @@ public class Data {
 
     FileReader reader = new FileReader(saveFile);
     
-    return gson.fromJson(new JsonReader(reader), JsonArray.class);
+    return gson.fromJson(new JsonReader(reader), JsonObject.class);
   }
 
   public static String getInventoryArray(ItemStackData itemStack) {

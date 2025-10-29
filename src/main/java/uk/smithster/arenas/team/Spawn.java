@@ -1,6 +1,7 @@
 package uk.smithster.arenas.team;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -15,7 +16,7 @@ public class Spawn {
 
     public static HashMap<String, Spawn> spawns = new HashMap<String, Spawn>();
 
-    private Integer id;
+    private UUID id;
     private String name;
     private Plot plot;
 
@@ -41,14 +42,14 @@ public class Spawn {
         return this.plot;
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return this.id;
     }
 
     public void save() {
         SpawnSchema spawnData = new SpawnSchema(this);
 
-        Integer insertedId = Data.save(spawnData);
+        UUID insertedId = Data.save(spawnData);
         this.id = insertedId == null ? this.id : insertedId;
     }
 
@@ -56,7 +57,7 @@ public class Spawn {
         String name = document.get("name").getAsString();
         Plot plot = Plot.plots.get(document.get("plot").getAsString());
         Spawn spawn = new Spawn(name, plot.getName());
-        spawn.id = document.get("id").getAsInt();
+        spawn.id = UUID.fromString(document.get("id").getAsString());
         return;
     }
 

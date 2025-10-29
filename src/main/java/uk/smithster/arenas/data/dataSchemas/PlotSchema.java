@@ -1,8 +1,9 @@
 package uk.smithster.arenas.data.dataSchemas;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
-import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import uk.smithster.arenas.data.Data;
 import uk.smithster.arenas.utils.Plot;
@@ -10,11 +11,11 @@ import uk.smithster.arenas.utils.Plot;
 public class PlotSchema extends DataSchema{
     static String schemaType = "plot";
     static String path = "./saved_data/plots.json";
-    static JsonArray jsonData = Data.plots;
+    static JsonObject jsonData = Data.plots;
 
     public static SchemaMetaData metaData = new SchemaMetaData(schemaType, path, jsonData);
 
-    Integer id;
+    UUID id;
     String name;
     String world;
     ArrayList<Integer> pos1;
@@ -25,7 +26,7 @@ public class PlotSchema extends DataSchema{
         return path;
     }
 
-    public JsonArray getJsonArray() {
+    public JsonObject getJsonObject() {
         return jsonData;
     }
 

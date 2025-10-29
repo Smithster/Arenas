@@ -2,6 +2,7 @@ package uk.smithster.arenas.lobby;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -20,7 +21,7 @@ public class LobbyJoin {
     public static HashMap<Location, LobbyJoin> lobbyJoins = new HashMap<Location, LobbyJoin>();
 
     // Class variables
-    private Integer id;
+    private UUID id;
     private Location loc;
     private boolean active = false;
     private Lobby lobby;
@@ -82,7 +83,7 @@ public class LobbyJoin {
         return this.active;
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return this.id;
     }
 
@@ -93,7 +94,7 @@ public class LobbyJoin {
 
         LobbyJoinSchema lobbyJoin = new LobbyJoinSchema(this);
 
-        Integer insertedId = Data.save(lobbyJoin);
+        UUID insertedId = Data.save(lobbyJoin);
         this.id = insertedId == null ? this.id : insertedId;
     }
 
@@ -103,7 +104,7 @@ public class LobbyJoin {
         }
         Lobby lobby = Lobby.lobbies.get(document.get("lobby").getAsString());
         LobbyJoin join = new LobbyJoin(lobby);
-        join.id = document.get("id").getAsInt();
+        join.id = UUID.fromString(document.get("id").getAsString());
         World world = Plugin.server.getWorld(document.get("world").getAsString());
         ArrayList<Integer> pos = Data.getIntArrayList((JsonArray) document.get("pos"));
         Location loc = Data.getLocation(world, pos);
