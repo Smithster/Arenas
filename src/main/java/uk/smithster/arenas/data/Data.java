@@ -10,11 +10,15 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
 
+import static uk.smithster.arenas.Plugin.LOGGER;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,58 +26,32 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.Map.Entry;
 
-import uk.smithster.arenas.arena.Arena;
 import uk.smithster.arenas.data.dataSchemas.*;
 import uk.smithster.arenas.data.dataSchemas.LoadoutSchema.ItemStackData;
 import uk.smithster.arenas.gamemodes.Gamemode;
-import uk.smithster.arenas.loadouts.Loadout;
-import uk.smithster.arenas.loadouts.LoadoutSelect;
-import uk.smithster.arenas.lobby.Lobby;
-import uk.smithster.arenas.lobby.LobbyJoin;
-import uk.smithster.arenas.lobby.LobbyLeave;
-import uk.smithster.arenas.lobby.LobbyStart;
-import uk.smithster.arenas.lobby.LobbyVote;
-import uk.smithster.arenas.team.Spawn;
 import uk.smithster.arenas.team.Team;
-import uk.smithster.arenas.utils.Plot;
-import uk.smithster.arenas.utils.Profile;
 
 
 public class Data {
   private static Gson gson = new Gson();
 
   // Defining data files for in app memory
+  public static HashMap<String, JsonObject> dataStores = new HashMap<String, JsonObject>();
+  public static HashMap<String, SchemaMetaData> dataStoreTypes = new HashMap<String, SchemaMetaData>();
   
-  public static JsonObject plots;
-  public static JsonObject profiles;
-  public static JsonObject spawns;
-  public static JsonObject teams;
-  public static JsonObject arenas;
-  public static JsonObject lobbies;
-  public static JsonObject lobbyJoins;
-  public static JsonObject lobbyLeaves;
-  public static JsonObject lobbyVotes;
-  public static JsonObject lobbyStarts;
-  public static JsonObject loadouts;
-  public static JsonObject loadoutSelects;
-  
-  public static void initJsonFiles() {
-    try {
-      plots = registerJsonData(PlotSchema.metaData);
-      profiles = registerJsonData(ProfileSchema.metaData);
-      spawns = registerJsonData(SpawnSchema.metaData);
-      teams = registerJsonData(TeamSchema.metaData);
-      arenas = registerJsonData(ArenaSchema.metaData);
-      lobbies = registerJsonData(LobbySchema.metaData);
-      lobbyJoins = registerJsonData(LobbyJoinSchema.metaData);
-      lobbyLeaves = registerJsonData(LobbyLeaveSchema.metaData);
-      lobbyVotes = registerJsonData(LobbyVoteSchema.metaData);
-      lobbyStarts = registerJsonData(LobbyStartSchema.metaData);
-      loadouts = registerJsonData(LoadoutSchema.metaData);
-      loadoutSelects = registerJsonData(LoadoutSelectSchema.metaData);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+  public static void initStorableTypes() {
+    dataStoreTypes.put("plot", PlotSchema.metaData);
+    dataStoreTypes.put("profile", ProfileSchema.metaData);
+    dataStoreTypes.put("spawn", SpawnSchema.metaData);
+    dataStoreTypes.put("team", TeamSchema.metaData);
+    dataStoreTypes.put("arena", ArenaSchema.metaData);
+    dataStoreTypes.put("lobbie", LobbySchema.metaData);
+    dataStoreTypes.put("lobbyJoin", LobbyJoinSchema.metaData);
+    dataStoreTypes.put("lobbyLeave", LobbyLeaveSchema.metaData);
+    dataStoreTypes.put("lobbyVote", LobbyVoteSchema.metaData);
+    dataStoreTypes.put("lobbyStart", LobbyStartSchema.metaData);
+    dataStoreTypes.put("loadout", LoadoutSchema.metaData);
+    dataStoreTypes.put("loadoutSelect", LoadoutSelectSchema.metaData);
   }
 
   public static Map<ChatColor, String> colors = new HashMap<ChatColor, String>();
@@ -81,7 +59,7 @@ public class Data {
   // Collection loading
   public static void init() {
 
-    initJsonFiles();
+    initStorableTypes();
 
     colors.put(ChatColor.DARK_AQUA, "darkaqua");
     colors.put(ChatColor.DARK_RED, "darkred");
@@ -102,76 +80,57 @@ public class Data {
 
     Gamemode.init();
     
-    for (String key : plots.keySet()) {
-      Plot.load((JsonObject) plots.get(key));
-    }
-
-    for (String key : profiles.keySet()) {
-      Profile.load((JsonObject) profiles.get(key));
-    }
-
-    for (String key : lobbies.keySet()) {
-      Lobby.load((JsonObject) lobbies.get(key));
-    }
-
-    for (String key : spawns.keySet()) {
-      Spawn.load((JsonObject) spawns.get(key));
-    }
-
-    for (String key : teams.keySet()) {
-      Team.load((JsonObject) teams.get(key));
-    }
-
-    for (String key : arenas.keySet()) {
-      Arena.load((JsonObject) arenas.get(key));
-    }
-
-    for (String key : lobbyJoins.keySet()) {
-      LobbyJoin.load((JsonObject) lobbyJoins.get(key));
-    }
-
-    for (String key : lobbyLeaves.keySet()) {
-      LobbyLeave.load((JsonObject) lobbyLeaves.get(key));
-    }
-
-    for (String key : lobbyVotes.keySet()) {
-      LobbyVote.load((JsonObject) lobbyVotes.get(key));
-    }
-
-    for (String key : lobbyStarts.keySet()) {
-      LobbyStart.load((JsonObject) lobbyStarts.get(key));
-    }
-
-    for (String key : loadouts.keySet()) {
-      Loadout.load((JsonObject) loadouts.get(key));
-    }
-    
-    for (String key : loadoutSelects.keySet()) {
-      LoadoutSelect.load((JsonObject) loadoutSelects.get(key));
+    for (String key : dataStoreTypes.keySet()) {
+      SchemaMetaData typeSchema = dataStoreTypes.get(key);
+      try {
+        dataStores.put(key, registerJsonData(typeSchema));
+      } catch (IOException e) {
+        LOGGER.warning("Something went from trying to register Json data for " + key);
+      }
+      loadDataFromStore(key, dataStores.get(key));
     }
 
   }
 
   public static UUID save(DataSchema data) {
-    FileWriter fileWriter;
     try {
-      JsonObject dataObject = data.getJsonObject();
-      dataObject.add(null, dataObject);
+      JsonObject dataObject = dataStores.get(data.getSchemaType());
       UUID id = data.getId() != null ? data.getId() : UUID.randomUUID(); 
-      fileWriter = new FileWriter(data.getPath());
-      gson.toJson(dataObject, fileWriter);
-      return id;
+      
+      if (dataObject.get(id.toString()) != null && dataObject.get(id.toString()).isJsonObject()) {
+        dataObject.remove(id.toString());
+      }
 
+      dataObject.add(id.toString(), gson.toJsonTree(data));
+      LOGGER.info(dataObject.toString());
+      Writer fileWriter = new FileWriter(data.getPath());
+      gson.toJson(dataObject, fileWriter);
+      fileWriter.close();
+      return id;
+      
     } catch (IOException e) {
       e.printStackTrace();
       return null;
     }
+    
   }
+
+  public static void loadDataFromStore(String type, JsonObject dataStoreObject) {
+    try {
+      Method load = dataStoreTypes.get(type).storableClass.getMethod("load", JsonObject.class);
+      load.invoke(dataStoreObject);
+    } catch (Exception e){
+      LOGGER.warning("Cannot load from data store");
+    }
+    
+    return;
+  }
+
 
   public static void remove(DataSchema data) {
     FileWriter fileWriter;
     try {
-      JsonObject dataObject = data.getJsonObject();
+      JsonObject dataObject = data.getJsonData();
 
       UUID id = data.getId(); 
       dataObject.remove(id.toString());
@@ -252,16 +211,20 @@ public class Data {
     new File("./saved_data").mkdir();
     File saveFile = new File(schemaMetaData.getPath());
     boolean fileCreated = saveFile.createNewFile();
-
-    if (fileCreated) {
+    FileReader fileReader = new FileReader(saveFile);
+    if (fileCreated || fileReader.read() == -1) {
       FileWriter fileWriter = new FileWriter(saveFile);
-      fileWriter.write("[]");
+      fileWriter.write("{}");
       fileWriter.close();
     }
-
-    FileReader reader = new FileReader(saveFile);
+    fileReader.close();
+    FileReader reader = new FileReader(new File(schemaMetaData.getPath()));
     
-    return gson.fromJson(new JsonReader(reader), JsonObject.class);
+    JsonObject dataFromFile = gson.fromJson(new JsonReader(reader), JsonObject.class);
+    if (dataFromFile == null) {
+      LOGGER.warning("No data in File " + schemaMetaData.schemaType);
+    }
+    return dataFromFile;
   }
 
   public static String getInventoryArray(ItemStackData itemStack) {

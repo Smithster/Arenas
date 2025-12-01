@@ -13,12 +13,14 @@ import com.google.gson.JsonObject;
 
 import uk.smithster.arenas.arena.Arena;
 import uk.smithster.arenas.data.Data;
+import uk.smithster.arenas.data.Storable;
 import uk.smithster.arenas.data.dataSchemas.LobbySchema;
+import uk.smithster.arenas.data.dataSchemas.SchemaMetaData;
 import uk.smithster.arenas.utils.Party;
 import uk.smithster.arenas.utils.Plot;
 import uk.smithster.arenas.utils.Profile;
 
-public class Lobby {
+public class Lobby implements Storable {
 
     public static HashMap<String, Lobby> lobbies = new HashMap<String, Lobby>();
 
@@ -29,6 +31,12 @@ public class Lobby {
     private Plot plot;
     private ArrayList<Arena> arenas = new ArrayList<Arena>();
     private VoteAgent vote;
+
+    public static JsonObject jsonData = new JsonObject();
+    
+    public SchemaMetaData getStoreMetaData() {
+        return LobbySchema.metaData;
+    }
 
     public Lobby(String plotName, String name) {
         // this.plotName = plotName;

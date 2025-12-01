@@ -16,7 +16,9 @@ import uk.smithster.arenas.Plugin;
 import uk.smithster.arenas.arena.Arena;
 import uk.smithster.arenas.arena.Flag;
 import uk.smithster.arenas.data.Data;
+import uk.smithster.arenas.data.Storable;
 import uk.smithster.arenas.data.dataSchemas.ProfileSchema;
+import uk.smithster.arenas.data.dataSchemas.SchemaMetaData;
 import uk.smithster.arenas.loadouts.LoadoutSelect;
 import uk.smithster.arenas.lobby.Lobby;
 import uk.smithster.arenas.lobby.LobbyJoin;
@@ -25,7 +27,7 @@ import uk.smithster.arenas.lobby.LobbyStart;
 import uk.smithster.arenas.lobby.LobbyVote;
 import uk.smithster.arenas.team.Team;
 
-public class Profile {
+public class Profile implements Storable{
 
     private Player player;
     private OfflinePlayer offlinePlayer;
@@ -51,6 +53,11 @@ public class Profile {
     private PermissionAttachment perms;
     private Party party;
     // private Location savedSpawn;
+    public static JsonObject jsonData = new JsonObject();
+    
+    public SchemaMetaData getStoreMetaData() {
+        return ProfileSchema.metaData;
+    }
 
     public static Plugin plugin;
     public static HashMap<UUID, Profile> profiles = new HashMap<UUID, Profile>();
@@ -245,6 +252,11 @@ public class Profile {
         this.player = player;
         this.party = new Party(this.player);
         PermissionAttachment perms = player.addAttachment(plugin);
+
+        if (this.permList == null) {
+            this.perms = perms;
+            return;
+        }
 
         for (String permission : this.permList) {
             perms.setPermission(permission, true);

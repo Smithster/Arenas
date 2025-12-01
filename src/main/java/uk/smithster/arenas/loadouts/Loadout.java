@@ -14,15 +14,23 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import uk.smithster.arenas.data.Data;
+import uk.smithster.arenas.data.Storable;
 import uk.smithster.arenas.data.dataSchemas.LoadoutSchema;
+import uk.smithster.arenas.data.dataSchemas.SchemaMetaData;
 
-public class Loadout {
+public class Loadout implements Storable {
 
     public static HashMap<String, Loadout> loadouts = new HashMap<String, Loadout>();
     
     private UUID id;
     private String name;
     private ItemStack[] contents;
+
+    public static JsonObject jsonData = new JsonObject();
+    
+    public SchemaMetaData getStoreMetaData() {
+        return LoadoutSchema.metaData;
+    }
 
     public Loadout(String name, PlayerInventory inventory){
         this.name = name;

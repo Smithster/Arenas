@@ -13,15 +13,23 @@ import com.google.gson.JsonObject;
 
 import uk.smithster.arenas.Plugin;
 import uk.smithster.arenas.data.Data;
+import uk.smithster.arenas.data.Storable;
 import uk.smithster.arenas.data.dataSchemas.LobbyStartSchema;
+import uk.smithster.arenas.data.dataSchemas.SchemaMetaData;
 
-public class LobbyStart {
+public class LobbyStart implements Storable {
 
     public static HashMap<Location, LobbyStart> lobbyStarts = new HashMap<Location, LobbyStart>();
 
     private Location loc;
     private UUID id;
     private Lobby lobby;
+
+    public static JsonObject jsonData = new JsonObject();
+    
+    public SchemaMetaData getStoreMetaData() {
+        return LobbyStartSchema.metaData;
+    }
 
     public LobbyStart(Lobby lobby) {
         this.lobby = lobby;

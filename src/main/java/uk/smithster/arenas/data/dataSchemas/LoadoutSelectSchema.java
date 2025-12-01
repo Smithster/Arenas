@@ -1,27 +1,26 @@
 package uk.smithster.arenas.data.dataSchemas;
 
 import java.util.ArrayList;
-import java.util.UUID;
-
-import com.google.gson.JsonObject;
 
 import uk.smithster.arenas.data.Data;
 import uk.smithster.arenas.loadouts.LoadoutSelect;
 
 public class LoadoutSelectSchema extends DataSchema {
     static final String schemaType = "loadoutSelect";
-    static JsonObject jsonData = Data.loadoutSelects;
     static final String path = "./saved_data/loadoutSelects.json";
 
-    public static SchemaMetaData metaData = new SchemaMetaData(schemaType, path, jsonData);
+    public static SchemaMetaData metaData = new SchemaMetaData(schemaType, path, LoadoutSelect.jsonData, LoadoutSelect.class);
 
-    UUID id;
     ArrayList<Integer> xyz;
     String world;
     String loadout;
 
     public String getPath() {
         return path;
+    }
+
+    public String getSchemaType() {
+        return schemaType;
     }
 
     public LoadoutSelectSchema(LoadoutSelect loadoutSelect) {

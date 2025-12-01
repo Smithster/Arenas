@@ -15,15 +15,23 @@ import com.google.gson.JsonObject;
 import uk.smithster.arenas.Plugin;
 import uk.smithster.arenas.arena.Arena;
 import uk.smithster.arenas.data.Data;
+import uk.smithster.arenas.data.Storable;
 import uk.smithster.arenas.data.dataSchemas.LobbyVoteSchema;
+import uk.smithster.arenas.data.dataSchemas.SchemaMetaData;
 
-public class LobbyVote {
+public class LobbyVote implements Storable {
     public static HashMap<Location, LobbyVote> lobbyVotes = new HashMap<Location, LobbyVote>();
 
     private UUID id;
     private Location loc;
     private Lobby lobby;
     private Arena arena;
+
+    public static JsonObject jsonData = new JsonObject();
+    
+    public SchemaMetaData getStoreMetaData() {
+        return LobbyVoteSchema.metaData;
+    }
 
     public LobbyVote(Lobby lobby, Arena arena) {
         this.lobby = lobby;

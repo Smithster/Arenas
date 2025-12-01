@@ -14,11 +14,15 @@ public abstract class DataSchema {
         return path;
     };
 
-    public JsonObject getJsonObject() {
-        return jsonData;
-    }
-
     public UUID getId() {
         return this.id;
+    }
+
+    public String getSchemaType() {
+        return schemaType;
+    }
+
+    public JsonObject getJsonData() {
+        return jsonData;
     }
 }

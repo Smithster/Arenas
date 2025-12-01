@@ -13,9 +13,11 @@ import org.bukkit.scoreboard.Score;
 import com.google.gson.JsonObject;
 
 import uk.smithster.arenas.data.Data;
+import uk.smithster.arenas.data.Storable;
+import uk.smithster.arenas.data.dataSchemas.SchemaMetaData;
 import uk.smithster.arenas.data.dataSchemas.TeamSchema;
 
-public class Team {
+public class Team implements Storable {
 
     public static HashMap<String, Team> teams = new HashMap<String, Team>();
 
@@ -27,6 +29,12 @@ public class Team {
     private Score score;
     private ChatColor color;
     private org.bukkit.scoreboard.Team bukkitTeam;
+
+    public static JsonObject jsonData = new JsonObject();
+    
+    public SchemaMetaData getStoreMetaData() {
+        return TeamSchema.metaData;
+    }
 
     public Team(String name, Spawn spawn) {
         this.name = name;

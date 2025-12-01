@@ -13,7 +13,9 @@ import com.google.gson.JsonObject;
 
 import uk.smithster.arenas.Plugin;
 import uk.smithster.arenas.data.Data;
+import uk.smithster.arenas.data.Storable;
 import uk.smithster.arenas.data.dataSchemas.ArenaSchema;
+import uk.smithster.arenas.data.dataSchemas.SchemaMetaData;
 import uk.smithster.arenas.gamemodes.Gamemode;
 import uk.smithster.arenas.lobby.Lobby;
 import uk.smithster.arenas.team.Spawn;
@@ -22,7 +24,7 @@ import uk.smithster.arenas.utils.Party;
 import uk.smithster.arenas.utils.Plot;
 import uk.smithster.arenas.utils.Profile;
 
-public class Arena {
+public class Arena implements Storable {
 
     public static HashMap<String, Arena> arenas = new HashMap<String, Arena>();
 
@@ -35,6 +37,12 @@ public class Arena {
     private HashMap<String, Team> teamsMap = new HashMap<String, Team>();
     private HashMap<Team, org.bukkit.scoreboard.Team> teams = new HashMap<Team, org.bukkit.scoreboard.Team>();
     private ArrayList<Player> players = new ArrayList<Player>();
+
+    public static JsonObject jsonData = new JsonObject();
+    
+    public SchemaMetaData getStoreMetaData() {
+        return ArenaSchema.metaData;
+    }
 
     public Arena(String plotName, String name) {
         this.plot = Plot.plots.get(plotName);

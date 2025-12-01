@@ -9,16 +9,24 @@ import org.bukkit.entity.Player;
 import com.google.gson.JsonObject;
 
 import uk.smithster.arenas.data.Data;
+import uk.smithster.arenas.data.Storable;
+import uk.smithster.arenas.data.dataSchemas.SchemaMetaData;
 import uk.smithster.arenas.data.dataSchemas.SpawnSchema;
 import uk.smithster.arenas.utils.Plot;
 
-public class Spawn {
+public class Spawn implements Storable{
 
     public static HashMap<String, Spawn> spawns = new HashMap<String, Spawn>();
 
     private UUID id;
     private String name;
     private Plot plot;
+
+    public static JsonObject jsonData = new JsonObject();
+    
+    public SchemaMetaData getStoreMetaData() {
+        return SpawnSchema.metaData;
+    }
 
     public Spawn(String name, String plotName) {
         this.plot = Plot.plots.get(plotName);

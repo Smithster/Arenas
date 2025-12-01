@@ -1,5 +1,6 @@
 package uk.smithster.arenas.utils;
 
+import static uk.smithster.arenas.Plugin.LOGGER;
 import static uk.smithster.arenas.Plugin.server;
 
 import java.util.ArrayList;
@@ -14,9 +15,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import uk.smithster.arenas.data.Data;
+import uk.smithster.arenas.data.Storable;
 import uk.smithster.arenas.data.dataSchemas.PlotSchema;
+import uk.smithster.arenas.data.dataSchemas.SchemaMetaData;
 
-public class Plot {
+public class Plot implements Storable {
     private UUID id;
     private String name;
     private World world;
@@ -25,6 +28,12 @@ public class Plot {
     private Location entryLoc;
 
     public static HashMap<String, Plot> plots = new HashMap<String, Plot>();
+
+    public static JsonObject jsonData = new JsonObject();
+    
+    public SchemaMetaData getStoreMetaData() {
+        return PlotSchema.metaData;
+    }
 
     public Plot(String name) {
         this.name = name;
@@ -159,6 +168,7 @@ public class Plot {
 
     public static void load(JsonObject document) {
         String name = document.get("name").getAsString();
+        LOGGER.info(name);
         Plot plot = new Plot(name);
 
         plot.id = UUID.fromString(document.get("id").getAsString());

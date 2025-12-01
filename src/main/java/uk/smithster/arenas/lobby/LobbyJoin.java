@@ -14,9 +14,11 @@ import com.google.gson.JsonObject;
 
 import uk.smithster.arenas.Plugin;
 import uk.smithster.arenas.data.Data;
+import uk.smithster.arenas.data.Storable;
 import uk.smithster.arenas.data.dataSchemas.LobbyJoinSchema;
+import uk.smithster.arenas.data.dataSchemas.SchemaMetaData;
 
-public class LobbyJoin {
+public class LobbyJoin implements Storable {
     // Static stored map of lobbyJoins
     public static HashMap<Location, LobbyJoin> lobbyJoins = new HashMap<Location, LobbyJoin>();
 
@@ -25,6 +27,12 @@ public class LobbyJoin {
     private Location loc;
     private boolean active = false;
     private Lobby lobby;
+
+    public static JsonObject jsonData = new JsonObject();
+    
+    public SchemaMetaData getStoreMetaData() {
+        return LobbyJoinSchema.metaData;
+    }
 
     // constructors
     public LobbyJoin(Lobby lobby) {

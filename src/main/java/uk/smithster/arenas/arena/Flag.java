@@ -11,10 +11,12 @@ import com.google.gson.JsonObject;
 
 import uk.smithster.arenas.Plugin;
 import uk.smithster.arenas.data.Data;
+import uk.smithster.arenas.data.Storable;
 import uk.smithster.arenas.data.dataSchemas.FlagSchema;
+import uk.smithster.arenas.data.dataSchemas.SchemaMetaData;
 import uk.smithster.arenas.team.Team;
 
-public class Flag {
+public class Flag implements Storable {
 
     public static HashMap<Location, Flag> flags = new HashMap<Location, Flag>();
 
@@ -22,6 +24,12 @@ public class Flag {
     private Location loc;
     private Player carrier;
     private Team team;
+
+    public static JsonObject jsonData = new JsonObject();
+    
+    public SchemaMetaData getStoreMetaData() {
+        return FlagSchema.metaData;
+    }
 
     public Flag(Team team) {
         this.team = team;

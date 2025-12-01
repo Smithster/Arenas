@@ -11,15 +11,23 @@ import com.google.gson.JsonObject;
 
 import uk.smithster.arenas.Plugin;
 import uk.smithster.arenas.data.Data;
+import uk.smithster.arenas.data.Storable;
 import uk.smithster.arenas.data.dataSchemas.LoadoutSelectSchema;
+import uk.smithster.arenas.data.dataSchemas.SchemaMetaData;
 
-public class LoadoutSelect {
+public class LoadoutSelect implements Storable {
     
     public static HashMap<Location, LoadoutSelect> LoadoutSelects = new HashMap<Location, LoadoutSelect>();
 
     private UUID id;
     private Location loc;
     private Loadout loadout;
+
+    public static JsonObject jsonData = new JsonObject();
+    
+    public SchemaMetaData getStoreMetaData() {
+        return LoadoutSelectSchema.metaData;
+    }
 
     public LoadoutSelect(Loadout loadout){
         this.loadout = loadout;

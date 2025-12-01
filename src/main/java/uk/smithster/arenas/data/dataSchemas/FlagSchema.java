@@ -1,22 +1,27 @@
 package uk.smithster.arenas.data.dataSchemas;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 import uk.smithster.arenas.arena.Flag;
 import uk.smithster.arenas.data.Data;
 
 public class FlagSchema extends DataSchema {
-    static String schemaType = "flag";
-    static String path = "./saved_data/flags.json";
-    // static JsonArray jsonData = Data.flags;
+    static final String schemaType = "flag";
+    static final String path = "./saved_data/flags.json";
 
-    public static SchemaMetaData metaData = new SchemaMetaData(schemaType, path, jsonData);
+    public static SchemaMetaData metaData = new SchemaMetaData(schemaType, path, Flag.jsonData, Flag.class);
 
-    UUID id;
     ArrayList<Integer> loc;
     String world;
     String team;
+
+    public String getPath() {
+        return path;
+    }
+
+    public String getSchemaType() {
+        return schemaType;
+    }
 
     public FlagSchema(Flag flag) {
         this.id = flag.getId();
