@@ -9,7 +9,7 @@ public class FlagSchema extends DataSchema {
     static final String schemaType = "flag";
     static final String path = "./saved_data/flags.json";
 
-    public static SchemaMetaData metaData = new SchemaMetaData(schemaType, path, Flag.jsonData, Flag.class);
+    public static SchemaMetaData metaData = new SchemaMetaData(schemaType, path, Flag.jsonData, Flag::load);
 
     ArrayList<Integer> loc;
     String world;

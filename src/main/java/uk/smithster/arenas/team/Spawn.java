@@ -61,12 +61,12 @@ public class Spawn implements Storable{
         this.id = insertedId == null ? this.id : insertedId;
     }
 
-    public static void load(JsonObject document) {
+    public static Void load(JsonObject document) {
         String name = document.get("name").getAsString();
         Plot plot = Plot.plots.get(document.get("plot").getAsString());
         Spawn spawn = new Spawn(name, plot.getName());
         spawn.id = UUID.fromString(document.get("id").getAsString());
-        return;
+        return null;
     }
 
 }

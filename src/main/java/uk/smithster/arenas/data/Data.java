@@ -18,14 +18,15 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.Map.Entry;
+import java.util.function.Function;
 
+import uk.smithster.arenas.arena.Arena;
 import uk.smithster.arenas.data.dataSchemas.*;
 import uk.smithster.arenas.data.dataSchemas.LoadoutSchema.ItemStackData;
 import uk.smithster.arenas.gamemodes.Gamemode;
@@ -37,6 +38,7 @@ public class Data {
 
   // Defining data files for in app memory
   public static HashMap<String, JsonObject> dataStores = new HashMap<String, JsonObject>();
+  public static HashMap<String, Function<JsonObject, Void>> dataLoaders = new HashMap<String, Function<JsonObject, Void>>(); 
   public static HashMap<String, SchemaMetaData> dataStoreTypes = new HashMap<String, SchemaMetaData>();
   
   public static void initStorableTypes() {
@@ -52,7 +54,11 @@ public class Data {
     dataStoreTypes.put("lobbyStart", LobbyStartSchema.metaData);
     dataStoreTypes.put("loadout", LoadoutSchema.metaData);
     dataStoreTypes.put("loadoutSelect", LoadoutSelectSchema.metaData);
+
+    dataLoaders.put("plot", Arena::load);
   }
+
+
 
   public static Map<ChatColor, String> colors = new HashMap<ChatColor, String>();
 
@@ -115,15 +121,22 @@ public class Data {
     
   }
 
-  public static void loadDataFromStore(String type, JsonObject dataStoreObject) {
+  public static Void loadDataFromStore(String type, JsonObject dataStoreObject) {
+    LOGGER.info("LOADING DATA OF TYPE: " + type);
     try {
-      Method load = dataStoreTypes.get(type).storableClass.getMethod("load", JsonObject.class);
-      load.invoke(dataStoreObject);
+      for (Entry<String, JsonElement> dataEntry : dataStoreObject.entrySet()) {
+        String id = dataEntry.getKey();
+        LOGGER.info("LOADING DATA WITH ID: " + id);
+        dataEntry.getValue().getAsJsonObject().addProperty("id", id);
+        dataStoreTypes.get(type).load(dataEntry.getValue().getAsJsonObject());
+        LOGGER.info(dataEntry.toString());
+      }
+
     } catch (Exception e){
       LOGGER.warning("Cannot load from data store");
     }
     
-    return;
+    return null;
   }
 
 

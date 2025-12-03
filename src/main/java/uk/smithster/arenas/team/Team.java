@@ -163,12 +163,12 @@ public class Team implements Storable {
         this.id = insertedId == null ? this.id : insertedId;
     }
 
-    public static void load(JsonObject document) {
+    public static Void load(JsonObject document) {
         String name = document.get("name").getAsString();
         Spawn spawn = Spawn.spawns.get(document.get("spawn").getAsString());
         String colour = document.get("colour").getAsString();
         Team team = colour == null ? new Team(name, spawn) : new Team(name, spawn, colour);
         team.id = UUID.fromString(document.get("id").getAsString());
-        return;
+        return null;
     }
 }

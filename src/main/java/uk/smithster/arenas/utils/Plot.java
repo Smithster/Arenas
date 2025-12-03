@@ -166,7 +166,7 @@ public class Plot implements Storable {
         this.id = insertedId == null ? this.id : insertedId;
     }
 
-    public static void load(JsonObject document) {
+    public static Void load(JsonObject document) {
         String name = document.get("name").getAsString();
         LOGGER.info(name);
         Plot plot = new Plot(name);
@@ -178,7 +178,7 @@ public class Plot implements Storable {
         if (world != null) {
             plot.setWorld(world);
         } else {
-            return;
+            return null;
         }
 
         if (document.get("pos1") != null) {
@@ -199,7 +199,7 @@ public class Plot implements Storable {
             plot.setEntryLoc(entry);
         }
 
-        return;
+        return null;
     }
 
     public static void remove(Plot plot) {

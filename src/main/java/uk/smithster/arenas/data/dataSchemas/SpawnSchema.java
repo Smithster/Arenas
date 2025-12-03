@@ -6,7 +6,7 @@ public class SpawnSchema extends DataSchema {
     static final String schemaType = "spawn";
     static final String path = "./saved_data/spawns.json";
 
-    public static SchemaMetaData metaData = new SchemaMetaData(schemaType, path, Spawn.jsonData, Spawn.class);
+    public static SchemaMetaData metaData = new SchemaMetaData(schemaType, path, Spawn.jsonData, Spawn::load);
 
     String name;
     String plotName;

@@ -9,7 +9,7 @@ public class LoadoutSelectSchema extends DataSchema {
     static final String schemaType = "loadoutSelect";
     static final String path = "./saved_data/loadoutSelects.json";
 
-    public static SchemaMetaData metaData = new SchemaMetaData(schemaType, path, LoadoutSelect.jsonData, LoadoutSelect.class);
+    public static SchemaMetaData metaData = new SchemaMetaData(schemaType, path, LoadoutSelect.jsonData, LoadoutSelect::load);
 
     ArrayList<Integer> xyz;
     String world;

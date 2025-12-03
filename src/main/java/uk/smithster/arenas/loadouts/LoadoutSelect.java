@@ -71,11 +71,11 @@ public class LoadoutSelect implements Storable {
         this.id = insertedId == null ? this.id : insertedId;
     }
 
-    public static void load(JsonObject document){
+    public static Void load(JsonObject document){
         Location loc = Data.getLocation(Plugin.server.getWorld(document.get("world").getAsString()), Data.getIntArrayList((JsonArray) document.get("xyz")));
         Loadout loadout = Loadout.loadouts.get(document.get("loadout").getAsString());
         new LoadoutSelect(loc, loadout);
-        return;
+        return null;
     }
 
 }

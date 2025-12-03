@@ -77,9 +77,9 @@ public class LobbyVote implements Storable {
         this.id = insertedId == null ? this.id : insertedId;
     }
 
-    public static void load(JsonObject document) {
+    public static Void load(JsonObject document) {
         if (document.get("lobby") == null || document.get("pos") == null || document.get("world") == null) {
-            return;
+            return null;
         }
         Lobby lobby = Lobby.lobbies.get(document.get("lobby").getAsString());
         Arena arena = Arena.arenas.get(document.get("arena").getAsString());
@@ -89,6 +89,7 @@ public class LobbyVote implements Storable {
         ArrayList<Integer> pos = Data.getIntArrayList((JsonArray) document.get("pos"));
         Location loc = Data.getLocation(world, pos);
         vote.setLocation(loc);
+        return null;
     }
 
     public void setArena(Arena arena) {

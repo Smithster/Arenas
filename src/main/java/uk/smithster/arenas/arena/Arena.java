@@ -220,7 +220,7 @@ public class Arena implements Storable {
         this.id = insertedId == null ? this.id : insertedId;
     }
 
-    public static void load(JsonObject data) {
+    public static Void load(JsonObject data) {
         String name = data.get("name").getAsString();
         String plotName = data.get("plotName").getAsString();
         Arena arena = new Arena(plotName, name);
@@ -234,7 +234,7 @@ public class Arena implements Storable {
             }
         }
 
-        return;
+        return null;
     }
 
     public static void remove(Arena arena) {

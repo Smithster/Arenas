@@ -9,7 +9,7 @@ public class PlotSchema extends DataSchema{
     static final String schemaType = "plot";
     static final String path = "./saved_data/plots.json";
 
-    public static SchemaMetaData metaData = new SchemaMetaData(schemaType, path, Plot.jsonData, Plot.class);
+    public static SchemaMetaData metaData = new SchemaMetaData(schemaType, path, Plot.jsonData, Plot::load);
 
     String name;
     String world;

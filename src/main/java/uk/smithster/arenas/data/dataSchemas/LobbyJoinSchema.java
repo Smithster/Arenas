@@ -9,7 +9,7 @@ public class LobbyJoinSchema extends DataSchema {
     static final String schemaType = "lobbyJoin";
     static final String path = "./saved_data/lobbyJoins.json";
 
-    public static SchemaMetaData metaData = new SchemaMetaData(schemaType, path, LobbyJoin.jsonData, LobbyJoin.class);
+    public static SchemaMetaData metaData = new SchemaMetaData(schemaType, path, LobbyJoin.jsonData, LobbyJoin::load);
 
     String world;
     ArrayList<Integer> pos;

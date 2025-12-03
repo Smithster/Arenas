@@ -106,9 +106,9 @@ public class LobbyJoin implements Storable {
         this.id = insertedId == null ? this.id : insertedId;
     }
 
-    public static void load(JsonObject document) {
+    public static Void load(JsonObject document) {
         if (document.get("lobby") == null || document.get("pos") == null || document.get("world") == null) {
-            return;
+            return null;
         }
         Lobby lobby = Lobby.lobbies.get(document.get("lobby").getAsString());
         LobbyJoin join = new LobbyJoin(lobby);
@@ -118,6 +118,7 @@ public class LobbyJoin implements Storable {
         Location loc = Data.getLocation(world, pos);
         join.setActive(document.get("active").getAsBoolean());
         join.setLocation(loc);
+        return null;
     }
 
     public static void remove(Location loc) {

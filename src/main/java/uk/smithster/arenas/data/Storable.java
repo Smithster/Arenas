@@ -4,8 +4,9 @@ import static uk.smithster.arenas.Plugin.LOGGER;
 
 public abstract interface Storable {
 
-    static void load() {
+    static Void load() {
         LOGGER.info("CALLING IN STORAGE ABSTRACT SHOULDN'T HAPPEN, DEFINE YOUR LOAD FUNCTION");
+        return null;
     };
 
     static void save() {

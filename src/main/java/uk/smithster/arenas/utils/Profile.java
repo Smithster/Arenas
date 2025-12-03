@@ -94,7 +94,7 @@ public class Profile implements Storable{
         return;
     }
 
-    public static void load(JsonObject document) {
+    public static Void load(JsonObject document) {
         UUID playerID = UUID.fromString( document.get("id").getAsString() );
         OfflinePlayer offlinePlayer = Plugin.server.getOfflinePlayer(playerID);
         Profile profile = new Profile(offlinePlayer);
@@ -107,7 +107,7 @@ public class Profile implements Storable{
             profile.setRole( document.get("role").getAsString() );
         }
         profiles.put(playerID, profile);
-        return;
+        return null;
     }
 
     public void addPermission(String permission) {

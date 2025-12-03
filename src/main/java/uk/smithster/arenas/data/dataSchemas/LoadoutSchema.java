@@ -11,7 +11,7 @@ public class LoadoutSchema extends DataSchema {
     static final String schemaType = "loadout";
     static final String path = "./saved_data/loadouts.json";
 
-    public static SchemaMetaData metaData = new SchemaMetaData(schemaType, path, Loadout.jsonData, Loadout.class);
+    public static SchemaMetaData metaData = new SchemaMetaData(schemaType, path, Loadout.jsonData, Loadout::load);
 
     String name;
     JsonArray items;

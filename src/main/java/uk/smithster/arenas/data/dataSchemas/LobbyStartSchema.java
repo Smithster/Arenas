@@ -9,7 +9,7 @@ public class LobbyStartSchema extends DataSchema {
     static final String schemaType = "lobbyStart";
     static final String path = "./saved_data/lobbyStarts.json";
 
-    public static SchemaMetaData metaData = new SchemaMetaData(schemaType, path, LobbyStart.jsonData, LobbyStart.class);
+    public static SchemaMetaData metaData = new SchemaMetaData(schemaType, path, LobbyStart.jsonData, LobbyStart::load);
 
     String world;
     ArrayList<Integer> pos;

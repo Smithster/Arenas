@@ -6,7 +6,7 @@ public class LobbySchema extends DataSchema {
     static final String schemaType = "lobby";
     static final String path = "./saved_data/lobbies.json";
 
-    public static SchemaMetaData metaData = new SchemaMetaData(schemaType, path, Lobby.jsonData, Lobby.class);
+    public static SchemaMetaData metaData = new SchemaMetaData(schemaType, path, Lobby.jsonData, Lobby::load);
 
     String name;
     String plotName;

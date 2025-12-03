@@ -67,7 +67,7 @@ public class Loadout implements Storable {
         this.id = insertedId == null ? this.id : insertedId;
     }
 
-    public static void load(JsonObject document){
+    public static Void load(JsonObject document){
         String name = document.get("name").getAsString();
         ArrayList<ItemStack> contentsArr = new ArrayList<ItemStack>();
         JsonArray items = document.get("items").getAsJsonArray();
@@ -83,7 +83,7 @@ public class Loadout implements Storable {
         ItemStack[] contents = new ItemStack[contentsArr.size()];
         contentsArr.toArray(contents);
         new Loadout(name, contents);
-        return;
+        return null;
     }
 
 }

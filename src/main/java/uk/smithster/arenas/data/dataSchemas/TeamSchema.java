@@ -7,7 +7,7 @@ public class TeamSchema extends DataSchema{
     static final String schemaType = "team";
     static final String path = "./saved_data/teams.json";
 
-    public static SchemaMetaData metaData = new SchemaMetaData(schemaType, path, Team.jsonData, Team.class);
+    public static SchemaMetaData metaData = new SchemaMetaData(schemaType, path, Team.jsonData, Team::load);
 
     String name;
     String spawn;

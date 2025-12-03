@@ -1,21 +1,25 @@
 package uk.smithster.arenas.data.dataSchemas;
 
-import com.google.gson.JsonObject;
+import java.util.function.Function;
 
-import uk.smithster.arenas.data.Storable;
+import com.google.gson.JsonObject;
 
 public class SchemaMetaData {
     public String schemaType;
     public String path;
     public JsonObject jsonData;
-    public Class<? extends Storable> storableClass;
+    public Function<JsonObject, Void> load;
 
     public String getPath() {return this.path;};
+    
+    public void load(JsonObject data) {
+        this.load.apply(data);
+    }
 
-    public SchemaMetaData(String schemaType, String path, JsonObject jsonData, Class<? extends Storable> storableClass) {
+    public SchemaMetaData(String schemaType, String path, JsonObject jsonData, Function<JsonObject, Void> load) {
         this.schemaType = schemaType;
         this.path = path;
         this.jsonData = jsonData;
-        this.storableClass = storableClass;
+        this.load = load;
     }
 }

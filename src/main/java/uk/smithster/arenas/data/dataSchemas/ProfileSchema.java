@@ -8,7 +8,7 @@ public class ProfileSchema extends DataSchema {
     static final String schemaType = "profile";
     static final String path = "./saved_data/profiles.json";
 
-    public static SchemaMetaData metaData = new SchemaMetaData(schemaType, path, Profile.jsonData, Profile.class);
+    public static SchemaMetaData metaData = new SchemaMetaData(schemaType, path, Profile.jsonData, Profile::load);
 
     Set<String> permissions;
     String role;

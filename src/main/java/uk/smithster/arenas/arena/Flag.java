@@ -72,12 +72,12 @@ public class Flag implements Storable {
         this.id = insertedId == null ? this.id : insertedId;
     }
 
-    public static void load(JsonObject document) {
+    public static Void load(JsonObject document) {
         Team team = Team.teams.get(document.get("team").getAsString());
         Location loc = Data.getLocation(Plugin.server.getWorld(document.get("world").getAsString()),
                 Data.getIntArrayList((JsonArray) document.get("loc")));
         new Flag(loc, team);
-        return;
+        return null;
     }
 
 }

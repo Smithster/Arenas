@@ -8,7 +8,7 @@ public class ArenaSchema extends DataSchema {
     static final String schemaType = "arena";
     static final String path = "./saved_data/arenas.json";
 
-    public static SchemaMetaData metaData = new SchemaMetaData(schemaType, path, Arena.jsonData, Arena.class);
+    public static SchemaMetaData metaData = new SchemaMetaData(schemaType, path, Arena.jsonData, Arena::load);
 
     String name;
     String plotName;
