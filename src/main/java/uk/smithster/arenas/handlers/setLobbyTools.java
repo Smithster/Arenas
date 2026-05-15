@@ -1,6 +1,6 @@
 package uk.smithster.arenas.handlers;
 
-import static uk.smithster.arenas.utils.Profile.profiles;
+import static uk.smithster.arenas.playerManagement.Profile.profiles;
 
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -14,7 +14,7 @@ import uk.smithster.arenas.lobby.LobbyJoin;
 import uk.smithster.arenas.lobby.LobbyLeave;
 import uk.smithster.arenas.lobby.LobbyStart;
 import uk.smithster.arenas.lobby.LobbyVote;
-import uk.smithster.arenas.utils.Profile;
+import uk.smithster.arenas.playerManagement.Profile;
 
 public class setLobbyTools implements Listener {
 

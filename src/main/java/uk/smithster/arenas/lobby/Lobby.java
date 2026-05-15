@@ -1,6 +1,6 @@
 package uk.smithster.arenas.lobby;
 
-import static uk.smithster.arenas.utils.Plot.plots;
+import static uk.smithster.arenas.areas.Plot.plots;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,9 +16,9 @@ import uk.smithster.arenas.data.Data;
 import uk.smithster.arenas.data.Storable;
 import uk.smithster.arenas.data.dataSchemas.LobbySchema;
 import uk.smithster.arenas.data.dataSchemas.SchemaMetaData;
-import uk.smithster.arenas.utils.Party;
-import uk.smithster.arenas.utils.Plot;
-import uk.smithster.arenas.utils.Profile;
+import uk.smithster.arenas.playerManagement.Party;
+import uk.smithster.arenas.areas.Plot;
+import uk.smithster.arenas.playerManagement.Profile;
 
 public class Lobby implements Storable {
 

@@ -1,6 +1,6 @@
 package uk.smithster.arenas.team;
 
-import static uk.smithster.arenas.utils.Profile.profiles;
+import static uk.smithster.arenas.playerManagement.Profile.profiles;
 
 import java.util.ArrayList;
 import java.util.HashMap;

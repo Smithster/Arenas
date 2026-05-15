@@ -3,7 +3,7 @@ package uk.smithster.arenas.data.dataSchemas;
 import java.util.ArrayList;
 
 import uk.smithster.arenas.data.Data;
-import uk.smithster.arenas.utils.Plot;
+import uk.smithster.arenas.areas.Plot;
 
 public class PlotSchema extends DataSchema{
     static final String schemaType = "plot";

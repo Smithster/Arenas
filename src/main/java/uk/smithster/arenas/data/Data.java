@@ -24,9 +24,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.Map.Entry;
-import java.util.function.Function;
 
-import uk.smithster.arenas.arena.Arena;
 import uk.smithster.arenas.data.dataSchemas.*;
 import uk.smithster.arenas.data.dataSchemas.LoadoutSchema.ItemStackData;
 import uk.smithster.arenas.gamemodes.Gamemode;
@@ -38,7 +36,6 @@ public class Data {
 
   // Defining data files for in app memory
   public static HashMap<String, JsonObject> dataStores = new HashMap<String, JsonObject>();
-  public static HashMap<String, Function<JsonObject, Void>> dataLoaders = new HashMap<String, Function<JsonObject, Void>>(); 
   public static HashMap<String, SchemaMetaData> dataStoreTypes = new HashMap<String, SchemaMetaData>();
   
   public static void initStorableTypes() {
@@ -54,8 +51,6 @@ public class Data {
     dataStoreTypes.put("lobbyStart", LobbyStartSchema.metaData);
     dataStoreTypes.put("loadout", LoadoutSchema.metaData);
     dataStoreTypes.put("loadoutSelect", LoadoutSelectSchema.metaData);
-
-    dataLoaders.put("plot", Arena::load);
   }
 
 

@@ -1,16 +1,17 @@
 package uk.smithster.arenas.handlers;
 
-import static uk.smithster.arenas.utils.Plot.plots;
-
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
 
 import uk.smithster.arenas.lobby.LobbyJoin;
-import uk.smithster.arenas.utils.Plot;
+import uk.smithster.arenas.areas.Plot;
 
 import org.bukkit.block.Block;
+
+import static uk.smithster.arenas.areas.Plot.plots;
+
 import org.bukkit.Location;
 
 public class plotBreakProtection implements Listener {

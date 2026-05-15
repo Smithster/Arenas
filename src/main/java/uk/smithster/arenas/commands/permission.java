@@ -5,9 +5,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import uk.smithster.arenas.utils.Profile;
+import uk.smithster.arenas.playerManagement.Profile;
 
-import static uk.smithster.arenas.utils.Profile.profiles;
+import static uk.smithster.arenas.playerManagement.Profile.profiles;
 
 import java.util.UUID;
 

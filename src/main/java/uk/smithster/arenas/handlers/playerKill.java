@@ -1,6 +1,6 @@
 package uk.smithster.arenas.handlers;
 
-import static uk.smithster.arenas.utils.Profile.profiles;
+import static uk.smithster.arenas.playerManagement.Profile.profiles;
 
 import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
@@ -14,7 +14,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.plugin.Plugin;
 
 import uk.smithster.arenas.arena.Arena;
-import uk.smithster.arenas.utils.Profile;
+import uk.smithster.arenas.playerManagement.Profile;
 
 public class playerKill implements Listener {
 

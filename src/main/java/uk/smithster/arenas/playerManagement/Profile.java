@@ -1,4 +1,4 @@
-package uk.smithster.arenas.utils;
+package uk.smithster.arenas.playerManagement;
 
 import java.util.HashMap;
 import java.util.HashSet;

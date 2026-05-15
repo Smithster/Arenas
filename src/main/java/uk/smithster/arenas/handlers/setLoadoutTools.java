@@ -7,7 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 
 import uk.smithster.arenas.loadouts.LoadoutSelect;
-import uk.smithster.arenas.utils.Profile;
+import uk.smithster.arenas.playerManagement.Profile;
 
 public class setLoadoutTools implements Listener{
 

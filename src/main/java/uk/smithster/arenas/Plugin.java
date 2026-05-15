@@ -10,7 +10,7 @@ import uk.smithster.arenas.arena.Arena;
 import uk.smithster.arenas.commands.*;
 import uk.smithster.arenas.data.Data;
 import uk.smithster.arenas.handlers.*;
-import uk.smithster.arenas.utils.Profile;
+import uk.smithster.arenas.playerManagement.Profile;
 
 /*
  * arenas java plugin

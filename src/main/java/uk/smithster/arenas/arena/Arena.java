@@ -18,11 +18,11 @@ import uk.smithster.arenas.data.dataSchemas.ArenaSchema;
 import uk.smithster.arenas.data.dataSchemas.SchemaMetaData;
 import uk.smithster.arenas.gamemodes.Gamemode;
 import uk.smithster.arenas.lobby.Lobby;
+import uk.smithster.arenas.playerManagement.Party;
+import uk.smithster.arenas.areas.Plot;
+import uk.smithster.arenas.playerManagement.Profile;
 import uk.smithster.arenas.team.Spawn;
 import uk.smithster.arenas.team.Team;
-import uk.smithster.arenas.utils.Party;
-import uk.smithster.arenas.utils.Plot;
-import uk.smithster.arenas.utils.Profile;
 
 public class Arena implements Storable {
 

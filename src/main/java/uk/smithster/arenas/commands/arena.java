@@ -1,7 +1,7 @@
 package uk.smithster.arenas.commands;
 
 import static uk.smithster.arenas.arena.Arena.arenas;
-import static uk.smithster.arenas.utils.Plot.plots;
+import static uk.smithster.arenas.areas.Plot.plots;
 
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
@@ -9,9 +9,9 @@ import org.bukkit.entity.Player;
 import uk.smithster.arenas.arena.Arena;
 import uk.smithster.arenas.arena.Flag;
 import uk.smithster.arenas.gamemodes.Gamemode;
+import uk.smithster.arenas.playerManagement.Profile;
 import uk.smithster.arenas.team.Spawn;
 import uk.smithster.arenas.team.Team;
-import uk.smithster.arenas.utils.Profile;
 
 public class arena implements CommandExecutor {
 

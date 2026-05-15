@@ -7,7 +7,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 import uk.smithster.arenas.arena.Arena;
 import uk.smithster.arenas.lobby.Lobby;
-import uk.smithster.arenas.utils.Profile;
+import uk.smithster.arenas.playerManagement.Profile;
 
 public class playerLeave implements Listener {
 

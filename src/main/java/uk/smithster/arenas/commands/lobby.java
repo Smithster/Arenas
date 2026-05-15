@@ -1,8 +1,8 @@
 package uk.smithster.arenas.commands;
 
 import static uk.smithster.arenas.lobby.Lobby.lobbies;
-import static uk.smithster.arenas.utils.Plot.plots;
-import static uk.smithster.arenas.utils.Profile.profiles;
+import static uk.smithster.arenas.areas.Plot.plots;
+import static uk.smithster.arenas.playerManagement.Profile.profiles;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,7 +15,7 @@ import uk.smithster.arenas.lobby.LobbyJoin;
 import uk.smithster.arenas.lobby.LobbyLeave;
 import uk.smithster.arenas.lobby.LobbyStart;
 import uk.smithster.arenas.lobby.LobbyVote;
-import uk.smithster.arenas.utils.Profile;
+import uk.smithster.arenas.playerManagement.Profile;
 
 public class lobby implements CommandExecutor {
 

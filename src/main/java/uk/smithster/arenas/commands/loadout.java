@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 
 import uk.smithster.arenas.loadouts.Loadout;
 import uk.smithster.arenas.loadouts.LoadoutSelect;
-import uk.smithster.arenas.utils.Profile;
+import uk.smithster.arenas.playerManagement.Profile;
 
 public class loadout implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {

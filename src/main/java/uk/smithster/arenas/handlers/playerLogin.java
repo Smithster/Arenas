@@ -5,9 +5,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-import uk.smithster.arenas.utils.Profile;
+import uk.smithster.arenas.playerManagement.Profile;
 
-import static uk.smithster.arenas.utils.Profile.profiles;
+import static uk.smithster.arenas.playerManagement.Profile.profiles;
 
 import java.util.UUID;
 

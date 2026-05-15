@@ -6,8 +6,8 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 
+import uk.smithster.arenas.playerManagement.Profile;
 import uk.smithster.arenas.team.Team;
-import uk.smithster.arenas.utils.Profile;
 
 public class Gamemode {
 

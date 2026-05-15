@@ -2,7 +2,7 @@ package uk.smithster.arenas.data.dataSchemas;
 
 import java.util.Set;
 
-import uk.smithster.arenas.utils.Profile;
+import uk.smithster.arenas.playerManagement.Profile;
 
 public class ProfileSchema extends DataSchema {
     static final String schemaType = "profile";

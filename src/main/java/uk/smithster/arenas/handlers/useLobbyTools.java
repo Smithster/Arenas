@@ -12,8 +12,8 @@ import uk.smithster.arenas.lobby.LobbyJoin;
 import uk.smithster.arenas.lobby.LobbyLeave;
 import uk.smithster.arenas.lobby.LobbyStart;
 import uk.smithster.arenas.lobby.LobbyVote;
-import uk.smithster.arenas.utils.Party;
-import uk.smithster.arenas.utils.Profile;
+import uk.smithster.arenas.playerManagement.Party;
+import uk.smithster.arenas.playerManagement.Profile;
 
 public class useLobbyTools implements Listener {
 

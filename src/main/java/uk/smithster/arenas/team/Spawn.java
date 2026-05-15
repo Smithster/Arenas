@@ -12,7 +12,7 @@ import uk.smithster.arenas.data.Data;
 import uk.smithster.arenas.data.Storable;
 import uk.smithster.arenas.data.dataSchemas.SchemaMetaData;
 import uk.smithster.arenas.data.dataSchemas.SpawnSchema;
-import uk.smithster.arenas.utils.Plot;
+import uk.smithster.arenas.areas.Plot;
 
 public class Spawn implements Storable{
 

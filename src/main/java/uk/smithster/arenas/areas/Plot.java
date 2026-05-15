@@ -1,4 +1,4 @@
-package uk.smithster.arenas.utils;
+package uk.smithster.arenas.areas;
 
 import static uk.smithster.arenas.Plugin.LOGGER;
 import static uk.smithster.arenas.Plugin.server;

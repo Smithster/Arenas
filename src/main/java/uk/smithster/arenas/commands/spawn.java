@@ -5,8 +5,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import uk.smithster.arenas.areas.Plot;
 import uk.smithster.arenas.team.Spawn;
-import uk.smithster.arenas.utils.Plot;
 
 public class spawn implements CommandExecutor {
 
